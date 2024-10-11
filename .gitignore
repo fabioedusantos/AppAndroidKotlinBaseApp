@@ -1,0 +1,31 @@
+# Android/Gradle
+.gradle/
+build/
+captures/
+.cxx/
+.externalNativeBuild/
+local.properties
+
+# IDEs
+.idea/
+*.iml
+.DS_Store
+
+# Subpastas específicas da .idea (mais seguro ignorar tudo direto com /.idea/)
+# Mas se quiser manter alguns arquivos de configuração, pode deixar os essenciais
+
+# Kotlin/Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Logs e arquivos temporários
+*.log
+*.tmp
+*.bak
+
+# Keystores e configs sensíveis
+*.jks
+*.keystore
+key.properties
