@@ -1,53 +1,62 @@
 package br.com.fbsantos.baseapp.ui.auth.login
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
+import br.com.fbsantos.baseapp.util.AnimatedHelper
 import br.com.fbsantos.di.appModule
+import br.com.fbsantos.ui.auth.login.content.LoginEmailSenhaContent
+import br.com.fbsantos.ui.auth.login.content.LoginSeletorContent
 import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.compose.koinViewModel
 import org.koin.core.context.startKoin
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: LoginViewModel = koinViewModel()
 ) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Login") },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Voltar")
-                    }
-                }
+    val uiState = viewModel.uiState.collectAsState().value
+
+    AnimatedHelper.Switcher(
+        targetState = uiState.isLoginEmailSenha
+    ) { isLoginEmailSenha ->
+        if (!isLoginEmailSenha) {
+            LoginSeletorContent(
+                navController = navController,
+                state = uiState,
+                setLoginEmailSenha = { viewModel.setLoginEmailSenha(it) },
+                setFormEnabled = { viewModel.setFormEnabled(it) },
+                onLoginByGoogleClicked = { idToken, recaptchaToken, recaptchaSiteKey ->
+                    viewModel.onLoginByGoogle(
+                        idToken,
+                        recaptchaToken,
+                        recaptchaSiteKey
+                    )
+                },
+                setError = { viewModel.setError(it) }
             )
-        }
-    ) { padding ->
-        Column(
-            modifier = Modifier
-                .padding(padding)
-                .padding(16.dp)
-                .verticalScroll(rememberScrollState())
-        ) {
-                Text("Olá Mundo!")
+        } else {
+            LoginEmailSenhaContent(
+                navController = navController,
+                state = uiState,
+                setExibirEmailSenha = { viewModel.setLoginEmailSenha(it) },
+                onEmailChange = { viewModel.onEmailChanged(it) },
+                onSenhaChange = { viewModel.onSenhaChanged(it) },
+                onSenhaVisivelToggle = { viewModel.onSenhaVisivelToggle() },
+                onLoginClicked = { recaptchaToken, recaptchaSiteKey ->
+                    viewModel.onLogin(
+                        recaptchaToken,
+                        recaptchaSiteKey
+                    )
+                },
+                setFormEnabled = { viewModel.setFormEnabled(it) },
+                setError = { viewModel.setError(it) }
+            )
         }
     }
 }

@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -67,4 +68,13 @@ dependencies {
     //ANIMAÇÕES
     implementation(libs.accompanist.navigation.animation)
     implementation(libs.androidx.compose.animation)
+
+    //ICONES
+    implementation(libs.androidx.material.icons.extended)
+
+    //RECAPTCHA
+    implementation(libs.recaptcha)
+
+    //FIREBASE: AUTENTICAÇÃO GOOGLE
+    implementation(libs.firebase.ui.auth)
 }

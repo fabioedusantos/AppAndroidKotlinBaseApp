@@ -29,3 +29,6 @@ local.properties
 *.jks
 *.keystore
 key.properties
+
+# Chaves google
+app/google-services.json

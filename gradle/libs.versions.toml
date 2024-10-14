@@ -12,6 +12,8 @@ activityCompose = "1.10.1"
 composeBom = "2024.09.00"
 koin = "4.0.3"
 accompanistNavigationAnimation = "0.36.0"
+recaptcha = "18.7.0-beta01"
+firebaseUiAuth = "9.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -39,8 +41,14 @@ koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", versi
 androidx-compose-animation = { group = "androidx.compose.animation", name = "animation" }
 accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanistNavigationAnimation" }
 
+androidx-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
+
+recaptcha = { module = "com.google.android.recaptcha:recaptcha", version.ref = "recaptcha" }
+firebase-ui-auth = { module = "com.firebaseui:firebase-ui-auth", version.ref = "firebaseUiAuth" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+google-services = { id = "com.google.gms.google-services", version = "4.4.3" }
 
