@@ -21,11 +21,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import br.com.fbsantos.baseapp.R
+import br.com.fbsantos.baseapp.config.navigation.Routes
 import br.com.fbsantos.baseapp.ui.auth.login.LoginUiState
 import br.com.fbsantos.baseapp.ui.components.ErrorTextWithFocus
 import br.com.fbsantos.baseapp.ui.components.container.AuthContainer
 import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
 import br.com.fbsantos.baseapp.util.FirebaseAuthHelper
+import br.com.fbsantos.baseapp.util.NavHelper
 import br.com.fbsantos.baseapp.util.RecaptchaHelper
 import br.com.fbsantos.di.appModule
 import org.koin.android.ext.koin.androidContext
@@ -94,7 +96,7 @@ fun LoginSeletorContent(
 
         Button(
             onClick = {
-                //TODO CRIAR CriarConta NavHelper.abrir(navController, Routes.CriarConta.route)
+                NavHelper.abrir(navController, Routes.CriarConta.route)
             },
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(50),
