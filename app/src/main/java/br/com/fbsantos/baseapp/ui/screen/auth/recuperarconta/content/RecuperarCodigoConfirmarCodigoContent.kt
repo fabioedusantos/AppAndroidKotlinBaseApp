@@ -1,4 +1,4 @@
-package br.com.fbsantos.ui.auth.criarconta.content
+package br.com.fbsantos.baseapp.ui.screen.auth.recuperarconta.content
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -36,23 +36,23 @@ import br.com.fbsantos.baseapp.ui.components.container.AuthContainer
 import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
 import br.com.fbsantos.baseapp.util.RecaptchaHelper
 import br.com.fbsantos.baseapp.util.UtilsHelper
-import br.com.fbsantos.di.appModule
-import br.com.fbsantos.ui.auth.criarconta.CriarContaUiState
+import br.com.fbsantos.baseapp.di.appModule
+import br.com.fbsantos.baseapp.ui.screen.auth.recuperarconta.RecuperarContaUiState
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
 @Composable
-fun CriarContaConfirmarCodigo(
-    state: CriarContaUiState,
+fun RecuperarCodigoConfirmarCodigoContent(
+    state: RecuperarContaUiState,
     onCodigoChange: (MutableList<String>) -> Unit,
     onChecarCodigo: (String, String) -> Unit,
     onReenviarCodigo: (String, String) -> Unit,
-    setFocarCodigo: (Boolean) -> Unit,
+    setIsFocarCodigo: (Boolean) -> Unit,
     setFormEnabled: (Boolean) -> Unit,
     setError: (String) -> Unit
 ) {
     AuthContainer {
-        Text("Aguardando confirmação", textAlign = TextAlign.Center, fontSize = 28.sp)
+        Text("Recuperar conta", fontSize = 28.sp)
 
         Text(
             buildAnnotatedString {
@@ -91,7 +91,6 @@ fun CriarContaConfirmarCodigo(
                                     before = { setFormEnabled(false) },
                                     after = { setFormEnabled(true) },
                                     onSuccess = { token, siteKey ->
-                                        onCodigoChange(novoCodigo)
                                         onChecarCodigo(token, siteKey)
                                     },
                                     onError = { erro ->
@@ -131,7 +130,7 @@ fun CriarContaConfirmarCodigo(
         LaunchedEffect(state.isFocarCodigo) {
             if (state.isFocarCodigo) {
                 focusRequesters.first().requestFocus()
-                setFocarCodigo(false)
+                setIsFocarCodigo(false)
             }
         }
 
@@ -177,24 +176,24 @@ fun CriarContaConfirmarCodigo(
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
-fun CriarContaConfirmarCodigoPreview() {
+fun RecuperarCodigoConfirmarCodigoContentPreview() {
     val context = LocalContext.current
     startKoin {
         androidContext(context)
         modules(appModule)
     }
 
-    val previewState = CriarContaUiState(
+    val previewState = RecuperarContaUiState(
         email = "fabioedusantos@gmail.com"
     )
 
     BaseAppTheme (darkTheme = false) {
-        CriarContaConfirmarCodigo(
+        RecuperarCodigoConfirmarCodigoContent(
             state = previewState,
             onCodigoChange = {},
             onChecarCodigo = { _, _ -> },
             onReenviarCodigo = { _, _ -> },
-            setFocarCodigo = {},
+            setIsFocarCodigo = {},
             setFormEnabled = {},
             setError = {}
         )

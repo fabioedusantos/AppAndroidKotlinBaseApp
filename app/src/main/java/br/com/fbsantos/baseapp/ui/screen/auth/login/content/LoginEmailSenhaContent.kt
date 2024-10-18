@@ -1,4 +1,4 @@
-package br.com.fbsantos.ui.auth.login.content
+package br.com.fbsantos.baseapp.ui.screen.auth.login.content
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,12 +24,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import br.com.fbsantos.baseapp.ui.auth.login.LoginUiState
+import br.com.fbsantos.baseapp.config.navigation.Routes
 import br.com.fbsantos.baseapp.ui.components.ErrorTextWithFocus
 import br.com.fbsantos.baseapp.ui.components.container.AuthContainer
+import br.com.fbsantos.baseapp.ui.screen.auth.login.LoginUiState
 import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
+import br.com.fbsantos.baseapp.util.NavHelper
 import br.com.fbsantos.baseapp.util.RecaptchaHelper
-import br.com.fbsantos.di.appModule
+import br.com.fbsantos.baseapp.di.appModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -91,7 +93,7 @@ fun LoginEmailSenhaContent(
                 .clickable(
                     enabled = state.isFormEnabled,
                     onClick = {
-                        //todo criar RecuperarConta: NavHelper.abrir(navController, Routes.RecuperarConta.route)
+                        NavHelper.abrir(navController, Routes.RecuperarConta.route)
                     }
                 )
         )

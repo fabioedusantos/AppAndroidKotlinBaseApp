@@ -1,4 +1,4 @@
-package br.com.fbsantos.ui.auth.criarconta
+package br.com.fbsantos.baseapp.ui.screen.auth.criarconta
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -146,7 +146,7 @@ class CriarContaViewModel() : ViewModel() {
 //                recaptchaToken = recaptchaToken,
 //                recaptchaSiteKey = recaptchaSiteKey
 
-                setEtapa(EtapaCriarConta.EMAIL_ENVIADO)
+                setEtapa(EtapaCriarContaEnum.EMAIL_ENVIADO)
                 setError(null)
                 iniciarContagemReenvioEmail()
                 limparCodigo()
@@ -214,7 +214,7 @@ class CriarContaViewModel() : ViewModel() {
 //                recaptchaToken = recaptchaToken,
 //                recaptchaSiteKey = recaptchaSiteKey
 
-                setEtapa(EtapaCriarConta.CODIGO_VALIDADO)
+                setEtapa(EtapaCriarContaEnum.CODIGO_VALIDADO)
             } catch (e: Exception) {
                 setError(e.message)
             }
@@ -264,7 +264,7 @@ class CriarContaViewModel() : ViewModel() {
 //                recaptchaToken = recaptchaToken,
 //                recaptchaSiteKey = recaptchaSiteKey
 
-                setEtapa(EtapaCriarConta.CODIGO_VALIDADO)
+                setEtapa(EtapaCriarContaEnum.CODIGO_VALIDADO)
             } catch (e: Exception) {
                 setError(e.message)
                 setFormEnabled(true)
@@ -432,7 +432,7 @@ class CriarContaViewModel() : ViewModel() {
         _uiState.value = _uiState.value.copy(error = error)
     }
 
-    fun setEtapa(etapa: EtapaCriarConta) {
+    fun setEtapa(etapa: EtapaCriarContaEnum) {
         _uiState.value = _uiState.value.copy(
             etapa = etapa
         )

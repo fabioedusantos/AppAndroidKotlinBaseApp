@@ -1,10 +1,9 @@
-package br.com.fbsantos.config.navigation
+package br.com.fbsantos.baseapp.config.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import br.com.fbsantos.baseapp.config.navigation.Routes
-import br.com.fbsantos.baseapp.ui.splash.SplashScreen
+import br.com.fbsantos.baseapp.ui.screen.splash.SplashScreen
 
 fun NavGraphBuilder.registerPublicScreens(navController: NavController) {
     splashScreen()

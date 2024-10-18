@@ -1,4 +1,4 @@
-package br.com.fbsantos.baseapp.ui.splash
+package br.com.fbsantos.baseapp.ui.screen.splash
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -26,7 +26,7 @@ import br.com.fbsantos.baseapp.R
 import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
 import br.com.fbsantos.baseapp.ui.theme.onBackgroundLight
 import br.com.fbsantos.baseapp.ui.theme.primaryLight
-import br.com.fbsantos.di.appModule
+import br.com.fbsantos.baseapp.di.appModule
 import kotlinx.coroutines.delay
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin

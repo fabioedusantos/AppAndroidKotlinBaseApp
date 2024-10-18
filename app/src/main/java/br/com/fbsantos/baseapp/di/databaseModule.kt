@@ -1,4 +1,4 @@
-package br.com.fbsantos.di
+package br.com.fbsantos.baseapp.di
 
 import org.koin.dsl.module
 

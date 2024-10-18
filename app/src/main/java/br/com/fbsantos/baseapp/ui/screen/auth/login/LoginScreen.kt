@@ -1,4 +1,4 @@
-package br.com.fbsantos.baseapp.ui.auth.login
+package br.com.fbsantos.baseapp.ui.screen.auth.login
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -8,9 +8,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
 import br.com.fbsantos.baseapp.util.AnimatedHelper
-import br.com.fbsantos.di.appModule
-import br.com.fbsantos.ui.auth.login.content.LoginEmailSenhaContent
-import br.com.fbsantos.ui.auth.login.content.LoginSeletorContent
+import br.com.fbsantos.baseapp.di.appModule
+import br.com.fbsantos.baseapp.ui.screen.auth.login.content.LoginEmailSenhaContent
+import br.com.fbsantos.baseapp.ui.screen.auth.login.content.LoginSeletorContent
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.context.startKoin

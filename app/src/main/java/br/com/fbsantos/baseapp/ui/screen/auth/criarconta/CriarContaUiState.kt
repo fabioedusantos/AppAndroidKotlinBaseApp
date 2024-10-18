@@ -1,4 +1,4 @@
-package br.com.fbsantos.ui.auth.criarconta
+package br.com.fbsantos.baseapp.ui.screen.auth.criarconta
 
 import br.com.fbsantos.baseapp.config.AppConfig
 
@@ -36,7 +36,7 @@ data class CriarContaUiState (
 
     val segundosRestantes: Int = AppConfig.TEMPO_ESPERA_REENVIO_EMAIL_SEGUNDOS,
 
-    val etapa: EtapaCriarConta =  EtapaCriarConta.INICIAL,
+    val etapa: EtapaCriarContaEnum = EtapaCriarContaEnum.INICIAL,
 
     val isGoogleButtonEnabled: Boolean = true,
 

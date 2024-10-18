@@ -1,4 +1,4 @@
-package br.com.fbsantos.ui.auth.criarconta.content
+package br.com.fbsantos.baseapp.ui.screen.auth.criarconta.content
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -39,8 +39,8 @@ import br.com.fbsantos.baseapp.ui.components.container.AuthContainer
 import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
 import br.com.fbsantos.baseapp.util.FirebaseAuthHelper
 import br.com.fbsantos.baseapp.util.RecaptchaHelper
-import br.com.fbsantos.di.appModule
-import br.com.fbsantos.ui.auth.criarconta.CriarContaUiState
+import br.com.fbsantos.baseapp.di.appModule
+import br.com.fbsantos.baseapp.ui.screen.auth.criarconta.CriarContaUiState
 import com.google.firebase.auth.FirebaseUser
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin

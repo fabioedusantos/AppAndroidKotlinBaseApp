@@ -1,6 +1,4 @@
-package br.com.fbsantos.config.navigation
-
-import br.com.fbsantos.baseapp.config.navigation.Routes
+package br.com.fbsantos.baseapp.config.navigation
 
 fun isValidRoute(route: String): Boolean {
     val validRoutes = Routes::class.sealedSubclasses

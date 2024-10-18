@@ -1,4 +1,4 @@
-package br.com.fbsantos.config.navigation
+package br.com.fbsantos.baseapp.config.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder

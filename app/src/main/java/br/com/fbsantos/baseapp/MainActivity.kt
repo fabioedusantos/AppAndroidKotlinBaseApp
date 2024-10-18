@@ -19,8 +19,8 @@ import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
 import br.com.fbsantos.baseapp.util.AnimatedHelper
 import br.com.fbsantos.baseapp.util.SecurityHelper
 import br.com.fbsantos.baseapp.util.ToastManager
-import br.com.fbsantos.config.navigation.registerPrivateScreens
-import br.com.fbsantos.config.navigation.registerPublicScreens
+import br.com.fbsantos.baseapp.config.navigation.registerPrivateScreens
+import br.com.fbsantos.baseapp.config.navigation.registerPublicScreens
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 
 class MainActivity : FragmentActivity() {

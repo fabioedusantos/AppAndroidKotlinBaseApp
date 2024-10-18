@@ -1,4 +1,4 @@
-package br.com.fbsantos.baseapp.ui.auth.login
+package br.com.fbsantos.baseapp.ui.screen.auth.login
 
 data class LoginUiState(
     val isFormEnabled: Boolean = false,

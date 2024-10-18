@@ -3,8 +3,9 @@ package br.com.fbsantos.baseapp.config.navigation
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import br.com.fbsantos.baseapp.ui.auth.login.LoginScreen
-import br.com.fbsantos.ui.auth.criarconta.CriarContaScreen
+import br.com.fbsantos.baseapp.ui.screen.auth.login.LoginScreen
+import br.com.fbsantos.baseapp.ui.screen.auth.criarconta.CriarContaScreen
+import br.com.fbsantos.baseapp.ui.screen.auth.recuperarconta.RecuperarContaScreen
 
 val rotasAutenticacao = listOf(
     Routes.Login.route,
@@ -18,6 +19,7 @@ fun isRotaAutenticacao(route: String?): Boolean {
 fun NavGraphBuilder.registerAuthScreens(navController: NavController) {
     loginScreen(navController)
     criarContaScreen(navController)
+    recuperarContaScreen(navController)
 }
 
 
@@ -30,5 +32,11 @@ fun NavGraphBuilder.loginScreen(navController: NavController) {
 fun NavGraphBuilder.criarContaScreen(navController: NavController) {
     composable(Routes.CriarConta.route) {
         CriarContaScreen(navController = navController)
+    }
+}
+
+fun NavGraphBuilder.recuperarContaScreen(navController: NavController) {
+    composable(Routes.RecuperarConta.route) {
+        RecuperarContaScreen(navController = navController)
     }
 }

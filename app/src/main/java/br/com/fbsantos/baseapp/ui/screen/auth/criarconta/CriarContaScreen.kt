@@ -1,12 +1,12 @@
-package br.com.fbsantos.ui.auth.criarconta
+package br.com.fbsantos.baseapp.ui.screen.auth.criarconta
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavController
 import br.com.fbsantos.baseapp.util.AnimatedHelper
-import br.com.fbsantos.ui.auth.criarconta.content.CriarContaConfirmarCodigo
-import br.com.fbsantos.ui.auth.criarconta.content.CriarContaInicio
-import br.com.fbsantos.ui.auth.criarconta.content.CriarContaSucesso
+import br.com.fbsantos.baseapp.ui.screen.auth.criarconta.content.CriarContaConfirmarCodigo
+import br.com.fbsantos.baseapp.ui.screen.auth.criarconta.content.CriarContaInicio
+import br.com.fbsantos.baseapp.ui.screen.auth.criarconta.content.CriarContaSucesso
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -20,7 +20,7 @@ fun CriarContaScreen(
         targetState = uiState.etapa
     ) { etapa ->
         when (etapa) {
-            EtapaCriarConta.INICIAL -> CriarContaInicio(
+            EtapaCriarContaEnum.INICIAL -> CriarContaInicio(
                 navController = navController,
                 state = uiState,
                 onNomeChange = { viewModel.onNomeChange(it) },
@@ -48,7 +48,7 @@ fun CriarContaScreen(
                 setError = { viewModel.setError(it) },
             )
 
-            EtapaCriarConta.EMAIL_ENVIADO -> CriarContaConfirmarCodigo(
+            EtapaCriarContaEnum.EMAIL_ENVIADO -> CriarContaConfirmarCodigo(
                 state = uiState,
                 onCodigoChange = { viewModel.onCodigoChange(it) },
                 onChecarCodigo = { recaptchaToken, recaptchaSiteKey ->
@@ -68,7 +68,7 @@ fun CriarContaScreen(
                 setError = { viewModel.setError(it) },
             )
 
-            EtapaCriarConta.CODIGO_VALIDADO -> CriarContaSucesso(navController)
+            EtapaCriarContaEnum.CODIGO_VALIDADO -> CriarContaSucesso(navController)
         }
     }
 }
