@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import br.com.fbsantos.baseapp.R
+import br.com.fbsantos.baseapp.config.navigation.Routes
 import br.com.fbsantos.baseapp.ui.components.ErrorTextWithFocus
 import br.com.fbsantos.baseapp.ui.components.container.AuthContainer
 import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
@@ -41,6 +42,7 @@ import br.com.fbsantos.baseapp.util.FirebaseAuthHelper
 import br.com.fbsantos.baseapp.util.RecaptchaHelper
 import br.com.fbsantos.baseapp.di.appModule
 import br.com.fbsantos.baseapp.ui.screen.auth.criarconta.CriarContaUiState
+import br.com.fbsantos.baseapp.util.NavHelper
 import com.google.firebase.auth.FirebaseUser
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -251,7 +253,7 @@ fun CriarContaInicio(
                     .clickable(
                         enabled = state.isFormEnabled,
                         onClick = {
-                            //TODO CRIAR POLÍTICA DE PRIVACIDADE Nav.abrir(navController, Routes.PoliticaPrivacidade.route)
+                            NavHelper.abrir(navController, Routes.PoliticaPrivacidade.route)
                         }
                     )
             )

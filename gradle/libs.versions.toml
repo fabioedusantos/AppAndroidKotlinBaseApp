@@ -9,11 +9,12 @@ appcompat = "1.7.1"
 material = "1.12.0"
 lifecycleRuntimeKtx = "2.9.2"
 activityCompose = "1.10.1"
-composeBom = "2024.09.00"
+composeBom = "2024.11.00"
 koin = "4.0.3"
 accompanistNavigationAnimation = "0.36.0"
 recaptcha = "18.7.0-beta01"
 firebaseUiAuth = "9.0.0"
+markdownRenderer = "0.33.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -32,19 +33,17 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
-
 koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
-
 androidx-compose-animation = { group = "androidx.compose.animation", name = "animation" }
 accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanistNavigationAnimation" }
-
 androidx-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
-
 recaptcha = { module = "com.google.android.recaptcha:recaptcha", version.ref = "recaptcha" }
 firebase-ui-auth = { module = "com.firebaseui:firebase-ui-auth", version.ref = "firebaseUiAuth" }
+markdown-renderer = { module = "com.mikepenz:multiplatform-markdown-renderer-android", version.ref = "markdownRenderer" }
+markdown-renderer-m3 = { module = "com.mikepenz:multiplatform-markdown-renderer-m3", version.ref = "markdownRenderer" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -6,6 +6,9 @@ sealed class Routes(val route: String) {
     object CriarConta : Routes("criar_conta")
     object RecuperarConta : Routes("recuperar_conta")
 
+    //public
+    object PoliticaPrivacidade : Routes("politica_privacidade")
+
     //app
     object Splash : Routes("splash")
 }

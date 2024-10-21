@@ -77,4 +77,8 @@ dependencies {
 
     //FIREBASE: AUTENTICAÇÃO GOOGLE
     implementation(libs.firebase.ui.auth)
+
+    //MARKDOWN
+    implementation(libs.markdown.renderer.m3)
+    implementation(libs.markdown.renderer)
 }
