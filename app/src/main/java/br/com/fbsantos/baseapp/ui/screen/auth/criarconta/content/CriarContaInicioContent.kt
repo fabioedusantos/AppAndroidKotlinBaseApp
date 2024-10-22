@@ -228,7 +228,7 @@ fun CriarContaInicio(
                     .clickable(
                         enabled = state.isFormEnabled,
                         onClick = {
-                            //TODO CRIAR TERMOS E CONDIÇÕES NavHelper.abrir(navController, Routes.TermosCondicoes.route)
+                            NavHelper.abrir(navController, Routes.TermosCondicoes.route)
                         }
                     )
             )

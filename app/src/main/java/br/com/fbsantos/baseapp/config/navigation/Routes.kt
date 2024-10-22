@@ -8,6 +8,7 @@ sealed class Routes(val route: String) {
 
     //public
     object PoliticaPrivacidade : Routes("politica_privacidade")
+    object TermosCondicoes : Routes("termos_condicoes")
 
     //app
     object Splash : Routes("splash")
