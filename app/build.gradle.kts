@@ -2,7 +2,12 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+
+    //Necessário para o Firebase
     alias(libs.plugins.google.services)
+
+    //necessário para o ROOM (DB)
+    alias(libs.plugins.kotlin.kapt)
 }
 
 android {
@@ -81,4 +86,15 @@ dependencies {
     //MARKDOWN
     implementation(libs.markdown.renderer.m3)
     implementation(libs.markdown.renderer)
+
+    //RETROFIT
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
+    implementation(libs.okhttp)
+    implementation(libs.gson)
+
+    //ROOM: NOSSO BANCO DE DADOS
+    implementation(libs.androidx.room.common.jvm)
+    implementation(libs.androidx.room.runtime.android)
+    kapt(libs.androidx.room.compiler)
 }
