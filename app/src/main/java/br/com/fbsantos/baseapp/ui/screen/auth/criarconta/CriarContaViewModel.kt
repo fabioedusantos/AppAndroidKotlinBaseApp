@@ -3,6 +3,9 @@ package br.com.fbsantos.baseapp.ui.screen.auth.criarconta
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.fbsantos.baseapp.config.AppConfig
+import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.SignupGoogleRequest
+import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.SignupRequest
+import br.com.fbsantos.baseapp.domain.service.PublicAuthService
 import br.com.fbsantos.baseapp.util.FirebaseAuthHelper
 import br.com.fbsantos.baseapp.util.ToastManager
 import br.com.fbsantos.baseapp.util.UtilsHelper
@@ -12,7 +15,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class CriarContaViewModel() : ViewModel() {
+class CriarContaViewModel(
+    private val publicAuthService: PublicAuthService
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(CriarContaUiState())
     val uiState: StateFlow<CriarContaUiState> = _uiState
@@ -136,15 +141,18 @@ class CriarContaViewModel() : ViewModel() {
         viewModelScope.launch {
             try {
                 setFormEnabled(false)
-                //TODO CRIAR CONTA DE EMAIL E SENHA
-//                name = getNome(),
-//                lastname = getSobrenome(),
-//                email = getEmail(),
-//                password = getSenha(),
-//                isTerms = getTermosAceitos(),
-//                isPolicy = getPoliticaAceita(),
-//                recaptchaToken = recaptchaToken,
-//                recaptchaSiteKey = recaptchaSiteKey
+                publicAuthService.signup(
+                    SignupRequest(
+                        name = getNome(),
+                        lastname = getSobrenome(),
+                        email = getEmail(),
+                        password = getSenha(),
+                        isTerms = getTermosAceitos(),
+                        isPolicy = getPoliticaAceita(),
+                        recaptchaToken = recaptchaToken,
+                        recaptchaSiteKey = recaptchaSiteKey
+                    )
+                )
 
                 setEtapa(EtapaCriarContaEnum.EMAIL_ENVIADO)
                 setError(null)
@@ -206,13 +214,17 @@ class CriarContaViewModel() : ViewModel() {
         viewModelScope.launch {
             try {
                 setFormEnabled(false)
-                //TODO CRIAR CONTA GOOGLE
-//                name = getNome(),
-//                lastname = getSobrenome(),
-//                isTerms = getTermosAceitos(),
-//                isPolicy = getPoliticaAceita(),
-//                recaptchaToken = recaptchaToken,
-//                recaptchaSiteKey = recaptchaSiteKey
+                publicAuthService.signUpGoogle(
+                    SignupGoogleRequest(
+                        idTokenFirebase = idTokenFirebase ?: "",
+                        name = getNome(),
+                        lastname = getSobrenome(),
+                        isTerms = getTermosAceitos(),
+                        isPolicy = getPoliticaAceita(),
+                        recaptchaToken = recaptchaToken,
+                        recaptchaSiteKey = recaptchaSiteKey
+                    )
+                )
 
                 setEtapa(EtapaCriarContaEnum.CODIGO_VALIDADO)
             } catch (e: Exception) {
@@ -258,11 +270,14 @@ class CriarContaViewModel() : ViewModel() {
         setFormEnabled(false)
         viewModelScope.launch {
             try {
-                //TODO CONFIRMAR CODIGO COM EMAIL
-//                email = getEmail(),
-//                code = getCodigo(),
-//                recaptchaToken = recaptchaToken,
-//                recaptchaSiteKey = recaptchaSiteKey
+                publicAuthService.confirmEmail(
+                    ConfirmEmailRequest(
+                        email = getEmail(),
+                        code = getCodigo(),
+                        recaptchaToken = recaptchaToken,
+                        recaptchaSiteKey = recaptchaSiteKey
+                    )
+                )
 
                 setEtapa(EtapaCriarContaEnum.CODIGO_VALIDADO)
             } catch (e: Exception) {
@@ -289,10 +304,13 @@ class CriarContaViewModel() : ViewModel() {
         setFormEnabled(false)
         viewModelScope.launch {
             try {
-                //TODO REENVIAR CÓDIGO PARA O EMAIL
-//                email = getEmail(),
-//                recaptchaToken = recaptchaToken,
-//                recaptchaSiteKey = recaptchaSiteKey
+                publicAuthService.resendConfirmEmail(
+                    ForgotPasswordRequest(
+                        email = getEmail(),
+                        recaptchaToken = recaptchaToken,
+                        recaptchaSiteKey = recaptchaSiteKey
+                    )
+                )
             } catch (e: Exception) {
                 setError(e.message)
             }
