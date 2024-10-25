@@ -1,11 +1,14 @@
 package br.com.fbsantos.baseapp.domain.service
 
 import br.com.fbsantos.baseapp.data.network.api.PublicAuthApiService
+import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.ConfirmEmailRequest
+import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.ForgotPasswordRequest
 import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.SignupGoogleRequest
 import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.SignupRequest
 import br.com.fbsantos.baseapp.domain.exception.ApiException
 import br.com.fbsantos.baseapp.domain.usecase.configuracoes.TokenManagerUseCase
 import br.com.fbsantos.baseapp.util.callApi
+import br.com.fbsantos.baseapp.util.callApiNoResponse
 
 class PublicAuthService(
     private val publicAuthApiService: PublicAuthApiService,
@@ -34,6 +37,24 @@ class PublicAuthService(
             } else {
                 throw ApiException("Token inexistente. Tente novamente.")
             }
+        },
+        onError = { message ->
+            throw ApiException(message)
+        }
+    )
+
+    suspend fun confirmEmail(body: ConfirmEmailRequest): Unit = callApiNoResponse(
+        request = {
+            publicAuthApiService.confirmEmail(body)
+        },
+        onError = { message ->
+            throw ApiException(message)
+        }
+    )
+
+    suspend fun resendConfirmEmail(body: ForgotPasswordRequest): Unit = callApi(
+        request = {
+            publicAuthApiService.resendConfirmEmail(body)
         },
         onError = { message ->
             throw ApiException(message)

@@ -3,6 +3,8 @@ package br.com.fbsantos.baseapp.ui.screen.auth.criarconta
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.fbsantos.baseapp.config.AppConfig
+import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.ConfirmEmailRequest
+import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.ForgotPasswordRequest
 import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.SignupGoogleRequest
 import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.SignupRequest
 import br.com.fbsantos.baseapp.domain.service.PublicAuthService
