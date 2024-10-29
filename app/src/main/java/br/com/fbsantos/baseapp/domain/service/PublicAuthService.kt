@@ -3,6 +3,8 @@ package br.com.fbsantos.baseapp.domain.service
 import br.com.fbsantos.baseapp.data.network.api.PublicAuthApiService
 import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.ConfirmEmailRequest
 import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.ForgotPasswordRequest
+import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.LoginGoogleRequest
+import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.LoginRequest
 import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.SignupGoogleRequest
 import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.SignupRequest
 import br.com.fbsantos.baseapp.domain.exception.ApiException
@@ -55,6 +57,42 @@ class PublicAuthService(
     suspend fun resendConfirmEmail(body: ForgotPasswordRequest): Unit = callApi(
         request = {
             publicAuthApiService.resendConfirmEmail(body)
+        },
+        onError = { message ->
+            throw ApiException(message)
+        }
+    )
+
+    suspend fun login(body: LoginRequest): Unit = callApi (
+        request = {
+            tokenManager.limparTokens()
+            publicAuthApiService.login(body)
+        },
+        onSuccess = { data, message ->
+            val token = data?.token
+            val refreshToken = data?.refreshToken
+            if (!token.isNullOrEmpty() && !refreshToken.isNullOrEmpty()) {
+                tokenManager.salvarTokens(token, refreshToken)
+            } else{
+                throw ApiException("Token inexistente. Tente novamente.")
+            }
+        },
+        onError = { message ->
+            throw ApiException(message)
+        }
+    )
+
+    suspend fun loginGoogle(body: LoginGoogleRequest): Unit = callApi (
+        request = {
+            tokenManager.limparTokens()
+            publicAuthApiService.loginGoogle(body)
+        },
+        onSuccess = { data, message ->
+            val token = data?.token
+            val refreshToken = data?.refreshToken
+            if (!token.isNullOrEmpty() && !refreshToken.isNullOrEmpty()) {
+                tokenManager.salvarTokens(token, refreshToken)
+            }
         },
         onError = { message ->
             throw ApiException(message)

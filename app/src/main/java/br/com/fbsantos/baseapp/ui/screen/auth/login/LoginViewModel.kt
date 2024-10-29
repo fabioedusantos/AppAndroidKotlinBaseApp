@@ -2,13 +2,19 @@ package br.com.fbsantos.baseapp.ui.screen.auth.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.LoginGoogleRequest
+import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.LoginRequest
+import br.com.fbsantos.baseapp.domain.service.PublicAuthService
+import br.com.fbsantos.baseapp.util.ToastManager
 import br.com.fbsantos.baseapp.util.ValidHelper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 
-class LoginViewModel() : ViewModel(), KoinComponent {
+class LoginViewModel(
+    private val publicAuthService: PublicAuthService
+) : ViewModel(), KoinComponent {
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState> = _uiState
 
@@ -49,11 +55,17 @@ class LoginViewModel() : ViewModel(), KoinComponent {
 
         viewModelScope.launch {
             try {
-                //TODO FAZER LOGIN NO WEBSERVICE
-//                email = getEmail(),
-//                password = getSenha(),
-//                recaptchaToken = recaptchaToken,
-//                recaptchaSiteKey = recaptchaSiteKey
+                publicAuthService.login(
+                    LoginRequest(
+                        email = getEmail(),
+                        password = getSenha(),
+                        recaptchaToken = recaptchaToken,
+                        recaptchaSiteKey = recaptchaSiteKey
+                    )
+                )
+
+                ToastManager.show("Logado com sucesso por email e senha!")
+                //todo inicializar o login
             } catch (e: Exception) {
                 setError(e.message)
                 setFormEnabled(true)
@@ -65,10 +77,16 @@ class LoginViewModel() : ViewModel(), KoinComponent {
         setFormEnabled(false)
         viewModelScope.launch {
             try {
-                //TODO FAZER LOGIN NO WEBSERVICE
-//                idTokenFirebase = idToken,
-//                recaptchaToken = recaptchaToken,
-//                recaptchaSiteKey = recaptchaSiteKey
+                publicAuthService.loginGoogle(
+                    LoginGoogleRequest(
+                        idTokenFirebase = idToken,
+                        recaptchaToken = recaptchaToken,
+                        recaptchaSiteKey = recaptchaSiteKey
+                    )
+                )
+
+                ToastManager.show("Logado com sucesso conta Google!")
+                //todo inicializar o login
             } catch (e: Exception) {
                 setError(e.message)
                 setFormEnabled(true)

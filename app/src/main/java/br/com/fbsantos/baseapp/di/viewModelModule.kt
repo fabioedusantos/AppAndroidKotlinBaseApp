@@ -10,11 +10,15 @@ val viewModelModule = module {
 
     //singleton scoped (seguem o ciclo de vida composable)
     viewModel{
-        LoginViewModel()
+        LoginViewModel(
+            publicAuthService = get()
+        )
     }
 
     viewModel{
-        CriarContaViewModel()
+        CriarContaViewModel(
+            publicAuthService = get()
+        )
     }
 
     viewModel{

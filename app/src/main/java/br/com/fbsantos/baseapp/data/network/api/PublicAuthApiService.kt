@@ -3,6 +3,8 @@ package br.com.fbsantos.baseapp.data.network.api
 import br.com.fbsantos.baseapp.data.network.dto.ApiResponseDefault
 import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.ConfirmEmailRequest
 import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.ForgotPasswordRequest
+import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.LoginGoogleRequest
+import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.LoginRequest
 import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.SignupGoogleRequest
 import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.SignupRequest
 import br.com.fbsantos.baseapp.data.network.dto.publicauth.response.ConfirmEmailResponse
@@ -23,5 +25,11 @@ interface PublicAuthApiService {
 
     @POST("users/resend_confirm_email")
     suspend fun resendConfirmEmail(@Body body: ForgotPasswordRequest): Response<ApiResponseDefault<ConfirmEmailResponse>>
+
+    @POST("users/login")
+    suspend fun login(@Body body: LoginRequest): Response<ApiResponseDefault<TokenResponse>>
+
+    @POST("users/google/login")
+    suspend fun loginGoogle(@Body body: LoginGoogleRequest): Response<ApiResponseDefault<TokenResponse>>
 
 }
