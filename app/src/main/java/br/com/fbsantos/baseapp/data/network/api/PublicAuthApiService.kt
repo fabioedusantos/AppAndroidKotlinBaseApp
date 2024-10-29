@@ -5,6 +5,7 @@ import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.ConfirmEmailR
 import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.ForgotPasswordRequest
 import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.LoginGoogleRequest
 import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.LoginRequest
+import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.ResetPasswordRequest
 import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.SignupGoogleRequest
 import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.SignupRequest
 import br.com.fbsantos.baseapp.data.network.dto.publicauth.response.ConfirmEmailResponse
@@ -31,5 +32,14 @@ interface PublicAuthApiService {
 
     @POST("users/google/login")
     suspend fun loginGoogle(@Body body: LoginGoogleRequest): Response<ApiResponseDefault<TokenResponse>>
+
+    @POST("users/forgot_password")
+    suspend fun forgotPassword(@Body body: ForgotPasswordRequest): Response<ApiResponseDefault<ConfirmEmailResponse>>
+
+    @POST("users/check_reset_password")
+    suspend fun checkResetPassword(@Body body: ConfirmEmailRequest): Response<ApiResponseDefault<Unit>>
+
+    @POST("users/reset_password")
+    suspend fun resetPassword(@Body body: ResetPasswordRequest): Response<Unit>
 
 }

@@ -9,19 +9,21 @@ import org.koin.dsl.module
 val viewModelModule = module {
 
     //singleton scoped (seguem o ciclo de vida composable)
-    viewModel{
+    viewModel {
         LoginViewModel(
             publicAuthService = get()
         )
     }
 
-    viewModel{
+    viewModel {
         CriarContaViewModel(
             publicAuthService = get()
         )
     }
 
-    viewModel{
-        RecuperarContaViewModel()
+    viewModel {
+        RecuperarContaViewModel(
+            publicAuthService = get()
+        )
     }
 }

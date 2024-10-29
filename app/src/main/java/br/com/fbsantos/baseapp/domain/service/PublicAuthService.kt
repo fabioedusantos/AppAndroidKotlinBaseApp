@@ -5,6 +5,7 @@ import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.ConfirmEmailR
 import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.ForgotPasswordRequest
 import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.LoginGoogleRequest
 import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.LoginRequest
+import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.ResetPasswordRequest
 import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.SignupGoogleRequest
 import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.SignupRequest
 import br.com.fbsantos.baseapp.domain.exception.ApiException
@@ -93,6 +94,33 @@ class PublicAuthService(
             if (!token.isNullOrEmpty() && !refreshToken.isNullOrEmpty()) {
                 tokenManager.salvarTokens(token, refreshToken)
             }
+        },
+        onError = { message ->
+            throw ApiException(message)
+        }
+    )
+
+    suspend fun forgotPassword(body: ForgotPasswordRequest): Unit = callApi(
+        request = {
+            publicAuthApiService.forgotPassword(body)
+        },
+        onError = { message ->
+            throw ApiException(message)
+        }
+    )
+
+    suspend fun checkResetPassword(body: ConfirmEmailRequest): Unit = callApi(
+        request = {
+            publicAuthApiService.checkResetPassword(body)
+        },
+        onError = { message ->
+            throw ApiException(message)
+        }
+    )
+
+    suspend fun resetPassword(body: ResetPasswordRequest): Unit = callApiNoResponse(
+        request = {
+            publicAuthApiService.resetPassword(body)
         },
         onError = { message ->
             throw ApiException(message)

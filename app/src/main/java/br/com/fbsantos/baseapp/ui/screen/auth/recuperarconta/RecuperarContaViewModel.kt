@@ -3,12 +3,18 @@ package br.com.fbsantos.baseapp.ui.screen.auth.recuperarconta
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.fbsantos.baseapp.config.AppConfig
+import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.ConfirmEmailRequest
+import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.ForgotPasswordRequest
+import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.ResetPasswordRequest
+import br.com.fbsantos.baseapp.domain.service.PublicAuthService
 import br.com.fbsantos.baseapp.util.ValidHelper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class RecuperarContaViewModel() : ViewModel() {
+class RecuperarContaViewModel(
+    private val publicAuthService: PublicAuthService
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(RecuperarContaUiState())
     val uiState: StateFlow<RecuperarContaUiState> = _uiState
@@ -34,10 +40,13 @@ class RecuperarContaViewModel() : ViewModel() {
 
         viewModelScope.launch {
             try {
-                //TODO ENVIAR CÓDIGO AO WS
-//                email = getEmail(),
-//                recaptchaToken = recaptchaToken,
-//                recaptchaSiteKey = recaptchaSiteKey
+                publicAuthService.forgotPassword(
+                    ForgotPasswordRequest(
+                        email = getEmail(),
+                        recaptchaToken = recaptchaToken,
+                        recaptchaSiteKey = recaptchaSiteKey
+                    )
+                )
 
                 setEtapa(EtapaRecuperarContaEnum.EMAIL_ENVIADO)
                 setError(null)
@@ -59,11 +68,14 @@ class RecuperarContaViewModel() : ViewModel() {
         setFormEnabled(false)
         viewModelScope.launch {
             try {
-                //TODO CHECAR CÓDIGO NO WS
-//                email = getEmail(),
-//                code = getCodigo(),
-//                recaptchaToken = recaptchaToken,
-//                recaptchaSiteKey = recaptchaSiteKey
+                publicAuthService.checkResetPassword(
+                    ConfirmEmailRequest(
+                        email = getEmail(),
+                        code = getCodigo(),
+                        recaptchaToken = recaptchaToken,
+                        recaptchaSiteKey = recaptchaSiteKey
+                    )
+                )
 
                 setEtapa(EtapaRecuperarContaEnum.CODIGO_VALIDADO)
             } catch (e: Exception) {
@@ -78,10 +90,13 @@ class RecuperarContaViewModel() : ViewModel() {
         setFormEnabled(false)
         viewModelScope.launch {
             try {
-                //TODO REENVIAR CÓDIGO AO WS
-//                email = getEmail(),
-//                recaptchaToken = recaptchaToken,
-//                recaptchaSiteKey = recaptchaSiteKey
+                publicAuthService.resendConfirmEmail(
+                    ForgotPasswordRequest(
+                        email = getEmail(),
+                        recaptchaToken = recaptchaToken,
+                        recaptchaSiteKey = recaptchaSiteKey
+                    )
+                )
             } catch (e: Exception) {
                 setError(e.message)
             }
@@ -149,12 +164,15 @@ class RecuperarContaViewModel() : ViewModel() {
 
         viewModelScope.launch {
             try {
-                //TODO RESETAR SENHA NO WS
-//                email = getEmail(),
-//                code = getCodigo(),
-//                password = getSenha(),
-//                recaptchaToken = recaptchaToken,
-//                recaptchaSiteKey = recaptchaSiteKey
+                publicAuthService.resetPassword(
+                    ResetPasswordRequest(
+                        email = getEmail(),
+                        code = getCodigo(),
+                        password = getSenha(),
+                        recaptchaToken = recaptchaToken,
+                        recaptchaSiteKey = recaptchaSiteKey
+                    )
+                )
 
                 _uiState.value = _uiState.value.copy(etapa = EtapaRecuperarContaEnum.SUCESSO)
             } catch (e: Exception) {
