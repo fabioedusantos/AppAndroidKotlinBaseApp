@@ -1,11 +1,16 @@
 package br.com.fbsantos.baseapp.util
 
+import android.content.Context
+import android.graphics.BitmapFactory
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
+import br.com.fbsantos.baseapp.R
 import kotlinx.coroutines.delay
+import android.util.Base64
+import coil.request.ImageRequest
 
-object UtilsHelper {
+object Utils {
     /**
      * Executa uma contagem regressiva e chama uma função a cada segundo.
      *
@@ -91,5 +96,60 @@ object UtilsHelper {
 
         return nome to sobrenome
     }
+
+    /**
+     * Converte uma string Base64 representando uma imagem em um objeto utilizável pelo Coil ou retorna uma imagem padrão.
+     *
+     * @param context Contexto da aplicação, usado para construção da requisição de imagem.
+     * @param fotoBlob String contendo a imagem em formato Base64. Pode conter ou não o prefixo `data:image/...;base64,`.
+     * @param defaultDrawable ID do recurso drawable a ser usado como placeholder ou fallback caso a conversão falhe.
+     * @return Um [ImageRequest] pronto para uso no Coil ou o ID do drawable padrão se ocorrer erro ou a string for nula/vazia.
+     *
+     * @see fotoByteArrayToImage Para conversão direta de um array de bytes.
+     */
+    fun fotoBase64ToImage(
+        context: Context,
+        fotoBlob: String?,
+        defaultDrawable: Int = R.drawable.placeholder_user
+    ): Any {
+        if (fotoBlob.isNullOrEmpty()) return defaultDrawable
+
+        return try {
+            val base64Data = fotoBlob.substringAfter("base64,", fotoBlob)
+            val imageBytes = Base64.decode(base64Data, Base64.DEFAULT)
+            return fotoByteArrayToImage(context, imageBytes, defaultDrawable)
+        } catch (e: Exception) {
+            defaultDrawable
+        }
+    }
+
+    /**
+     * Converte um array de bytes representando uma imagem em um objeto utilizável pelo Coil ou retorna uma imagem padrão.
+     *
+     * @param context Contexto da aplicação, usado para construção da requisição de imagem.
+     * @param imageBytes Array de bytes da imagem. Se for nulo ou vazio, o método retorna o drawable padrão.
+     * @param defaultDrawable ID do recurso drawable a ser usado como placeholder ou fallback caso a conversão falhe.
+     * @return Um [ImageRequest] configurado para exibir a imagem com efeito de transição ou o ID do drawable padrão se houver falha.
+     */
+    fun fotoByteArrayToImage(
+        context: Context,
+        imageBytes: ByteArray?,
+        defaultDrawable: Int = R.drawable.placeholder_user
+    ): Any {
+        if (imageBytes == null || imageBytes.isEmpty()) return defaultDrawable
+
+        return try {
+            val bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+            ImageRequest.Builder(context)
+                .data(bitmap)
+                .crossfade(true)
+                .placeholder(defaultDrawable)
+                .error(defaultDrawable)
+                .build()
+        } catch (e: Exception) {
+            defaultDrawable
+        }
+    }
+
 
 }

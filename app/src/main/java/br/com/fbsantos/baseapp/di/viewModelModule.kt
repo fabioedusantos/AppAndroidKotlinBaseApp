@@ -1,12 +1,31 @@
 package br.com.fbsantos.baseapp.di
 
+import br.com.fbsantos.baseapp.domain.service.PrivateUserService
+import br.com.fbsantos.baseapp.domain.service.PublicAuthService
+import br.com.fbsantos.baseapp.domain.usecase.configuracoes.BuscarTemaUseCase
+import br.com.fbsantos.baseapp.domain.usecase.configuracoes.LimparConfiguracoesUseCase
+import br.com.fbsantos.baseapp.domain.usecase.configuracoes.SalvarDeviceAuthUseCase
+import br.com.fbsantos.baseapp.ui.AppViewModel
 import br.com.fbsantos.baseapp.ui.screen.auth.criarconta.CriarContaViewModel
 import br.com.fbsantos.baseapp.ui.screen.auth.login.LoginViewModel
 import br.com.fbsantos.baseapp.ui.screen.auth.recuperarconta.RecuperarContaViewModel
+import br.com.fbsantos.domain.usecase.configuracoes.SalvarTemaUseCase
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
+    //singleton global
+    single {
+        AppViewModel(
+            buscarDeviceAuthUseCase = get(),
+            salvarDeviceAuthUseCase = get(),
+            limparConfiguracoesUseCase = get(),
+            buscarTemaUseCase = get(),
+            salvarTemaUseCase = get(),
+            publicAuthService = get(),
+            privateUserService = get(),
+        )
+    }
 
     //singleton scoped (seguem o ciclo de vida composable)
     viewModel {

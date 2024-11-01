@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,22 +24,28 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.com.fbsantos.baseapp.R
+import br.com.fbsantos.baseapp.di.appModule
+import br.com.fbsantos.baseapp.ui.AppViewModel
 import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
 import br.com.fbsantos.baseapp.ui.theme.onBackgroundLight
 import br.com.fbsantos.baseapp.ui.theme.primaryLight
-import br.com.fbsantos.baseapp.di.appModule
 import kotlinx.coroutines.delay
 import org.koin.android.ext.koin.androidContext
+import org.koin.compose.koinInject
 import org.koin.core.context.startKoin
 
 @Composable
 fun SplashScreen() {
+    val context = LocalContext.current
+    val appViewModel: AppViewModel = koinInject()
+    val appState = appViewModel.uiState.collectAsState().value
     var alphaTarget by remember { mutableStateOf(0f) }
 
     LaunchedEffect(Unit) {
         alphaTarget = 1f
         delay(2000)
-        //implementar loading geral por hora isso é inutil por causa do SecurityHelper
+
+        postLogin(appViewModel)
     }
 
     val alpha by animateFloatAsState(
@@ -67,6 +74,10 @@ fun SplashScreen() {
                 .graphicsLayer(alpha = alpha)
         )
     }
+}
+
+fun postLogin(appViewModel: AppViewModel) {
+    appViewModel.initializeLogin()
 }
 
 

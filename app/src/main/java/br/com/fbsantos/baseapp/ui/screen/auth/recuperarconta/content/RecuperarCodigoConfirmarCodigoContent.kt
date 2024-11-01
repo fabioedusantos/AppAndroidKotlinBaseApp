@@ -35,7 +35,7 @@ import br.com.fbsantos.baseapp.ui.components.ErrorTextWithFocus
 import br.com.fbsantos.baseapp.ui.components.container.AuthContainer
 import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
 import br.com.fbsantos.baseapp.util.RecaptchaHelper
-import br.com.fbsantos.baseapp.util.UtilsHelper
+import br.com.fbsantos.baseapp.util.Utils
 import br.com.fbsantos.baseapp.di.appModule
 import br.com.fbsantos.baseapp.ui.screen.auth.recuperarconta.RecuperarContaUiState
 import org.koin.android.ext.koin.androidContext
@@ -58,7 +58,7 @@ fun RecuperarCodigoConfirmarCodigoContent(
             buildAnnotatedString {
                 append("Digite o código enviado para o e-mail ")
                 withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                    append(UtilsHelper.ofuscarEmail(state.email))
+                    append(Utils.ofuscarEmail(state.email))
                 }
             },
             fontSize = 12.sp,

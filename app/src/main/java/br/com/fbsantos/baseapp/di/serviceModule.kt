@@ -1,5 +1,6 @@
 package br.com.fbsantos.baseapp.di
 
+import br.com.fbsantos.baseapp.domain.service.PrivateUserService
 import br.com.fbsantos.baseapp.domain.service.PublicAuthService
 import br.com.fbsantos.baseapp.domain.usecase.configuracoes.TokenManagerUseCase
 import org.koin.core.qualifier.named
@@ -11,5 +12,9 @@ val serviceModule = module {
             get(named("PublicAuthApiService")),
             get<TokenManagerUseCase>()
         )
+    }
+
+    single {
+        PrivateUserService(get(named("PrivateUserApiService")))
     }
 }

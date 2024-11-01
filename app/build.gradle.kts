@@ -97,4 +97,7 @@ dependencies {
     implementation(libs.androidx.room.common.jvm)
     implementation(libs.androidx.room.runtime.android)
     kapt(libs.androidx.room.compiler)
+
+    //COIL: PARA USAR AsyncImage
+    implementation(libs.coil.compose)
 }

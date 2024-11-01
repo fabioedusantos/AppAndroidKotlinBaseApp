@@ -2,7 +2,7 @@ package br.com.fbsantos.baseapp.util
 
 import br.com.fbsantos.baseapp.config.AppConfig
 
-object ValidHelper {
+object Valid {
     /**
      * Verifica se o e-mail informado está em um formato válido.
      *

@@ -5,18 +5,21 @@ import androidx.lifecycle.viewModelScope
 import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.LoginGoogleRequest
 import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.LoginRequest
 import br.com.fbsantos.baseapp.domain.service.PublicAuthService
-import br.com.fbsantos.baseapp.util.ToastManager
-import br.com.fbsantos.baseapp.util.ValidHelper
+import br.com.fbsantos.baseapp.ui.AppViewModel
+import br.com.fbsantos.baseapp.util.Valid
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 class LoginViewModel(
     private val publicAuthService: PublicAuthService
 ) : ViewModel(), KoinComponent {
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState> = _uiState
+
+    private val appViewModel: AppViewModel by inject()
 
     init {
         setFormEnabled(true)
@@ -38,12 +41,12 @@ class LoginViewModel(
 
         _uiState.value = _uiState.value.copy(error = null)
 
-        if (!ValidHelper.isEmail(_uiState.value.email)) {
+        if (!Valid.isEmail(_uiState.value.email)) {
             setEmailErrorText("Digite um email válido")
             isValido = false
         }
 
-        if (!ValidHelper.isTamanhoSenha(_uiState.value.senha)) {
+        if (!Valid.isTamanhoSenha(_uiState.value.senha)) {
             setSenhaErrorText("Senha inválida")
             isValido = false
         }
@@ -64,8 +67,7 @@ class LoginViewModel(
                     )
                 )
 
-                ToastManager.show("Logado com sucesso por email e senha!")
-                //todo inicializar o login
+                appViewModel.initializeSplashScreenLogin()
             } catch (e: Exception) {
                 setError(e.message)
                 setFormEnabled(true)
@@ -85,8 +87,7 @@ class LoginViewModel(
                     )
                 )
 
-                ToastManager.show("Logado com sucesso conta Google!")
-                //todo inicializar o login
+                appViewModel.initializeSplashScreenLogin()
             } catch (e: Exception) {
                 setError(e.message)
                 setFormEnabled(true)
