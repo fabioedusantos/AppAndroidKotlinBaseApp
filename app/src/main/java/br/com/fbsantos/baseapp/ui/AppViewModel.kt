@@ -11,6 +11,7 @@ import br.com.fbsantos.baseapp.domain.usecase.configuracoes.BuscarDeviceAuthUseC
 import br.com.fbsantos.baseapp.domain.usecase.configuracoes.BuscarTemaUseCase
 import br.com.fbsantos.baseapp.domain.usecase.configuracoes.LimparConfiguracoesUseCase
 import br.com.fbsantos.baseapp.domain.usecase.configuracoes.SalvarDeviceAuthUseCase
+import br.com.fbsantos.baseapp.util.DateTimeHelper
 import br.com.fbsantos.baseapp.util.ToastManager
 import br.com.fbsantos.domain.usecase.configuracoes.SalvarTemaUseCase
 import br.com.fbsantos.ui.app.AppUiState
@@ -87,15 +88,15 @@ class AppViewModel(
 
         viewModelScope.launch {
             try {
-                //todo obter dados pessoais da api
-//                setNome(me.nome)
-//                setSobrenome(me.sobrenome)
-//                setEmail(me.email)
-//                setFotoBlob(me.photoBlob ?: "")
-//                setUltimoAcesso(DateTimeHelper.stringToDateTime(me.ultimoAcesso))
-//                setCriacao(DateTimeHelper.stringToDateTime(me.criadoEm))
-//                setAlteracao(DateTimeHelper.stringToDateTime(me.alteradoEm))
-//                setContaGoogle(me.isContaGoogle)
+                val me = privateUserService.getMe()
+                setNome(me.nome)
+                setSobrenome(me.sobrenome)
+                setEmail(me.email)
+                setFotoBlob(me.photoBlob ?: "")
+                setUltimoAcesso(DateTimeHelper.stringToDateTime(me.ultimoAcesso))
+                setCriacao(DateTimeHelper.stringToDateTime(me.criadoEm))
+                setAlteracao(DateTimeHelper.stringToDateTime(me.alteradoEm))
+                setContaGoogle(me.isContaGoogle)
             } catch (e: Exception) {
                 ToastManager.show(e.message ?: "Erro não determinado ao obter meus dados.")
             }
