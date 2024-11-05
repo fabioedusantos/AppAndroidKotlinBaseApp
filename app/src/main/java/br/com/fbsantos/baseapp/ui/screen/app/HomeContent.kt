@@ -38,10 +38,13 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import br.com.fbsantos.baseapp.R
+import br.com.fbsantos.baseapp.data.database.HistoricoAtividadeEntity
 import br.com.fbsantos.baseapp.di.appModule
 import br.com.fbsantos.baseapp.ui.components.container.MainContainer
 import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
 import br.com.fbsantos.baseapp.util.DateTimeHelper
+import br.com.fbsantos.baseapp.util.IconHelper
+import br.com.fbsantos.baseapp.util.NavHelper
 import br.com.fbsantos.baseapp.util.Utils
 import br.com.fbsantos.ui.app.AppUiState
 import coil.compose.AsyncImage
@@ -131,6 +134,24 @@ fun HomeContent(
                 InfoCard("📅 Eventos do Dia", "2")
                 InfoCard("⏳ Último acesso", DateTimeHelper.dateTimeToString(appState.ultimoAcesso))
             }
+
+            if (appState.historicoAtividade.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(32.dp))
+
+                Text("Últimas atividades", style = MaterialTheme.typography.titleMedium)
+                Spacer(modifier = Modifier.height(12.dp))
+
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    appState.historicoAtividade.forEach { atividade ->
+                        ActivityItem(
+                            atividade.descricao,
+                            IconHelper.fromName(atividade.icone),
+                            atividade.timestamp,
+                            { atividade.rota?.let { rota -> NavHelper.abrir(navController, rota) } }
+                        )
+                    }
+                }
+            }
         }
     }
 }
@@ -187,6 +208,53 @@ fun InfoCard(title: String, value: String) {
     }
 }
 
+@Composable
+fun ActivityItem(
+    text: String,
+    icon: ImageVector,
+    timestamp: Long?,
+    action: (() -> Unit)? = null
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+        shape = RoundedCornerShape(8.dp),
+        onClick = { action?.invoke() }
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                icon,
+                contentDescription = null,
+                modifier = Modifier
+                    .size(24.dp)
+                    .align(Alignment.Top)
+            )
+            Spacer(modifier = Modifier.width(12.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(text)
+
+                if (timestamp != null) {
+                    Text(
+                        text = DateTimeHelper.toUserFriendly(timestamp),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.align(Alignment.Bottom)
+                    )
+                }
+            }
+        }
+    }
+}
+
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
@@ -202,7 +270,17 @@ fun HomeContentPreview() {
     val previewAppState = AppUiState(
         nome = "Fulano da Silva",
         email = "fulanosilva@outlook.com",
-        fotoBlob = ""
+        fotoBlob = "",
+        historicoAtividade = listOf(
+            HistoricoAtividadeEntity(0, null, "Home", "Home", System.currentTimeMillis()),
+            HistoricoAtividadeEntity(
+                0,
+                null,
+                "Configurações",
+                "Settings",
+                System.currentTimeMillis()
+            )
+        )
     )
 
     BaseAppTheme (darkTheme = false) {

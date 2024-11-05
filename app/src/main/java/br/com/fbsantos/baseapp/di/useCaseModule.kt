@@ -5,6 +5,9 @@ import br.com.fbsantos.baseapp.domain.usecase.configuracoes.BuscarTemaUseCase
 import br.com.fbsantos.baseapp.domain.usecase.configuracoes.LimparConfiguracoesUseCase
 import br.com.fbsantos.baseapp.domain.usecase.configuracoes.SalvarDeviceAuthUseCase
 import br.com.fbsantos.baseapp.domain.usecase.configuracoes.TokenManagerUseCase
+import br.com.fbsantos.baseapp.domain.usecase.historicoatividades.BuscarUltimasAtividadesUseCase
+import br.com.fbsantos.baseapp.domain.usecase.historicoatividades.LimparHistoricoAtividadesUseCase
+import br.com.fbsantos.baseapp.domain.usecase.historicoatividades.SalvarHistoricoAtividadeUseCase
 import br.com.fbsantos.domain.usecase.configuracoes.SalvarTemaUseCase
 import org.koin.dsl.module
 
@@ -15,4 +18,7 @@ val useCaseModule = module {
     single { LimparConfiguracoesUseCase(get()) }
     single { BuscarTemaUseCase(get()) }
     single { SalvarTemaUseCase(get()) }
+    single { BuscarUltimasAtividadesUseCase(get()) }
+    single { LimparHistoricoAtividadesUseCase(get()) }
+    single { SalvarHistoricoAtividadeUseCase(get()) }
 }

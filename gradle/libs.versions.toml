@@ -21,6 +21,7 @@ okhttp = "5.1.0"
 roomCommonJvm = "2.7.2"
 roomRuntimeAndroid = "2.7.2"
 coilCompose = "2.7.0"
+room = "2.7.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -65,4 +66,5 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 google-services = { id = "com.google.gms.google-services", version = "4.4.3" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt" }
+androidx-room = { id = "androidx.room", version.ref = "room" }
 

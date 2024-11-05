@@ -8,6 +8,12 @@ plugins {
 
     //necessário para o ROOM (DB)
     alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.androidx.room)
+}
+
+room {
+    // ROOM Gera/usa os JSONs de esquema aqui
+    schemaDirectory("$projectDir/schemas")
 }
 
 android {

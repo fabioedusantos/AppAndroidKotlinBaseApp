@@ -1,5 +1,6 @@
 package br.com.fbsantos.ui.app
 
+import br.com.fbsantos.baseapp.data.database.HistoricoAtividadeEntity
 import br.com.fbsantos.ui.app.model.MenuItem
 import java.util.Date
 
@@ -19,6 +20,7 @@ data class AppUiState(
 
     val numeroMensagens: Int = 12,
     val numeroEventosDia: Int = 2,
+    val historicoAtividade: List<HistoricoAtividadeEntity> = listOf(),
 
     val isDarkTheme: Boolean? = null,
     val isDeviceAuthEnabled: Boolean = false,

@@ -5,10 +5,13 @@ import androidx.room.RoomDatabase
 
 @Database(
     entities = [
-        ConfiguracaoEntity::class
+        ConfiguracaoEntity::class,
+        HistoricoAtividadeEntity::class
     ],
-    version = 1
+    version = 2,
+    exportSchema = true
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun configuracoesDao(): ConfiguracoesDao
+    abstract fun historicoAtividadesDao(): HistoricoAtividadesDao
 }

@@ -5,12 +5,16 @@ import androidx.compose.material.icons.filled.Home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.fbsantos.baseapp.config.navigation.Routes
+import br.com.fbsantos.baseapp.data.database.HistoricoAtividadeEntity
 import br.com.fbsantos.baseapp.domain.service.PrivateUserService
 import br.com.fbsantos.baseapp.domain.service.PublicAuthService
 import br.com.fbsantos.baseapp.domain.usecase.configuracoes.BuscarDeviceAuthUseCase
 import br.com.fbsantos.baseapp.domain.usecase.configuracoes.BuscarTemaUseCase
 import br.com.fbsantos.baseapp.domain.usecase.configuracoes.LimparConfiguracoesUseCase
 import br.com.fbsantos.baseapp.domain.usecase.configuracoes.SalvarDeviceAuthUseCase
+import br.com.fbsantos.baseapp.domain.usecase.historicoatividades.BuscarUltimasAtividadesUseCase
+import br.com.fbsantos.baseapp.domain.usecase.historicoatividades.LimparHistoricoAtividadesUseCase
+import br.com.fbsantos.baseapp.domain.usecase.historicoatividades.SalvarHistoricoAtividadeUseCase
 import br.com.fbsantos.baseapp.util.DateTimeHelper
 import br.com.fbsantos.baseapp.util.ToastManager
 import br.com.fbsantos.domain.usecase.configuracoes.SalvarTemaUseCase
@@ -28,6 +32,9 @@ class AppViewModel(
     private val limparConfiguracoesUseCase: LimparConfiguracoesUseCase,
     private val buscarTemaUseCase: BuscarTemaUseCase,
     private val salvarTemaUseCase: SalvarTemaUseCase,
+    private val limparHistoricoAtividadesUseCase: LimparHistoricoAtividadesUseCase,
+    private val buscarUltimasAtividadesUseCase: BuscarUltimasAtividadesUseCase,
+    private val salvarHistoricoAtividadeUseCase: SalvarHistoricoAtividadeUseCase,
     private val publicAuthService: PublicAuthService,
     private val privateUserService: PrivateUserService,
 ) : ViewModel() {
@@ -73,6 +80,7 @@ class AppViewModel(
             initMe()
             initMenu()
             initTemaUsuario()
+            loadHistoricoAtividade()
         }
     }
 
@@ -139,6 +147,7 @@ class AppViewModel(
         viewModelScope.launch {
             publicAuthService.logout()
             limparConfiguracoesUseCase.execute()
+            limparHistoricoAtividadesUseCase.execute()
             setLoggedIn(false)
         }
     }
@@ -206,5 +215,26 @@ class AppViewModel(
 
     fun setReadyLogin(isReadyLogin: Boolean) {
         _uiState.value = _uiState.value.copy(isReadyLogin = isReadyLogin)
+    }
+
+    fun loadHistoricoAtividade() {
+        viewModelScope.launch {
+            setHistoricoAtividade(buscarUltimasAtividadesUseCase.execute())
+        }
+    }
+
+    fun setHistoricoAtividade(historicoAtividade: List<HistoricoAtividadeEntity>) {
+        _uiState.value = _uiState.value.copy(historicoAtividade = historicoAtividade)
+    }
+
+    fun addAtividade(
+        rota: String?,
+        descricao: String,
+        icone: String
+    ) {
+        viewModelScope.launch {
+            salvarHistoricoAtividadeUseCase.execute(rota, descricao, icone)
+            loadHistoricoAtividade()
+        }
     }
 }
