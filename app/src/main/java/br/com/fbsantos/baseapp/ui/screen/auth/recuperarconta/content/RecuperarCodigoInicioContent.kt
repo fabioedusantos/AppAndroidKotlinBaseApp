@@ -75,12 +75,6 @@ fun RecuperarCodigoInicioContent(
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun RecuperarCodigoInicioContentPreview() {
-    val context = LocalContext.current
-    startKoin {
-        androidContext(context)
-        modules(appModule)
-    }
-
     val previewState = RecuperarContaUiState(
         email = "fabioedusantos@gmail.com"
     )

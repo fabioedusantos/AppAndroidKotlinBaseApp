@@ -177,12 +177,6 @@ fun RecuperarCodigoConfirmarCodigoContent(
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun RecuperarCodigoConfirmarCodigoContentPreview() {
-    val context = LocalContext.current
-    startKoin {
-        androidContext(context)
-        modules(appModule)
-    }
-
     val previewState = RecuperarContaUiState(
         email = "fabioedusantos@gmail.com"
     )

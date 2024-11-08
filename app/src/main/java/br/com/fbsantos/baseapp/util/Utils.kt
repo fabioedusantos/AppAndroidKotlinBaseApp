@@ -151,5 +151,13 @@ object Utils {
         }
     }
 
-
+    /**
+     * Detecta se a aplicação está no modo preview
+     */
+    fun isRunningInPreview(): Boolean {
+        val vm = System.getProperty("java.vm.name")?.lowercase().orEmpty()
+        val tooling = System.getProperty("androidx.compose.ui.tooling") == "true"
+        val hasInvoker = try { Class.forName("androidx.compose.ui.tooling.ComposableInvoker"); true } catch (_: Throwable) { false }
+        return vm.contains("layoutlib") || tooling || hasInvoker
+    }
 }

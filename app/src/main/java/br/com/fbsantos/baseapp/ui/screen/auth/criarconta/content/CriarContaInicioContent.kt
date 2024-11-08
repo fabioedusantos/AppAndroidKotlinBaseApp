@@ -266,12 +266,6 @@ fun CriarContaInicio(
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun CriarContaInicioPreview() {
-    val context = LocalContext.current
-    startKoin {
-        androidContext(context)
-        modules(appModule)
-    }
-
     val navController = rememberNavController()
 
     val previewState = CriarContaUiState(

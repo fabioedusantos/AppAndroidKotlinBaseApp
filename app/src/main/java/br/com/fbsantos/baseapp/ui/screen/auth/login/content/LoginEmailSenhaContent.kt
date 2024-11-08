@@ -140,12 +140,6 @@ fun LoginEmailSenhaContent(
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun LoginEmailSenhaPreview() {
-    val context = LocalContext.current
-    startKoin {
-        androidContext(context)
-        modules(appModule)
-    }
-
     val navController = rememberNavController()
 
     val previewState = LoginUiState(

@@ -114,12 +114,6 @@ fun RecuperarCodigoResetarSenhaContent(
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun RecuperarCodigoResetarSenhaContentPreview() {
-    val context = LocalContext.current
-    startKoin {
-        androidContext(context)
-        modules(appModule)
-    }
-
     val previewState = RecuperarContaUiState(
         etapa = EtapaRecuperarContaEnum.INICIAL,
         email = "fabioedusantos@gmail.com",

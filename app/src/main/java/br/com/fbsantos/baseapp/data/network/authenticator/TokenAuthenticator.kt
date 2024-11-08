@@ -3,6 +3,7 @@ package br.com.fbsantos.baseapp.data.network.authenticator
 import br.com.fbsantos.baseapp.config.AppConfig
 import br.com.fbsantos.baseapp.domain.usecase.configuracoes.TokenManagerUseCase
 import br.com.fbsantos.baseapp.util.DebugHttpHelper
+import br.com.fbsantos.baseapp.util.Utils
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -19,6 +20,7 @@ class TokenAuthenticator(
 ) : Authenticator {
 
     override fun authenticate(route: Route?, response: Response): Request? {
+        if (Utils.isRunningInPreview()) return null //para não gerar erros no preview
         if (responseCount(response) >= 2) return null
 
         return runBlocking {

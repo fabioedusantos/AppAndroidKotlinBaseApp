@@ -178,12 +178,6 @@ fun CriarContaConfirmarCodigo(
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun CriarContaConfirmarCodigoPreview() {
-    val context = LocalContext.current
-    startKoin {
-        androidContext(context)
-        modules(appModule)
-    }
-
     val previewState = CriarContaUiState(
         email = "fabioedusantos@gmail.com"
     )

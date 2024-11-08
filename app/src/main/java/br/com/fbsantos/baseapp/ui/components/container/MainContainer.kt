@@ -52,17 +52,18 @@ import br.com.fbsantos.baseapp.R
 import br.com.fbsantos.baseapp.util.NavHelper
 import br.com.fbsantos.baseapp.util.SnackbarManager
 import br.com.fbsantos.baseapp.util.Utils
-import br.com.fbsantos.baseapp.ui.AppViewModel
+import br.com.fbsantos.ui.app.AppUiState
 import coil.compose.AsyncImage
 import kotlinx.coroutines.launch
-import org.koin.compose.koinInject
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainContainer(
     navController: NavController,
-    selectedItem: String,
-    topBarTitle: @Composable () -> Unit = { Text(selectedItem) },
+    title: String,
+    appState: AppUiState,
+    onSair: () -> Unit,
+    topBarTitle: @Composable () -> Unit = { Text(title) },
     fixedBottomContent: (@Composable () -> Unit)? = null,
     isShowFixedBottomContent: Boolean = (fixedBottomContent != null),
     content: @Composable (SnackbarHostState) -> Unit
@@ -71,8 +72,6 @@ fun MainContainer(
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
     val scrollState = rememberScrollState()
-    val appViewModel: AppViewModel = koinInject()
-    val appState = appViewModel.uiState.collectAsState().value
     val context = LocalContext.current
 
     //para não ficar recarregando a imagem em toda abertura
@@ -125,7 +124,7 @@ fun MainContainer(
                     items(appState.menuItems) { item ->
                         NavigationDrawerItem(
                             label = { Text(item.title) },
-                            selected = selectedItem == item.title,
+                            selected = title == item.title,
                             onClick = {
                                 if (item.routeOpen.isNotEmpty()) {
                                     NavHelper.abrir(navController, item.routeOpen)
@@ -143,7 +142,7 @@ fun MainContainer(
                 NavigationDrawerItem(
                     label = { Text("Sair") },
                     selected = false,
-                    onClick = { appViewModel.deslogar() },
+                    onClick = { onSair() },
                     icon = {
                         Icon(
                             Icons.AutoMirrored.Filled.ExitToApp,

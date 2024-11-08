@@ -39,7 +39,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import br.com.fbsantos.baseapp.R
 import br.com.fbsantos.baseapp.data.database.HistoricoAtividadeEntity
-import br.com.fbsantos.baseapp.di.appModule
 import br.com.fbsantos.baseapp.ui.components.container.MainContainer
 import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
 import br.com.fbsantos.baseapp.util.DateTimeHelper
@@ -48,8 +47,6 @@ import br.com.fbsantos.baseapp.util.NavHelper
 import br.com.fbsantos.baseapp.util.Utils
 import br.com.fbsantos.ui.app.AppUiState
 import coil.compose.AsyncImage
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
 
 @Composable
 fun HomeContent(
@@ -63,7 +60,12 @@ fun HomeContent(
         Utils.fotoBase64ToImage(context, appState.fotoBlob)
     }
 
-    MainContainer(navController, "Início") { snackbarHostState ->
+    MainContainer(
+        navController = navController,
+        title = "Início",
+        appState = appState,
+        onSair = onSair
+    ) { snackbarHostState ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -259,12 +261,6 @@ fun ActivityItem(
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun HomeContentPreview() {
-    val context = LocalContext.current
-    startKoin {
-        androidContext(context)
-        modules(appModule)
-    }
-
     val navController = rememberNavController()
 
     val previewAppState = AppUiState(
@@ -283,7 +279,7 @@ fun HomeContentPreview() {
         )
     )
 
-    BaseAppTheme (darkTheme = false) {
+    BaseAppTheme(darkTheme = false) {
         HomeContent(
             navController = navController,
             appState = previewAppState,
