@@ -1,4 +1,4 @@
-package br.com.fbsantos.baseapp.ui.screen.app
+package br.com.fbsantos.baseapp.ui.screen.app.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import br.com.fbsantos.baseapp.R
+import br.com.fbsantos.baseapp.config.navigation.Routes
 import br.com.fbsantos.baseapp.data.database.HistoricoAtividadeEntity
 import br.com.fbsantos.baseapp.ui.components.container.MainContainer
 import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
@@ -116,9 +117,7 @@ fun HomeContent(
                 QuickActionCard(
                     "Configurações",
                     Icons.Default.Settings,
-                    {
-                        //todo abrir configurações
-                    }
+                    { NavHelper.abrir(navController, Routes.Configuracoes.route) }
                 )
                 QuickActionCard(
                     "Sair",

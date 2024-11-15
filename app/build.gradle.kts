@@ -106,4 +106,7 @@ dependencies {
 
     //COIL: PARA USAR AsyncImage
     implementation(libs.coil.compose)
+
+    //USAR BIOMETRIA E DESBLOQUEIO ANDROID
+    implementation(libs.androidx.biometric)
 }

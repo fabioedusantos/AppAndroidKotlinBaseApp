@@ -22,6 +22,7 @@ roomCommonJvm = "2.7.2"
 roomRuntimeAndroid = "2.7.2"
 coilCompose = "2.7.0"
 room = "2.7.2"
+biometric = "1.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -59,6 +60,7 @@ androidx-room-common-jvm = { group = "androidx.room", name = "room-common-jvm", 
 androidx-room-runtime-android = { group = "androidx.room", name = "room-runtime-android", version.ref = "roomRuntimeAndroid" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomRuntimeAndroid" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
+androidx-biometric = { module = "androidx.biometric:biometric", version.ref = "biometric" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
