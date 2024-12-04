@@ -5,6 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import br.com.fbsantos.baseapp.ui.screen.app.configuracoes.ConfiguracoesScreen
 import br.com.fbsantos.baseapp.ui.screen.app.home.HomeScreen
+import br.com.fbsantos.baseapp.ui.screen.app.perfil.PerfilScreen
 
 val rotasPrivadas = listOf(
     Routes.Home.route,
@@ -17,12 +18,19 @@ fun isRotaPrivada(route: String?): Boolean {
 
 fun NavGraphBuilder.registerPrivateScreens(navController: NavController) {
     homeScreen(navController)
+    perfilScreen(navController)
     configuracoesScreen(navController)
 }
 
 fun NavGraphBuilder.homeScreen(navController: NavController) {
     composable(Routes.Home.route) {
         HomeScreen(navController)
+    }
+}
+
+fun NavGraphBuilder.perfilScreen(navController: NavController) {
+    composable(Routes.Perfil.route) {
+        PerfilScreen(navController)
     }
 }
 

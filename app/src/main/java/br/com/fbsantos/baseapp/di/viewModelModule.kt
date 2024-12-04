@@ -4,6 +4,7 @@ import br.com.fbsantos.baseapp.ui.AppViewModel
 import br.com.fbsantos.baseapp.ui.screen.auth.criarconta.CriarContaViewModel
 import br.com.fbsantos.baseapp.ui.screen.auth.login.LoginViewModel
 import br.com.fbsantos.baseapp.ui.screen.auth.recuperarconta.RecuperarContaViewModel
+import br.com.fbsantos.ui.main.perfil.PerfilViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
@@ -41,5 +42,9 @@ val viewModelModule = module {
         RecuperarContaViewModel(
             publicAuthService = get()
         )
+    }
+
+    viewModel {
+        PerfilViewModel()
     }
 }

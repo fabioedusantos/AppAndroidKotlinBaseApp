@@ -13,5 +13,6 @@ sealed class Routes(val route: String) {
     //app
     object Splash : Routes("splash")
     object Home : Routes("home")
+    object Perfil : Routes("perfil")
     object Configuracoes : Routes("configuracoes")
 }

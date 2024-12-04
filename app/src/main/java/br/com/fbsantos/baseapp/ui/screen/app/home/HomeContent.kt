@@ -111,7 +111,7 @@ fun HomeContent(
                     "Perfil",
                     Icons.Default.Person,
                     {
-                        //todo abrir perfil
+                        NavHelper.abrir(navController, Routes.Perfil.route)
                     }
                 )
                 QuickActionCard(

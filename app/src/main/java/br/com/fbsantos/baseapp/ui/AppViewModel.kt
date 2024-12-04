@@ -2,6 +2,7 @@ package br.com.fbsantos.baseapp.ui
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -119,6 +120,11 @@ class AppViewModel(
                     "Início",
                     Icons.Default.Home,
                     Routes.Home.route
+                ),
+                MenuItem(
+                    "Perfil",
+                    Icons.Default.Person,
+                    Routes.Perfil.route
                 ),
                 MenuItem(
                     "Configurações",
