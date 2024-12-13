@@ -36,7 +36,22 @@ fun PerfilScreen(
         PerfilEditContent(
             navController = navController,
             appState = appState,
-            onSair = { appViewModel.deslogar() }
+            onSair = { appViewModel.deslogar() },
+            state = uiState,
+            onToggleEditarPerfil = { viewModel.onToggleEditarPerfil() },
+            onNomeChange = { viewModel.onNomeChange(it) },
+            onSobreNomeChange = { viewModel.onSobreNomeChange(it) },
+            onSenhaChange = { viewModel.onSenhaChange(it) },
+            onSenhaVisivelToggle = { viewModel.onSenhaVisivelToggle() },
+            onConfirmeSenhaChange = { viewModel.onConfirmeSenhaChange(it) },
+            onConfirmeSenhaVisivelToggle = { viewModel.onConfirmeSenhaVisivelToggle() },
+            onEditarPerfil = { isContaGoogle, onSuccess ->
+                viewModel.onEditarPerfil(
+                    isContaGoogle,
+                    onSuccess
+                )
+            },
+            onAtualizarPerfilVisual = { appViewModel.initMe() }
         )
     }
 
