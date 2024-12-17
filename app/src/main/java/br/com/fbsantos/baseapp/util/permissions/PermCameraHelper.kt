@@ -1,4 +1,4 @@
-package br.com.fbsantos.util.permissions
+package br.com.fbsantos.baseapp.util.permissions
 
 import android.Manifest
 import android.content.Context

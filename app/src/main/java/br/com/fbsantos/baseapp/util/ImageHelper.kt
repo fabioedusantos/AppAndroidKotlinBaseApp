@@ -1,4 +1,4 @@
-package br.com.fbsantos.util
+package br.com.fbsantos.baseapp.util
 
 import android.content.Context
 import android.graphics.Bitmap

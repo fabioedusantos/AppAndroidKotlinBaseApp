@@ -1,5 +1,7 @@
 package br.com.fbsantos.baseapp.ui.components
 
+import android.content.Context
+import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,17 +18,41 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import br.com.fbsantos.baseapp.util.ToastManager
+import br.com.fbsantos.baseapp.util.permissions.PermCameraHelper
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SelectPhotoModal(
+    context: Context,
     modalTitle: String = "Escolha uma foto",
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    onImageSelected: (Uri?) -> Unit
 ) {
+    var imageUri by remember { mutableStateOf<Uri?>(null) }
+
+    val cameraLauncher = PermCameraHelper.cameraLauncher { isSuccess ->
+        onImageSelected(if (isSuccess) imageUri else null)
+        onDismiss()
+    }
+
+    val cameraPermissionLauncher = PermCameraHelper.permissionLauncher(context) { isGranted, uri ->
+        if (isGranted) {
+            imageUri = uri
+            imageUri?.let { cameraLauncher.launch(it) }
+        } else {
+            ToastManager.show("Permissão da câmera negada.")
+        }
+    }
+
     ModalBottomSheet(onDismissRequest = onDismiss) {
         Column(Modifier.padding(vertical = 8.dp)) {
             Text(
@@ -36,7 +62,12 @@ fun SelectPhotoModal(
             )
 
             photoOptionItem("Usar Câmera", Icons.Default.PhotoCamera) {
-                //todo tirar foto com camera
+                if (PermCameraHelper.isGranted(context)) {
+                    imageUri = PermCameraHelper.createUri(context)
+                    imageUri?.let { cameraLauncher.launch(it) }
+                } else {
+                    cameraPermissionLauncher.launch(PermCameraHelper.permissionName)
+                }
             }
 
             photoOptionItem("Escolher da Galeria", Icons.Default.Image) {

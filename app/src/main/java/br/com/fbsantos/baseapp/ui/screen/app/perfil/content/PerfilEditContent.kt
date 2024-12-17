@@ -49,7 +49,9 @@ import br.com.fbsantos.baseapp.ui.components.ErrorTextWithFocus
 import br.com.fbsantos.baseapp.ui.components.SelectPhotoModal
 import br.com.fbsantos.baseapp.ui.components.container.MainContainer
 import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
+import br.com.fbsantos.baseapp.util.ImageHelper
 import br.com.fbsantos.baseapp.util.SnackbarManager
+import br.com.fbsantos.baseapp.util.ToastManager
 import br.com.fbsantos.baseapp.util.Utils
 import br.com.fbsantos.ui.app.AppUiState
 import br.com.fbsantos.ui.main.perfil.PerfilUiState
@@ -62,6 +64,7 @@ fun PerfilEditContent(
     onSair: () -> Unit,
     state: PerfilUiState,
     onToggleEditarPerfil: () -> Unit,
+    onFotoChange: (String) -> Unit,
     onNomeChange: (String) -> Unit,
     onSobreNomeChange: (String) -> Unit,
     onSenhaChange: (String) -> Unit,
@@ -165,8 +168,20 @@ fun PerfilEditContent(
 
                             if (isShowBottomSheet) {
                                 SelectPhotoModal(
+                                    context = context,
                                     modalTitle = "Alterar foto",
-                                    onDismiss = { isShowBottomSheet = false }
+                                    onDismiss = { isShowBottomSheet = false },
+                                    onImageSelected = { uri ->
+                                        uri?.let {
+                                            val base64 = ImageHelper.uriToBase64(context, it)
+                                            Log.i("teste", base64.toString())
+                                            if (base64 != null) {
+                                                onFotoChange(base64)
+                                            } else {
+                                                ToastManager.show("Não foi possível obter a foto.")
+                                            }
+                                        }
+                                    }
                                 )
                             }
                         }
@@ -310,6 +325,7 @@ fun PerfilEditContentPreview() {
             onSair = {},
             state = uiState,
             onToggleEditarPerfil = {},
+            onFotoChange = {},
             onNomeChange = {},
             onSobreNomeChange = {},
             onSenhaChange = {},

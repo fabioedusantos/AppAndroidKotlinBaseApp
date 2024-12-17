@@ -39,6 +39,7 @@ fun PerfilScreen(
             onSair = { appViewModel.deslogar() },
             state = uiState,
             onToggleEditarPerfil = { viewModel.onToggleEditarPerfil() },
+            onFotoChange = { viewModel.onSetFoto(it) },
             onNomeChange = { viewModel.onNomeChange(it) },
             onSobreNomeChange = { viewModel.onSobreNomeChange(it) },
             onSenhaChange = { viewModel.onSenhaChange(it) },
