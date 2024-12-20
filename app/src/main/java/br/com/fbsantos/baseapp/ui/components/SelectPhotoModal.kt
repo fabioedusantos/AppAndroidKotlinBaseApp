@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import br.com.fbsantos.baseapp.util.ToastManager
 import br.com.fbsantos.baseapp.util.permissions.PermCameraHelper
+import br.com.fbsantos.baseapp.util.permissions.PermGalleryHelper
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -53,6 +54,19 @@ fun SelectPhotoModal(
         }
     }
 
+    val galleryLauncher = PermGalleryHelper.galleryLauncher { uri ->
+        onImageSelected(uri)
+        onDismiss()
+    }
+
+    val galleryPermissionLauncher = PermGalleryHelper.permissionLauncher() { isGranted, intent ->
+        if (isGranted) {
+            intent?.let { galleryLauncher.launch(it) }
+        } else {
+            ToastManager.show("Permissão da galeria negada.")
+        }
+    }
+
     ModalBottomSheet(onDismissRequest = onDismiss) {
         Column(Modifier.padding(vertical = 8.dp)) {
             Text(
@@ -71,7 +85,11 @@ fun SelectPhotoModal(
             }
 
             photoOptionItem("Escolher da Galeria", Icons.Default.Image) {
-                //todo escolher foto da galeria
+                if (PermGalleryHelper.isGranted(context)) {
+                    galleryLauncher.launch(PermGalleryHelper.createIntent())
+                } else {
+                    galleryPermissionLauncher.launch(PermGalleryHelper.permissionName)
+                }
             }
 
             photoOptionItem("Remover Foto", Icons.Default.Delete) {
