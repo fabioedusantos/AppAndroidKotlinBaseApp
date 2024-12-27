@@ -36,7 +36,8 @@ fun SelectPhotoModal(
     context: Context,
     modalTitle: String = "Escolha uma foto",
     onDismiss: () -> Unit,
-    onImageSelected: (Uri?) -> Unit
+    onImageSelected: (Uri?) -> Unit,
+    onRemovePhoto: (() -> Unit)? = null
 ) {
     var imageUri by remember { mutableStateOf<Uri?>(null) }
 
@@ -92,8 +93,11 @@ fun SelectPhotoModal(
                 }
             }
 
-            photoOptionItem("Remover Foto", Icons.Default.Delete) {
-                //todo remover foto
+            if (onRemovePhoto != null) {
+                photoOptionItem("Remover Foto", Icons.Default.Delete) {
+                    onRemovePhoto()
+                    onDismiss()
+                }
             }
         }
     }

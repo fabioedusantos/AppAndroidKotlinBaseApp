@@ -65,6 +65,7 @@ fun PerfilEditContent(
     state: PerfilUiState,
     onToggleEditarPerfil: () -> Unit,
     onFotoChange: (String) -> Unit,
+    onRemovePhoto: () -> Unit,
     onNomeChange: (String) -> Unit,
     onSobreNomeChange: (String) -> Unit,
     onSenhaChange: (String) -> Unit,
@@ -181,7 +182,8 @@ fun PerfilEditContent(
                                                 ToastManager.show("Não foi possível obter a foto.")
                                             }
                                         }
-                                    }
+                                    },
+                                    onRemovePhoto = onRemovePhoto
                                 )
                             }
                         }
@@ -326,6 +328,7 @@ fun PerfilEditContentPreview() {
             state = uiState,
             onToggleEditarPerfil = {},
             onFotoChange = {},
+            onRemovePhoto = {},
             onNomeChange = {},
             onSobreNomeChange = {},
             onSenhaChange = {},

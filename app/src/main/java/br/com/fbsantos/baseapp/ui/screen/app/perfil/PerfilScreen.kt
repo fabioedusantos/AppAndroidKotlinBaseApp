@@ -40,6 +40,7 @@ fun PerfilScreen(
             state = uiState,
             onToggleEditarPerfil = { viewModel.onToggleEditarPerfil() },
             onFotoChange = { viewModel.onSetFoto(it) },
+            onRemovePhoto = { viewModel.onRemoverFoto() },
             onNomeChange = { viewModel.onNomeChange(it) },
             onSobreNomeChange = { viewModel.onSobreNomeChange(it) },
             onSenhaChange = { viewModel.onSenhaChange(it) },
