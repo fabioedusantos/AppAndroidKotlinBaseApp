@@ -2,12 +2,16 @@ package br.com.fbsantos.ui.main.perfil
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.fbsantos.baseapp.data.network.dto.privateuser.request.SetMeRequest
+import br.com.fbsantos.baseapp.domain.service.PrivateUserService
 import br.com.fbsantos.baseapp.util.Valid
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class PerfilViewModel() : ViewModel() {
+class PerfilViewModel(
+    private val privateUserService: PrivateUserService
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(PerfilUiState())
     val uiState: StateFlow<PerfilUiState> = _uiState
@@ -50,12 +54,15 @@ class PerfilViewModel() : ViewModel() {
         viewModelScope.launch {
             try {
                 setFormEnabled(false)
-                //todo enviar Me
-//                name = getNome(),
-//                lastname = getSobrenome(),
-//                password = getSenha(),
-//                photoBlob = getFoto(),
-//                isRemovePhoto = getRemoverFoto()
+                privateUserService.setMe(
+                    SetMeRequest(
+                        name = getNome(),
+                        lastname = getSobrenome(),
+                        password = getSenha(),
+                        photoBlob = getFoto(),
+                        isRemovePhoto = getRemoverFoto()
+                    )
+                )
 
                 setError(null)
                 onSuccess()

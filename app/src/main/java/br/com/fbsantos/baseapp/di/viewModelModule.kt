@@ -45,6 +45,8 @@ val viewModelModule = module {
     }
 
     viewModel {
-        PerfilViewModel()
+        PerfilViewModel(
+            privateUserService = get()
+        )
     }
 }
