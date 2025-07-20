@@ -31,6 +31,7 @@ import br.com.fbsantos.baseapp.ui.components.SwitchToggle
 import br.com.fbsantos.baseapp.ui.components.container.MainContainer
 import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
 import br.com.fbsantos.baseapp.util.BiometricHelper
+import br.com.fbsantos.baseapp.util.FirebaseNotificationHelper
 import br.com.fbsantos.baseapp.util.NavHelper
 import br.com.fbsantos.baseapp.util.SnackbarManager
 import br.com.fbsantos.baseapp.util.Utils
@@ -76,6 +77,18 @@ fun ConfiguracoesContent(
                 PermNotificationHelper.requestPermission(
                     context = context,
                     updateStatus = {
+                        if (it) {
+                            FirebaseNotificationHelper.subscribeToAll(
+                                context = context,
+                                onResult = {
+                                    SnackbarManager.show("Todas as notificações ativadas!")
+                                }
+                            )
+                        } else {
+                            FirebaseNotificationHelper.unsubscribeFromAll({
+                                SnackbarManager.show("Todas as notificações desativadas!")
+                            })
+                        }
                         isNotificacoesAtivas = it
                         solicitarPermissao = false
                     }

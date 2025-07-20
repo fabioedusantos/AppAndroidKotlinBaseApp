@@ -109,4 +109,8 @@ dependencies {
 
     //USAR BIOMETRIA E DESBLOQUEIO ANDROID
     implementation(libs.androidx.biometric)
+
+    //FIREBASE - NOTIFICAÇÕES PUSH
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.messaging)
 }
