@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.navigation.compose.rememberNavController
 import br.com.fbsantos.baseapp.config.AppConfig
 import br.com.fbsantos.baseapp.config.navigation.Routes
+import br.com.fbsantos.baseapp.config.navigation.isValidRoute
 import br.com.fbsantos.baseapp.config.navigation.registerAuthScreens
 import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
 import br.com.fbsantos.baseapp.util.AnimatedHelper
@@ -67,6 +68,14 @@ class MainActivity : FragmentActivity() {
                     }
                 }
                 //Toast default
+
+                // Se veio de push notification, navega após inicializar
+                val linkFromNotification = intent.getStringExtra("notification_link")
+                LaunchedEffect(linkFromNotification) {
+                    if (!linkFromNotification.isNullOrEmpty() && isValidRoute(linkFromNotification)) {
+                        navController.navigate(linkFromNotification)
+                    }
+                }
 
                 SecurityManager.validate(navController)
             }
