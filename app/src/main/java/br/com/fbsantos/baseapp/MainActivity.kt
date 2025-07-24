@@ -22,12 +22,11 @@ import br.com.fbsantos.baseapp.util.ToastManager
 import br.com.fbsantos.baseapp.config.navigation.registerPrivateScreens
 import br.com.fbsantos.baseapp.config.navigation.registerPublicScreens
 import br.com.fbsantos.baseapp.ui.AppViewModel
-import com.google.accompanist.navigation.animation.AnimatedNavHost
+import androidx.navigation.compose.NavHost
 import org.koin.compose.koinInject
 
 class MainActivity : FragmentActivity() {
 
-    @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -44,8 +43,7 @@ class MainActivity : FragmentActivity() {
                 BaseAppTheme(
                     darkTheme = appState.isDarkTheme
                 ) {
-                    //deprecado mas ainda é a melhor opção para efeitos
-                    AnimatedNavHost(
+                    NavHost(
                         navController = navController,
                         startDestination = Routes.Splash.route,
                         enterTransition = { AnimatedHelper.slideNavTransition()(this) },
