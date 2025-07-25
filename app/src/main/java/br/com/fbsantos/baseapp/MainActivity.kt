@@ -1,6 +1,7 @@
 package br.com.fbsantos.baseapp
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -23,6 +24,7 @@ import br.com.fbsantos.baseapp.config.navigation.registerPrivateScreens
 import br.com.fbsantos.baseapp.config.navigation.registerPublicScreens
 import br.com.fbsantos.baseapp.ui.AppViewModel
 import androidx.navigation.compose.NavHost
+import br.com.fbsantos.baseapp.util.NavHelper
 import org.koin.compose.koinInject
 
 class MainActivity : FragmentActivity() {
@@ -71,7 +73,8 @@ class MainActivity : FragmentActivity() {
                 val linkFromNotification = intent.getStringExtra("notification_link")
                 LaunchedEffect(linkFromNotification) {
                     if (!linkFromNotification.isNullOrEmpty() && isValidRoute(linkFromNotification)) {
-                        navController.navigate(linkFromNotification)
+                        SecurityManager.firstRoute = linkFromNotification       //se a aplicação não estiver aberta, setamos como primeira rota
+                        NavHelper.abrir(navController, linkFromNotification)    //se a aplicação estiver aberta, abrirá a url citada
                     }
                 }
 

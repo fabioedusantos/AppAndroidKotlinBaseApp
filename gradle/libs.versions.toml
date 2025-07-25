@@ -24,6 +24,7 @@ coilCompose = "2.7.0"
 room = "2.7.2"
 biometric = "1.1.0"
 firebaseBom = "34.0.0"
+kotlinReflect = "2.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -64,6 +65,7 @@ coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose"
 androidx-biometric = { module = "androidx.biometric:biometric", version.ref = "biometric" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-messaging = { module = "com.google.firebase:firebase-messaging" }
+kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlinReflect" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

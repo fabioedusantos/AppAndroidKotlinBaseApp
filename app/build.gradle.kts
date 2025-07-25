@@ -113,4 +113,7 @@ dependencies {
     //FIREBASE - NOTIFICAÇÕES PUSH
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.messaging)
+
+    //REFLEXÃO KOTLIN
+    implementation(libs.kotlin.reflect)
 }

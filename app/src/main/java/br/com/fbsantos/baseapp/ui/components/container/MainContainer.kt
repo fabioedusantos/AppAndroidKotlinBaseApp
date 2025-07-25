@@ -128,6 +128,7 @@ fun MainContainer(
                             onClick = {
                                 if (item.routeOpen.isNotEmpty()) {
                                     NavHelper.abrir(navController, item.routeOpen)
+                                    scope.launch { drawerState.close() }
                                 }
                             },
                             icon = { Icon(item.icon, contentDescription = item.title) },
