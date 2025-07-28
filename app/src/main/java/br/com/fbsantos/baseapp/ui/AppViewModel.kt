@@ -2,6 +2,7 @@ package br.com.fbsantos.baseapp.ui
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
 import androidx.lifecycle.ViewModel
@@ -125,6 +126,11 @@ class AppViewModel(
                     "Perfil",
                     Icons.Default.Person,
                     Routes.Perfil.route
+                ),
+                MenuItem(
+                    "Notificações",
+                    Icons.Default.Notifications,
+                    Routes.Notificacoes.route
                 ),
                 MenuItem(
                     "Configurações",

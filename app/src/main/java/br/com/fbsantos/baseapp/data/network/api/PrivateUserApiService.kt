@@ -1,12 +1,14 @@
 package br.com.fbsantos.baseapp.data.network.api
 
 import br.com.fbsantos.baseapp.data.network.dto.ApiResponseDefault
+import br.com.fbsantos.baseapp.data.network.dto.privateuser.request.AddNotificacaoRequest
 import br.com.fbsantos.baseapp.data.network.dto.privateuser.request.SetMeRequest
 import br.com.fbsantos.baseapp.data.network.dto.privateuser.response.MeResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PATCH
+import retrofit2.http.POST
 
 interface PrivateUserApiService {
     @GET("users/is_logged_in")
@@ -17,4 +19,7 @@ interface PrivateUserApiService {
 
     @PATCH("users/me")
     suspend fun setMe(@Body body: SetMeRequest): Response<Unit>
+
+    @POST("notifications")
+    suspend fun addNotificacao(@Body body: AddNotificacaoRequest): Response<ApiResponseDefault<Unit>>
 }

@@ -1,6 +1,7 @@
 package br.com.fbsantos.baseapp.domain.service
 
 import br.com.fbsantos.baseapp.data.network.api.PrivateUserApiService
+import br.com.fbsantos.baseapp.data.network.dto.privateuser.request.AddNotificacaoRequest
 import br.com.fbsantos.baseapp.data.network.dto.privateuser.request.SetMeRequest
 import br.com.fbsantos.baseapp.data.network.dto.privateuser.response.MeResponse
 import br.com.fbsantos.baseapp.domain.exception.ApiException
@@ -37,6 +38,15 @@ class PrivateUserService(
     suspend fun setMe(body: SetMeRequest): Unit = callApiNoResponse(
         request = {
             privateUserApiService.setMe(body)
+        },
+        onError = { message ->
+            throw ApiException(message)
+        }
+    )
+
+    suspend fun addNotificacao(body: AddNotificacaoRequest): Unit = callApi(
+        request = {
+            privateUserApiService.addNotificacao(body)
         },
         onError = { message ->
             throw ApiException(message)

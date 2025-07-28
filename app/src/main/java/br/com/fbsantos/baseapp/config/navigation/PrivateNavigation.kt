@@ -5,6 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import br.com.fbsantos.baseapp.ui.screen.app.configuracoes.ConfiguracoesScreen
 import br.com.fbsantos.baseapp.ui.screen.app.home.HomeScreen
+import br.com.fbsantos.baseapp.ui.screen.app.notificacoes.NotificacoesScreen
 import br.com.fbsantos.baseapp.ui.screen.app.perfil.PerfilScreen
 
 val rotasPrivadas = listOf(
@@ -20,6 +21,7 @@ fun NavGraphBuilder.registerPrivateScreens(navController: NavController) {
     homeScreen(navController)
     perfilScreen(navController)
     configuracoesScreen(navController)
+    notificacoesScreen(navController)
 }
 
 fun NavGraphBuilder.homeScreen(navController: NavController) {
@@ -37,5 +39,10 @@ fun NavGraphBuilder.perfilScreen(navController: NavController) {
 fun NavGraphBuilder.configuracoesScreen(navController: NavController) {
     composable(Routes.Configuracoes.route) {
         ConfiguracoesScreen(navController)
+    }
+}
+fun NavGraphBuilder.notificacoesScreen(navController: NavController) {
+    composable(Routes.Notificacoes.route) {
+        NotificacoesScreen(navController)
     }
 }
