@@ -7,7 +7,7 @@ import br.com.fbsantos.baseapp.ui.screen.auth.recuperarconta.content.RecuperarCo
 import br.com.fbsantos.baseapp.ui.screen.auth.recuperarconta.content.RecuperarCodigoInicioContent
 import br.com.fbsantos.baseapp.ui.screen.auth.recuperarconta.content.RecuperarCodigoResetarSenhaContent
 import br.com.fbsantos.baseapp.ui.screen.auth.recuperarconta.content.RecuperarCodigoSucessoContent
-import br.com.fbsantos.baseapp.util.AnimatedHelper
+import br.com.fbsantos.baseapp.util.helpers.AnimatedManager
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -16,7 +16,7 @@ fun RecuperarContaScreen(
     viewModel: RecuperarContaViewModel = koinViewModel()
 ) {
     val uiState = viewModel.uiState.collectAsState().value
-    AnimatedHelper.Switcher(
+    AnimatedManager.Switcher(
         targetState = uiState.etapa
     ) { etapa ->
         when (etapa) {

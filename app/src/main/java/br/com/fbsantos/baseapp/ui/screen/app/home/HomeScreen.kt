@@ -6,6 +6,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavController
 import br.com.fbsantos.baseapp.config.navigation.Routes
 import br.com.fbsantos.baseapp.ui.AppViewModel
+import br.com.fbsantos.baseapp.ui.components.LogAtividade
 import org.koin.compose.koinInject
 
 @Composable
@@ -15,9 +16,7 @@ fun HomeScreen(
     val appViewModel: AppViewModel = koinInject()
     val appState = appViewModel.uiState.collectAsState().value
 
-    LaunchedEffect(Unit) {
-        appViewModel.addAtividade(Routes.Home.route, "Home", "Home")
-    }
+    LogAtividade(Routes.Home.route, "Home", "Home")
 
     HomeContent(
         navController = navController,

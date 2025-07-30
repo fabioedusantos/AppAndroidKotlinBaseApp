@@ -5,8 +5,8 @@ import br.com.fbsantos.baseapp.data.network.dto.privateuser.request.AddNotificac
 import br.com.fbsantos.baseapp.data.network.dto.privateuser.request.SetMeRequest
 import br.com.fbsantos.baseapp.data.network.dto.privateuser.response.MeResponse
 import br.com.fbsantos.baseapp.domain.exception.ApiException
-import br.com.fbsantos.baseapp.util.callApi
-import br.com.fbsantos.baseapp.util.callApiNoResponse
+import br.com.fbsantos.baseapp.util.helpers.callApi
+import br.com.fbsantos.baseapp.util.helpers.callApiNoResponse
 
 class PrivateUserService(
     private val privateUserApiService: PrivateUserApiService

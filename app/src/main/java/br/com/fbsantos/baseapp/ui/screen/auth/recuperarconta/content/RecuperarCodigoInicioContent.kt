@@ -6,17 +6,13 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import br.com.fbsantos.baseapp.ui.components.container.AuthContainer
 import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
-import br.com.fbsantos.baseapp.util.RecaptchaHelper
-import br.com.fbsantos.baseapp.di.appModule
+import br.com.fbsantos.baseapp.util.helpers.Recaptcha
 import br.com.fbsantos.baseapp.ui.screen.auth.recuperarconta.RecuperarContaUiState
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
 
 @Composable
 fun RecuperarCodigoInicioContent(
@@ -52,7 +48,7 @@ fun RecuperarCodigoInicioContent(
 
         Button(
             onClick = {
-                RecaptchaHelper.exec(
+                Recaptcha.exec(
                     before = { setFormEnabled(false) },
                     after = { setFormEnabled(true) },
                     onSuccess = { token, siteKey ->

@@ -2,8 +2,8 @@ package br.com.fbsantos.baseapp.data.network.authenticator
 
 import br.com.fbsantos.baseapp.config.AppConfig
 import br.com.fbsantos.baseapp.domain.usecase.configuracoes.TokenManagerUseCase
-import br.com.fbsantos.baseapp.util.DebugHttpHelper
-import br.com.fbsantos.baseapp.util.Utils
+import br.com.fbsantos.baseapp.util.helpers.DebugHttp
+import br.com.fbsantos.baseapp.util.helpers.Utils
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -37,14 +37,14 @@ class TokenAuthenticator(
                     .build()
 
                 val client = if (AppConfig.IS_DEBUG) {
-                    DebugHttpHelper.getUnsafeOkHttpClient()
+                    DebugHttp.getUnsafeOkHttpClient()
                 } else {
                     OkHttpClient()
                 }
                 val refreshResponse = client.newCall(request).execute()
                 val responseBody = refreshResponse.body?.string()
 
-                DebugHttpHelper.log(refreshResponse, responseBody)
+                DebugHttp.log(refreshResponse, responseBody)
 
                 if (refreshResponse.isSuccessful) {
                     val json = JSONObject(responseBody.orEmpty())

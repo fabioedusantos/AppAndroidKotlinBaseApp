@@ -27,15 +27,15 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import br.com.fbsantos.baseapp.config.AppConfig
 import br.com.fbsantos.baseapp.config.navigation.Routes
+import br.com.fbsantos.baseapp.ui.components.AppVersion
 import br.com.fbsantos.baseapp.ui.components.SwitchToggle
 import br.com.fbsantos.baseapp.ui.components.container.MainContainer
 import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
-import br.com.fbsantos.baseapp.util.BiometricHelper
-import br.com.fbsantos.baseapp.util.FirebaseNotificationHelper
-import br.com.fbsantos.baseapp.util.NavHelper
-import br.com.fbsantos.baseapp.util.SnackbarManager
-import br.com.fbsantos.baseapp.util.Utils
-import br.com.fbsantos.baseapp.util.permissions.PermNotificationHelper
+import br.com.fbsantos.baseapp.util.helpers.BiometricManager
+import br.com.fbsantos.baseapp.util.helpers.FirebaseNotification
+import br.com.fbsantos.baseapp.util.helpers.Nav
+import br.com.fbsantos.baseapp.util.helpers.SnackbarManager
+import br.com.fbsantos.baseapp.util.permissions.PermNotification
 import br.com.fbsantos.ui.app.AppUiState
 
 @Composable
@@ -71,21 +71,21 @@ fun ConfiguracoesContent(
             // Notificações
             var isNotificacoesAtivas by remember { mutableStateOf(false) }
             var solicitarPermissao by remember { mutableStateOf(false) }
-            isNotificacoesAtivas = PermNotificationHelper.isGranted(context)
+            isNotificacoesAtivas = PermNotification.isGranted(context)
 
             if (solicitarPermissao) {
-                PermNotificationHelper.requestPermission(
+                PermNotification.requestPermission(
                     context = context,
                     updateStatus = {
                         if (it) {
-                            FirebaseNotificationHelper.subscribeToAll(
+                            FirebaseNotification.subscribeToAll(
                                 context = context,
                                 onResult = {
                                     SnackbarManager.show("Todas as notificações ativadas!")
                                 }
                             )
                         } else {
-                            FirebaseNotificationHelper.unsubscribeFromAll({
+                            FirebaseNotification.unsubscribeFromAll({
                                 SnackbarManager.show("Todas as notificações desativadas!")
                             })
                         }
@@ -114,7 +114,7 @@ fun ConfiguracoesContent(
                 title = "Autenticação do dispositivo",
                 isChecked = appState.isDeviceAuthEnabled,
                 onCheckedChange = {
-                    if (it && !BiometricHelper.isBiometricAvailable(context)) { //se for modificado para true
+                    if (it && !BiometricManager.isAvailable(context)) { //se for modificado para true
                         SnackbarManager.show("Nenhum método de desbloqueio configurado. Ative biometria ou bloqueio de tela nas configurações.")
                     } else {
                         onToggleBiometria(it)
@@ -128,14 +128,14 @@ fun ConfiguracoesContent(
 
             ListItem(
                 headlineContent = { Text("Versão") },
-                supportingContent = { Text(Utils.getAppVersion()) },
+                supportingContent = { Text(AppVersion()) },
                 trailingContent = { Icon(Icons.Default.Info, contentDescription = null) }
             )
 
             ListItem(
                 headlineContent = { Text("Termos e Condições de Uso") },
                 modifier = Modifier.clickable {
-                    NavHelper.abrir(
+                    Nav.abrir(
                         navController,
                         Routes.TermosCondicoes.route
                     )
@@ -145,7 +145,7 @@ fun ConfiguracoesContent(
             ListItem(
                 headlineContent = { Text("Política de Privacidade") },
                 modifier = Modifier.clickable {
-                    NavHelper.abrir(
+                    Nav.abrir(
                         navController,
                         Routes.PoliticaPrivacidade.route
                     )

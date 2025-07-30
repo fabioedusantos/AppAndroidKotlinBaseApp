@@ -1,11 +1,11 @@
 package br.com.fbsantos.baseapp.ui.screen.app.notificacoes
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavController
 import br.com.fbsantos.baseapp.config.navigation.Routes
 import br.com.fbsantos.baseapp.ui.AppViewModel
+import br.com.fbsantos.baseapp.ui.components.LogAtividade
 import br.com.fbsantos.ui.main.perfil.NotificacoesViewModel
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
@@ -19,9 +19,7 @@ fun NotificacoesScreen(
     val appViewModel: AppViewModel = koinInject()
     val appState = appViewModel.uiState.collectAsState().value
 
-    LaunchedEffect(Unit) {
-        appViewModel.addAtividade(Routes.Notificacoes.route, "Notificações", "Notifications")
-    }
+    LogAtividade(Routes.Notificacoes.route, "Notificações", "Notifications")
 
     NotificacoesContent(
         navController = navController,
@@ -34,6 +32,4 @@ fun NotificacoesScreen(
         onLinkChange = { viewModel.onLinkChange(it) },
         onSalvar = { viewModel.onSalvar(it) }
     )
-
-
 }

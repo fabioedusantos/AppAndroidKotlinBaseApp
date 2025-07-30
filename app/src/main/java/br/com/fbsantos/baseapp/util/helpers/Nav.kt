@@ -1,10 +1,20 @@
-package br.com.fbsantos.baseapp.util
+package br.com.fbsantos.baseapp.util.helpers
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavController
 
-object NavHelper {
+/**
+ * Helper para navegação com Jetpack Navigation.
+ *
+ * Centraliza funções de navegação para evitar código repetido
+ * e facilitar ações condicionais e limpeza da pilha de navegação.
+ *
+ * Funcionalidades:
+ * - Navegar condicionalmente a partir de um estado ou evento de UI.
+ * - Executar navegação com limpeza parcial ou total da pilha de rotas.
+ */
+object Nav {
     /**
      * Navega para uma rota se a condição for verdadeira.
      *

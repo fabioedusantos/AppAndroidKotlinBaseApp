@@ -6,6 +6,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavController
 import br.com.fbsantos.baseapp.config.navigation.Routes
 import br.com.fbsantos.baseapp.ui.AppViewModel
+import br.com.fbsantos.baseapp.ui.components.LogAtividade
 import br.com.fbsantos.ui.main.configuracoes.ConfiguracoesContent
 import org.koin.compose.koinInject
 
@@ -16,9 +17,7 @@ fun ConfiguracoesScreen(
     val appViewModel: AppViewModel = koinInject()
     val appState = appViewModel.uiState.collectAsState().value
 
-    LaunchedEffect(Unit) {
-        appViewModel.addAtividade(Routes.Configuracoes.route, "Configurações", "Settings")
-    }
+    LogAtividade(Routes.Configuracoes.route, "Configurações", "Settings")
 
     ConfiguracoesContent(
         navController = navController,

@@ -35,8 +35,9 @@ import br.com.fbsantos.baseapp.R
 import br.com.fbsantos.baseapp.ui.components.TextBlock
 import br.com.fbsantos.baseapp.ui.components.container.MainContainer
 import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
-import br.com.fbsantos.baseapp.util.DateTimeHelper
-import br.com.fbsantos.baseapp.util.Utils
+import br.com.fbsantos.baseapp.util.helpers.DateTimeHelper
+import br.com.fbsantos.baseapp.util.helpers.ImageHelper
+import br.com.fbsantos.baseapp.util.helpers.Utils
 import br.com.fbsantos.ui.app.AppUiState
 import coil.compose.AsyncImage
 
@@ -63,7 +64,7 @@ fun PerfilViewContent(
 
             //para não ficar recarregando a imagem em toda abertura
             val imageBitmap = remember(appState.fotoBlob) {
-                Utils.fotoBase64ToImage(context, appState.fotoBlob)
+                ImageHelper.blobBase64ToImage(context, appState.fotoBlob)
             }
 
             Box(

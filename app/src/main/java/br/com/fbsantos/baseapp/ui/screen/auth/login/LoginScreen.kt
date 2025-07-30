@@ -7,7 +7,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
-import br.com.fbsantos.baseapp.util.AnimatedHelper
+import br.com.fbsantos.baseapp.util.helpers.AnimatedManager
 import br.com.fbsantos.baseapp.di.appModule
 import br.com.fbsantos.baseapp.ui.screen.auth.login.content.LoginEmailSenhaContent
 import br.com.fbsantos.baseapp.ui.screen.auth.login.content.LoginSeletorContent
@@ -22,7 +22,7 @@ fun LoginScreen(
 ) {
     val uiState = viewModel.uiState.collectAsState().value
 
-    AnimatedHelper.Switcher(
+    AnimatedManager.Switcher(
         targetState = uiState.isLoginEmailSenha
     ) { isLoginEmailSenha ->
         if (!isLoginEmailSenha) {

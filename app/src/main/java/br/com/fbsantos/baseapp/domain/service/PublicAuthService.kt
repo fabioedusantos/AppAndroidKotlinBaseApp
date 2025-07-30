@@ -10,8 +10,8 @@ import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.SignupGoogleR
 import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.SignupRequest
 import br.com.fbsantos.baseapp.domain.exception.ApiException
 import br.com.fbsantos.baseapp.domain.usecase.configuracoes.TokenManagerUseCase
-import br.com.fbsantos.baseapp.util.callApi
-import br.com.fbsantos.baseapp.util.callApiNoResponse
+import br.com.fbsantos.baseapp.util.helpers.callApi
+import br.com.fbsantos.baseapp.util.helpers.callApiNoResponse
 
 class PublicAuthService(
     private val publicAuthApiService: PublicAuthApiService,

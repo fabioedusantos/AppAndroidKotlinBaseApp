@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.fbsantos.baseapp.data.network.dto.privateuser.request.SetMeRequest
 import br.com.fbsantos.baseapp.domain.service.PrivateUserService
-import br.com.fbsantos.baseapp.util.Valid
+import br.com.fbsantos.baseapp.util.helpers.ValidHelper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -31,7 +31,7 @@ class PerfilViewModel(
         }
 
         if (!isContaGoogle) {
-            if (getSenha().length > 0 && !Valid.isSenha(getSenha())) {
+            if (getSenha().length > 0 && !ValidHelper.isSenha(getSenha())) {
                 setSenhaErrorText(
                     "A senha deve ter no mínimo 8 caracteres, 1 letra maiúscula, 1 " +
                             "número e 1 caractere especial."

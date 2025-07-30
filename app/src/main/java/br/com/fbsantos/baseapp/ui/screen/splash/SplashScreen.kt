@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
 import br.com.fbsantos.baseapp.ui.AppViewModel
-import br.com.fbsantos.baseapp.util.FirebaseNotificationHelper
-import br.com.fbsantos.baseapp.util.permissions.PermNotificationHelper
+import br.com.fbsantos.baseapp.util.helpers.FirebaseNotification
+import br.com.fbsantos.baseapp.util.permissions.PermNotification
 import org.koin.compose.koinInject
 
 @Composable
@@ -18,8 +18,8 @@ fun SplashScreen() {
         appState = appState,
         onLogin = {
             appViewModel.initializeLogin()
-            if (PermNotificationHelper.isGranted(context)) {
-                FirebaseNotificationHelper.subscribeToAll(context)
+            if (PermNotification.isGranted(context)) {
+                FirebaseNotification.subscribeToAll(context)
             }
         },
         onSair = { appViewModel.deslogar() }

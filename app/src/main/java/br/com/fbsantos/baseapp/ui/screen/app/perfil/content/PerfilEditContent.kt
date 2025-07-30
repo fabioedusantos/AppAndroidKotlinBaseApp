@@ -1,6 +1,5 @@
 package br.com.fbsantos.baseapp.ui.screen.app.perfil.content
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -49,10 +48,9 @@ import br.com.fbsantos.baseapp.ui.components.ErrorTextWithFocus
 import br.com.fbsantos.baseapp.ui.components.SelectPhotoModal
 import br.com.fbsantos.baseapp.ui.components.container.MainContainer
 import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
-import br.com.fbsantos.baseapp.util.ImageHelper
-import br.com.fbsantos.baseapp.util.SnackbarManager
-import br.com.fbsantos.baseapp.util.ToastManager
-import br.com.fbsantos.baseapp.util.Utils
+import br.com.fbsantos.baseapp.util.helpers.ImageHelper
+import br.com.fbsantos.baseapp.util.helpers.SnackbarManager
+import br.com.fbsantos.baseapp.util.helpers.ToastManager
 import br.com.fbsantos.ui.app.AppUiState
 import br.com.fbsantos.ui.main.perfil.PerfilUiState
 import coil.compose.AsyncImage
@@ -109,11 +107,11 @@ fun PerfilEditContent(
             //para não ficar recarregando a imagem em toda abertura
             val imageBitmap = remember(state.isRemoverFoto, state.foto, appState.fotoBlob) {
                 if (state.isRemoverFoto) {
-                    Utils.fotoBase64ToImage(context, null)
+                    ImageHelper.blobBase64ToImage(context, null)
                 } else if (state.foto.isNotEmpty()) {
-                    Utils.fotoBase64ToImage(context, state.foto)
+                    ImageHelper.blobBase64ToImage(context, state.foto)
                 } else {
-                    Utils.fotoBase64ToImage(context, appState.fotoBlob)
+                    ImageHelper.blobBase64ToImage(context, appState.fotoBlob)
                 }
             }
 
@@ -175,7 +173,6 @@ fun PerfilEditContent(
                                     onImageSelected = { uri ->
                                         uri?.let {
                                             val base64 = ImageHelper.uriToBase64(context, it)
-                                            Log.i("teste", base64.toString())
                                             if (base64 != null) {
                                                 onFotoChange(base64)
                                             } else {

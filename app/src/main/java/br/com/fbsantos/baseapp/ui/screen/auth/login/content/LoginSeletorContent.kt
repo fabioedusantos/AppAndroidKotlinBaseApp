@@ -26,12 +26,9 @@ import br.com.fbsantos.baseapp.ui.components.ErrorTextWithFocus
 import br.com.fbsantos.baseapp.ui.components.container.AuthContainer
 import br.com.fbsantos.baseapp.ui.screen.auth.login.LoginUiState
 import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
-import br.com.fbsantos.baseapp.util.FirebaseAuthHelper
-import br.com.fbsantos.baseapp.util.NavHelper
-import br.com.fbsantos.baseapp.util.RecaptchaHelper
-import br.com.fbsantos.baseapp.di.appModule
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
+import br.com.fbsantos.baseapp.util.helpers.FirebaseAuth
+import br.com.fbsantos.baseapp.util.helpers.Nav
+import br.com.fbsantos.baseapp.util.helpers.Recaptcha
 
 @Composable
 fun LoginSeletorContent(
@@ -45,10 +42,10 @@ fun LoginSeletorContent(
     AuthContainer {
         Text("Bem-vindo", fontSize = 28.sp, color = MaterialTheme.colorScheme.onSurface)
 
-        val loginGoogle = FirebaseAuthHelper.auth(
+        val loginGoogle = FirebaseAuth.auth(
             context = LocalContext.current,
             onSuccess = { idToken, user ->
-                RecaptchaHelper.exec(
+                Recaptcha.exec(
                     before = { setFormEnabled(false) },
                     after = { setFormEnabled(true) },
                     onSuccess = { token, siteKey ->
@@ -96,7 +93,7 @@ fun LoginSeletorContent(
 
         Button(
             onClick = {
-                NavHelper.abrir(navController, Routes.CriarConta.route)
+                Nav.abrir(navController, Routes.CriarConta.route)
             },
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(50),

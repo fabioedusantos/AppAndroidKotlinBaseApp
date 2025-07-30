@@ -1,16 +1,9 @@
-package br.com.fbsantos.baseapp.util
+package br.com.fbsantos.baseapp.util.helpers
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
-import java.util.Calendar
 
 /**
  * Utilitário para conversão entre data e hora (`Date`) e `String` nos formatos padrão.

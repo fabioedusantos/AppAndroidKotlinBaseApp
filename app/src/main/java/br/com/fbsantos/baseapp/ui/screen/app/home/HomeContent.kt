@@ -3,7 +3,6 @@ package br.com.fbsantos.baseapp.ui.screen.app.home
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,15 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ExitToApp
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,11 +19,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -40,12 +29,15 @@ import androidx.navigation.compose.rememberNavController
 import br.com.fbsantos.baseapp.R
 import br.com.fbsantos.baseapp.config.navigation.Routes
 import br.com.fbsantos.baseapp.data.database.HistoricoAtividadeEntity
+import br.com.fbsantos.baseapp.ui.components.ActivityItem
+import br.com.fbsantos.baseapp.ui.components.InfoCard
+import br.com.fbsantos.baseapp.ui.components.QuickActionCard
 import br.com.fbsantos.baseapp.ui.components.container.MainContainer
 import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
-import br.com.fbsantos.baseapp.util.DateTimeHelper
-import br.com.fbsantos.baseapp.util.IconHelper
-import br.com.fbsantos.baseapp.util.NavHelper
-import br.com.fbsantos.baseapp.util.Utils
+import br.com.fbsantos.baseapp.util.helpers.DateTimeHelper
+import br.com.fbsantos.baseapp.util.helpers.IconManager
+import br.com.fbsantos.baseapp.util.helpers.ImageHelper
+import br.com.fbsantos.baseapp.util.helpers.Nav
 import br.com.fbsantos.ui.app.AppUiState
 import coil.compose.AsyncImage
 
@@ -58,7 +50,7 @@ fun HomeContent(
     val context = LocalContext.current
     //para não ficar recarregando a imagem em toda abertura
     val imageBitmap = remember(appState.fotoBlob) {
-        Utils.fotoBase64ToImage(context, appState.fotoBlob)
+        ImageHelper.blobBase64ToImage(context, appState.fotoBlob)
     }
 
     MainContainer(
@@ -66,7 +58,7 @@ fun HomeContent(
         title = "Início",
         appState = appState,
         onSair = onSair
-    ) { snackbarHostState ->
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -109,19 +101,19 @@ fun HomeContent(
             ) {
                 QuickActionCard(
                     "Perfil",
-                    Icons.Default.Person,
+                    IconManager.fromName("Person"),
                     {
-                        NavHelper.abrir(navController, Routes.Perfil.route)
+                        Nav.abrir(navController, Routes.Perfil.route)
                     }
                 )
                 QuickActionCard(
                     "Configurações",
-                    Icons.Default.Settings,
-                    { NavHelper.abrir(navController, Routes.Configuracoes.route) }
+                    IconManager.fromName("Settings"),
+                    { Nav.abrir(navController, Routes.Configuracoes.route) }
                 )
                 QuickActionCard(
                     "Sair",
-                    Icons.AutoMirrored.Filled.ExitToApp,
+                    IconManager.fromName("Exit"),
                     { onSair() }
                 )
             }
@@ -146,9 +138,9 @@ fun HomeContent(
                     appState.historicoAtividade.forEach { atividade ->
                         ActivityItem(
                             atividade.descricao,
-                            IconHelper.fromName(atividade.icone),
+                            IconManager.fromName(atividade.icone),
                             atividade.timestamp,
-                            { atividade.rota?.let { rota -> NavHelper.abrir(navController, rota) } }
+                            { atividade.rota?.let { rota -> Nav.abrir(navController, rota) } }
                         )
                     }
                 }
@@ -156,106 +148,6 @@ fun HomeContent(
         }
     }
 }
-
-@Composable
-fun RowScope.QuickActionCard(title: String, icon: ImageVector, action: (() -> Unit)? = null) {
-    Card(
-        modifier = Modifier
-            .weight(1f)
-            .height(100.dp),
-        shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
-        onClick = { action?.invoke() }
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(8.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Icon(icon, contentDescription = null, modifier = Modifier.size(28.dp))
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(title, style = MaterialTheme.typography.bodyMedium)
-        }
-    }
-}
-
-@Composable
-fun InfoCard(title: String, value: String) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.bodyMedium
-            )
-            Text(
-                text = value,
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Bold
-            )
-        }
-    }
-}
-
-@Composable
-fun ActivityItem(
-    text: String,
-    icon: ImageVector,
-    timestamp: Long?,
-    action: (() -> Unit)? = null
-) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
-        shape = RoundedCornerShape(8.dp),
-        onClick = { action?.invoke() }
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                icon,
-                contentDescription = null,
-                modifier = Modifier
-                    .size(24.dp)
-                    .align(Alignment.Top)
-            )
-            Spacer(modifier = Modifier.width(12.dp))
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(text)
-
-                if (timestamp != null) {
-                    Text(
-                        text = DateTimeHelper.toUserFriendly(timestamp),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.align(Alignment.Bottom)
-                    )
-                }
-            }
-        }
-    }
-}
-
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable

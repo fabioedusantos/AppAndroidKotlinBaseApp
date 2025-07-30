@@ -26,9 +26,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import br.com.fbsantos.baseapp.util.ToastManager
-import br.com.fbsantos.baseapp.util.permissions.PermCameraHelper
-import br.com.fbsantos.baseapp.util.permissions.PermGalleryHelper
+import br.com.fbsantos.baseapp.util.helpers.ToastManager
+import br.com.fbsantos.baseapp.util.permissions.PermCamera
+import br.com.fbsantos.baseapp.util.permissions.PermGallery
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -41,12 +41,12 @@ fun SelectPhotoModal(
 ) {
     var imageUri by remember { mutableStateOf<Uri?>(null) }
 
-    val cameraLauncher = PermCameraHelper.cameraLauncher { isSuccess ->
+    val cameraLauncher = PermCamera.cameraLauncher { isSuccess ->
         onImageSelected(if (isSuccess) imageUri else null)
         onDismiss()
     }
 
-    val cameraPermissionLauncher = PermCameraHelper.permissionLauncher(context) { isGranted, uri ->
+    val cameraPermissionLauncher = PermCamera.permissionLauncher(context) { isGranted, uri ->
         if (isGranted) {
             imageUri = uri
             imageUri?.let { cameraLauncher.launch(it) }
@@ -55,12 +55,12 @@ fun SelectPhotoModal(
         }
     }
 
-    val galleryLauncher = PermGalleryHelper.galleryLauncher { uri ->
+    val galleryLauncher = PermGallery.galleryLauncher { uri ->
         onImageSelected(uri)
         onDismiss()
     }
 
-    val galleryPermissionLauncher = PermGalleryHelper.permissionLauncher() { isGranted, intent ->
+    val galleryPermissionLauncher = PermGallery.permissionLauncher() { isGranted, intent ->
         if (isGranted) {
             intent?.let { galleryLauncher.launch(it) }
         } else {
@@ -77,19 +77,19 @@ fun SelectPhotoModal(
             )
 
             photoOptionItem("Usar Câmera", Icons.Default.PhotoCamera) {
-                if (PermCameraHelper.isGranted(context)) {
-                    imageUri = PermCameraHelper.createUri(context)
+                if (PermCamera.isGranted(context)) {
+                    imageUri = PermCamera.createUri(context)
                     imageUri?.let { cameraLauncher.launch(it) }
                 } else {
-                    cameraPermissionLauncher.launch(PermCameraHelper.permissionName)
+                    cameraPermissionLauncher.launch(PermCamera.permissionName)
                 }
             }
 
             photoOptionItem("Escolher da Galeria", Icons.Default.Image) {
-                if (PermGalleryHelper.isGranted(context)) {
-                    galleryLauncher.launch(PermGalleryHelper.createIntent())
+                if (PermGallery.isGranted(context)) {
+                    galleryLauncher.launch(PermGallery.createIntent())
                 } else {
-                    galleryPermissionLauncher.launch(PermGalleryHelper.permissionName)
+                    galleryPermissionLauncher.launch(PermGallery.permissionName)
                 }
             }
 

@@ -1,4 +1,4 @@
-package br.com.fbsantos.baseapp.util
+package br.com.fbsantos.baseapp.util.helpers
 
 import android.util.Log
 import br.com.fbsantos.baseapp.config.AppConfig
@@ -29,7 +29,7 @@ inline fun <T, R> callApi(
     return runSafeCall {
         val response = request()
         val errorBody = response.errorBody()?.string()
-        DebugHttpHelper.log(response, errorBody)
+        DebugHttp.log(response, errorBody)
 
         when {
             response.isSuccessful -> {
@@ -66,7 +66,7 @@ inline fun <R> callApiNoResponse(
     return runSafeCall {
         val response = request()
         val errorBody = response.errorBody()?.string()
-        DebugHttpHelper.log(response, errorBody)
+        DebugHttp.log(response, errorBody)
 
         if (response.isSuccessful) {
             onSuccess("Sucesso.")
@@ -107,17 +107,17 @@ inline fun <R> runSafeCall(block: () -> R): R {
     } catch (e: ApiException) {
         throw e
     } catch (e: IOException) {
-        if (AppConfig.IS_DEBUG) Log.i(DebugHttpHelper.DEBUG_TAG_REQUEST, e.stackTraceToString())
+        if (AppConfig.IS_DEBUG) Log.i(DebugHttp.DEBUG_TAG_REQUEST, e.stackTraceToString())
         if (e is UnknownHostException || e is SocketTimeoutException) {
             throw Exception("Servidor indisponível no momento. Tente novamente mais tarde.")
         } else {
             throw Exception("Falha de conexão. Verifique sua internet.")
         }
     } catch (e: HttpException) {
-        if (AppConfig.IS_DEBUG) Log.i(DebugHttpHelper.DEBUG_TAG_REQUEST, e.stackTraceToString())
+        if (AppConfig.IS_DEBUG) Log.i(DebugHttp.DEBUG_TAG_REQUEST, e.stackTraceToString())
         throw Exception("Servidor indisponível no momento. Tente mais tarde.")
     } catch (e: Exception) {
-        if (AppConfig.IS_DEBUG) Log.i(DebugHttpHelper.DEBUG_TAG_REQUEST, e.stackTraceToString())
+        if (AppConfig.IS_DEBUG) Log.i(DebugHttp.DEBUG_TAG_REQUEST, e.stackTraceToString())
         throw Exception("Erro inesperado. Tente novamente.")
     }
 }

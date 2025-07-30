@@ -1,4 +1,4 @@
-package br.com.fbsantos.baseapp.util
+package br.com.fbsantos.baseapp.util.helpers
 
 import android.util.Log
 import br.com.fbsantos.baseapp.config.AppConfig
@@ -10,7 +10,17 @@ import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 
-object DebugHttpHelper {
+/**
+ * Helper de depuração HTTP.
+ *
+ * Fornece métodos para registrar no Logcat detalhes completos de requisições
+ * e respostas HTTP realizadas via OkHttp ou Retrofit, além de utilitário
+ * para gerar um cliente OkHttp que ignora a validação SSL.
+ *
+ * ⚠ Uso do cliente inseguro (`getUnsafeOkHttpClient`) deve ser restrito
+ * a ambientes de desenvolvimento/testes.
+ */
+object DebugHttp {
     const val DEBUG_TAG_REQUEST = "REQUEST"
     
     /**

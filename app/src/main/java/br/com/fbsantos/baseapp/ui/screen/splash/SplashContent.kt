@@ -26,8 +26,8 @@ import br.com.fbsantos.baseapp.R
 import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
 import br.com.fbsantos.baseapp.ui.theme.onBackgroundLight
 import br.com.fbsantos.baseapp.ui.theme.primaryLight
-import br.com.fbsantos.baseapp.util.BiometricHelper
-import br.com.fbsantos.baseapp.util.ToastManager
+import br.com.fbsantos.baseapp.util.helpers.BiometricManager
+import br.com.fbsantos.baseapp.util.helpers.ToastManager
 import br.com.fbsantos.ui.app.AppUiState
 import kotlinx.coroutines.delay
 
@@ -46,9 +46,9 @@ fun SplashContent(
 
         val isDeviceAuthEnabled = appState.isDeviceAuthEnabled
         if (!appState.isLoggedIn
-            && isDeviceAuthEnabled && BiometricHelper.isBiometricAvailable(context)
+            && isDeviceAuthEnabled && BiometricManager.isAvailable(context)
         ) {
-            BiometricHelper.showBiometricPrompt(
+            BiometricManager.showPrompt(
                 context,
                 onSuccess = {
                     onLogin()

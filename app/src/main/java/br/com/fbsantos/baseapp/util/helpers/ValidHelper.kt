@@ -1,8 +1,15 @@
-package br.com.fbsantos.baseapp.util
+package br.com.fbsantos.baseapp.util.helpers
 
 import br.com.fbsantos.baseapp.config.AppConfig
 
-object Valid {
+/**
+ * Helper de validação responsável por verificar formatos e regras
+ * de campos como e-mail e senha.
+ *
+ * Este utilitário centraliza a lógica de verificação para garantir
+ * consistência e reutilização em diferentes partes do app.
+ */
+object ValidHelper {
     /**
      * Verifica se o e-mail informado está em um formato válido.
      *

@@ -27,7 +27,7 @@ import androidx.navigation.compose.rememberNavController
 import br.com.fbsantos.baseapp.ui.components.ErrorTextWithFocus
 import br.com.fbsantos.baseapp.ui.components.container.MainContainer
 import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
-import br.com.fbsantos.baseapp.util.SnackbarManager
+import br.com.fbsantos.baseapp.util.helpers.SnackbarManager
 import br.com.fbsantos.ui.app.AppUiState
 
 @OptIn(ExperimentalMaterial3Api::class)

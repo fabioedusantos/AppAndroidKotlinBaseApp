@@ -3,7 +3,7 @@ package br.com.fbsantos.baseapp.ui.screen.auth.criarconta
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavController
-import br.com.fbsantos.baseapp.util.AnimatedHelper
+import br.com.fbsantos.baseapp.util.helpers.AnimatedManager
 import br.com.fbsantos.baseapp.ui.screen.auth.criarconta.content.CriarContaConfirmarCodigo
 import br.com.fbsantos.baseapp.ui.screen.auth.criarconta.content.CriarContaInicio
 import br.com.fbsantos.baseapp.ui.screen.auth.criarconta.content.CriarContaSucesso
@@ -16,7 +16,7 @@ fun CriarContaScreen(
 ) {
     val uiState = viewModel.uiState.collectAsState().value
 
-    AnimatedHelper.Switcher(
+    AnimatedManager.Switcher(
         targetState = uiState.etapa
     ) { etapa ->
         when (etapa) {

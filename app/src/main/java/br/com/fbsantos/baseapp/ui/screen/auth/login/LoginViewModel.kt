@@ -6,7 +6,7 @@ import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.LoginGoogleRe
 import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.LoginRequest
 import br.com.fbsantos.baseapp.domain.service.PublicAuthService
 import br.com.fbsantos.baseapp.ui.AppViewModel
-import br.com.fbsantos.baseapp.util.Valid
+import br.com.fbsantos.baseapp.util.helpers.ValidHelper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -41,12 +41,12 @@ class LoginViewModel(
 
         _uiState.value = _uiState.value.copy(error = null)
 
-        if (!Valid.isEmail(_uiState.value.email)) {
+        if (!ValidHelper.isEmail(_uiState.value.email)) {
             setEmailErrorText("Digite um email válido")
             isValido = false
         }
 
-        if (!Valid.isTamanhoSenha(_uiState.value.senha)) {
+        if (!ValidHelper.isTamanhoSenha(_uiState.value.senha)) {
             setSenhaErrorText("Senha inválida")
             isValido = false
         }

@@ -17,7 +17,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,11 +28,8 @@ import br.com.fbsantos.baseapp.ui.components.ErrorTextWithFocus
 import br.com.fbsantos.baseapp.ui.components.container.AuthContainer
 import br.com.fbsantos.baseapp.ui.screen.auth.login.LoginUiState
 import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
-import br.com.fbsantos.baseapp.util.NavHelper
-import br.com.fbsantos.baseapp.util.RecaptchaHelper
-import br.com.fbsantos.baseapp.di.appModule
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
+import br.com.fbsantos.baseapp.util.helpers.Nav
+import br.com.fbsantos.baseapp.util.helpers.Recaptcha
 
 @Composable
 fun LoginEmailSenhaContent(
@@ -93,7 +89,7 @@ fun LoginEmailSenhaContent(
                 .clickable(
                     enabled = state.isFormEnabled,
                     onClick = {
-                        NavHelper.abrir(navController, Routes.RecuperarConta.route)
+                        Nav.abrir(navController, Routes.RecuperarConta.route)
                     }
                 )
         )
@@ -102,7 +98,7 @@ fun LoginEmailSenhaContent(
 
         Button(
             onClick = {
-                RecaptchaHelper.exec(
+                Recaptcha.exec(
                     before = { setFormEnabled(false) },
                     after = { setFormEnabled(true) },
                     onSuccess = { token, siteKey ->

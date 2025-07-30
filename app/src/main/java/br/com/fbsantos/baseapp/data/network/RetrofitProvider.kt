@@ -4,7 +4,7 @@ import br.com.fbsantos.baseapp.config.AppConfig
 import br.com.fbsantos.baseapp.data.network.authenticator.TokenAuthenticator
 import br.com.fbsantos.baseapp.data.network.interceptor.AuthInterceptor
 import br.com.fbsantos.baseapp.domain.usecase.configuracoes.TokenManagerUseCase
-import br.com.fbsantos.baseapp.util.DebugHttpHelper
+import br.com.fbsantos.baseapp.util.helpers.DebugHttp
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -18,7 +18,7 @@ object RetrofitProvider {
     ): Retrofit {
 
         val client = if (AppConfig.IS_DEBUG) {
-            DebugHttpHelper.getUnsafeOkHttpClient().newBuilder()
+            DebugHttp.getUnsafeOkHttpClient().newBuilder()
 //                .connectTimeout(AppConfig.REQUEST_TIMEOUT_SECONDS, TimeUnit.SECONDS)
                 .readTimeout(AppConfig.REQUEST_TIMEOUT_SECONDS, TimeUnit.SECONDS)
                 .writeTimeout(AppConfig.REQUEST_TIMEOUT_SECONDS, TimeUnit.SECONDS)

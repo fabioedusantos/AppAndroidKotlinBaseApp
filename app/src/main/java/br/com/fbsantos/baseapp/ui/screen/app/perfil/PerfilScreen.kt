@@ -1,11 +1,11 @@
 package br.com.fbsantos.baseapp.ui.screen.app.perfil
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavController
 import br.com.fbsantos.baseapp.config.navigation.Routes
 import br.com.fbsantos.baseapp.ui.AppViewModel
+import br.com.fbsantos.baseapp.ui.components.LogAtividade
 import br.com.fbsantos.baseapp.ui.screen.app.perfil.content.PerfilEditContent
 import br.com.fbsantos.baseapp.ui.screen.app.perfil.content.PerfilViewContent
 import br.com.fbsantos.ui.main.perfil.PerfilViewModel
@@ -21,9 +21,7 @@ fun PerfilScreen(
     val appViewModel: AppViewModel = koinInject()
     val appState = appViewModel.uiState.collectAsState().value
 
-    LaunchedEffect(Unit) {
-        appViewModel.addAtividade(Routes.Perfil.route, "Perfil", "Person")
-    }
+    LogAtividade(Routes.Perfil.route, "Perfil", "Person")
 
     if (!uiState.isEditarPerfil) {
         PerfilViewContent(

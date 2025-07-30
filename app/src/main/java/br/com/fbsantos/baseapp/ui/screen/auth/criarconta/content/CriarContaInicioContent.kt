@@ -38,14 +38,11 @@ import br.com.fbsantos.baseapp.config.navigation.Routes
 import br.com.fbsantos.baseapp.ui.components.ErrorTextWithFocus
 import br.com.fbsantos.baseapp.ui.components.container.AuthContainer
 import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
-import br.com.fbsantos.baseapp.util.FirebaseAuthHelper
-import br.com.fbsantos.baseapp.util.RecaptchaHelper
-import br.com.fbsantos.baseapp.di.appModule
+import br.com.fbsantos.baseapp.util.helpers.FirebaseAuth
+import br.com.fbsantos.baseapp.util.helpers.Recaptcha
 import br.com.fbsantos.baseapp.ui.screen.auth.criarconta.CriarContaUiState
-import br.com.fbsantos.baseapp.util.NavHelper
+import br.com.fbsantos.baseapp.util.helpers.Nav
 import com.google.firebase.auth.FirebaseUser
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -70,7 +67,7 @@ fun CriarContaInicio(
         fixedBottomContent = {
             Button(
                 onClick = {
-                    RecaptchaHelper.exec(
+                    Recaptcha.exec(
                         before = { setFormEnabled(false) },
                         after = { setFormEnabled(true) },
                         onSuccess = { token, siteKey ->
@@ -90,10 +87,10 @@ fun CriarContaInicio(
     ) {
         Text("Crie sua conta", textAlign = TextAlign.Center, fontSize = 28.sp)
 
-        val loginGoogle = FirebaseAuthHelper.auth(
+        val loginGoogle = FirebaseAuth.auth(
             context = LocalContext.current,
             onSuccess = { idToken, user ->
-                RecaptchaHelper.exec(
+                Recaptcha.exec(
                     before = { setFormEnabled(false) },
                     after = { setFormEnabled(true) },
                     onSuccess = { token, siteKey ->
@@ -228,7 +225,7 @@ fun CriarContaInicio(
                     .clickable(
                         enabled = state.isFormEnabled,
                         onClick = {
-                            NavHelper.abrir(navController, Routes.TermosCondicoes.route)
+                            Nav.abrir(navController, Routes.TermosCondicoes.route)
                         }
                     )
             )
@@ -253,7 +250,7 @@ fun CriarContaInicio(
                     .clickable(
                         enabled = state.isFormEnabled,
                         onClick = {
-                            NavHelper.abrir(navController, Routes.PoliticaPrivacidade.route)
+                            Nav.abrir(navController, Routes.PoliticaPrivacidade.route)
                         }
                     )
             )

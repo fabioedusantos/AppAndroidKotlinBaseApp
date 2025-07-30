@@ -15,4 +15,7 @@ object AppConfig {
     const val TAMANHO_MINIMO_SENHA = 8
     const val TOTAL_DIGITOS_CODIGO_RECUPERACAO = 6
     const val TEMPO_ESPERA_REENVIO_EMAIL_SEGUNDOS = 30
+
+    //recaptcha
+    const val RECAPTCHA_SITE_KEY = "6Ld85XQrAAAAACMw8m2b885JksCyw5Myb-_I5ZLa"
 }

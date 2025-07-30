@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import br.com.fbsantos.baseapp.config.AppConfig
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
@@ -13,7 +14,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
-        Log.d("FCM", "Novo token: $token")
+        if (AppConfig.IS_DEBUG) Log.d("FCM", "Novo token: $token")
         // Pode enviar para o backend se quiser armazenar também
     }
 

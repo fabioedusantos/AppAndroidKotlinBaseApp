@@ -1,10 +1,5 @@
 package br.com.fbsantos.baseapp.ui
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.fbsantos.baseapp.config.navigation.Routes
@@ -18,8 +13,9 @@ import br.com.fbsantos.baseapp.domain.usecase.configuracoes.SalvarDeviceAuthUseC
 import br.com.fbsantos.baseapp.domain.usecase.historicoatividades.BuscarUltimasAtividadesUseCase
 import br.com.fbsantos.baseapp.domain.usecase.historicoatividades.LimparHistoricoAtividadesUseCase
 import br.com.fbsantos.baseapp.domain.usecase.historicoatividades.SalvarHistoricoAtividadeUseCase
-import br.com.fbsantos.baseapp.util.DateTimeHelper
-import br.com.fbsantos.baseapp.util.ToastManager
+import br.com.fbsantos.baseapp.util.helpers.DateTimeHelper
+import br.com.fbsantos.baseapp.util.helpers.IconManager
+import br.com.fbsantos.baseapp.util.helpers.ToastManager
 import br.com.fbsantos.domain.usecase.configuracoes.SalvarTemaUseCase
 import br.com.fbsantos.ui.app.AppUiState
 import br.com.fbsantos.ui.app.model.MenuItem
@@ -119,22 +115,22 @@ class AppViewModel(
             listOf(
                 MenuItem(
                     "Início",
-                    Icons.Default.Home,
+                    IconManager.fromName("Home"),
                     Routes.Home.route
                 ),
                 MenuItem(
                     "Perfil",
-                    Icons.Default.Person,
+                    IconManager.fromName("Person"),
                     Routes.Perfil.route
                 ),
                 MenuItem(
                     "Notificações",
-                    Icons.Default.Notifications,
+                    IconManager.fromName("Notifications"),
                     Routes.Notificacoes.route
                 ),
                 MenuItem(
                     "Configurações",
-                    Icons.Default.Settings,
+                    IconManager.fromName("Settings"),
                     Routes.Configuracoes.route
                 ),
             )

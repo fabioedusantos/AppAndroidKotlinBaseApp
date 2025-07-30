@@ -8,10 +8,10 @@ import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.ForgotPasswor
 import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.SignupGoogleRequest
 import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.SignupRequest
 import br.com.fbsantos.baseapp.domain.service.PublicAuthService
-import br.com.fbsantos.baseapp.util.FirebaseAuthHelper
-import br.com.fbsantos.baseapp.util.ToastManager
-import br.com.fbsantos.baseapp.util.Utils
-import br.com.fbsantos.baseapp.util.Valid
+import br.com.fbsantos.baseapp.util.helpers.FirebaseAuth
+import br.com.fbsantos.baseapp.util.helpers.ToastManager
+import br.com.fbsantos.baseapp.util.helpers.Utils
+import br.com.fbsantos.baseapp.util.helpers.ValidHelper
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -112,12 +112,12 @@ class CriarContaViewModel(
             isValido = false
         }
 
-        if (!Valid.isEmail(getEmail())) {
+        if (!ValidHelper.isEmail(getEmail())) {
             setEmailErrorText("Digite um email válido.")
             isValido = false
         }
 
-        if (!Valid.isSenha(getSenha())) {
+        if (!ValidHelper.isSenha(getSenha())) {
             setSenhaErrorText(
                 "A senha deve ter no mínimo 8 caracteres, 1 letra maiúscula, 1 " +
                         "número e 1 caractere especial."
@@ -182,7 +182,7 @@ class CriarContaViewModel(
         if (email != null) setEmail(email)
 
         //sem email valido? como isso? vai que...
-        if (!Valid.isEmail(getEmail())) {
+        if (!ValidHelper.isEmail(getEmail())) {
             ToastManager.show("Não é possível prosseguir. Por favor crie sua conta manualmente!")
             resetForm()
             return
@@ -251,7 +251,7 @@ class CriarContaViewModel(
 
         resetAllErrors()
         idTokenFirebase = null
-        FirebaseAuthHelper.logout()
+        FirebaseAuth.logout()
         setFormEnabled(true)
     }
 

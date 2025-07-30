@@ -7,7 +7,7 @@ import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.ConfirmEmailR
 import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.ForgotPasswordRequest
 import br.com.fbsantos.baseapp.data.network.dto.publicauth.request.ResetPasswordRequest
 import br.com.fbsantos.baseapp.domain.service.PublicAuthService
-import br.com.fbsantos.baseapp.util.Valid
+import br.com.fbsantos.baseapp.util.helpers.ValidHelper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -28,7 +28,7 @@ class RecuperarContaViewModel(
         setFormEnabled(false)
         var isValido = true
 
-        if (!Valid.isEmail(_uiState.value.email)) {
+        if (!ValidHelper.isEmail(_uiState.value.email)) {
             setEmailErrorText("Digite um email válido.")
             isValido = false
         }
@@ -143,7 +143,7 @@ class RecuperarContaViewModel(
         setSenhaErrorText(null)
         setError(null)
 
-        if (!Valid.isSenha(getSenha())) {
+        if (!ValidHelper.isSenha(getSenha())) {
             setSenhaErrorText(
                 "A senha deve ter no mínimo 8 caracteres, 1 letra maiúscula, 1 " +
                         "número e 1 caractere especial."

@@ -20,7 +20,6 @@ import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -34,12 +33,9 @@ import br.com.fbsantos.baseapp.config.AppConfig
 import br.com.fbsantos.baseapp.ui.components.ErrorTextWithFocus
 import br.com.fbsantos.baseapp.ui.components.container.AuthContainer
 import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
-import br.com.fbsantos.baseapp.util.RecaptchaHelper
-import br.com.fbsantos.baseapp.util.Utils
-import br.com.fbsantos.baseapp.di.appModule
+import br.com.fbsantos.baseapp.util.helpers.Recaptcha
+import br.com.fbsantos.baseapp.util.helpers.Utils
 import br.com.fbsantos.baseapp.ui.screen.auth.criarconta.CriarContaUiState
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
 
 @Composable
 fun CriarContaConfirmarCodigo(
@@ -87,7 +83,7 @@ fun CriarContaConfirmarCodigo(
 
                             onCodigoChange(novoCodigo)
                             if (novoCodigo.all { it.isNotEmpty() }) {
-                                RecaptchaHelper.exec(
+                                Recaptcha.exec(
                                     before = { setFormEnabled(false) },
                                     after = { setFormEnabled(true) },
                                     onSuccess = { token, siteKey ->
@@ -155,7 +151,7 @@ fun CriarContaConfirmarCodigo(
                     modifier = Modifier.clickable(
                         enabled = state.isFormEnabled,
                         onClick = {
-                            RecaptchaHelper.exec(
+                            Recaptcha.exec(
                                 before = { setFormEnabled(false) },
                                 after = { setFormEnabled(true) },
                                 onSuccess = { token, siteKey ->

@@ -1,11 +1,9 @@
 package br.com.fbsantos.baseapp
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -17,14 +15,14 @@ import br.com.fbsantos.baseapp.config.navigation.Routes
 import br.com.fbsantos.baseapp.config.navigation.isValidRoute
 import br.com.fbsantos.baseapp.config.navigation.registerAuthScreens
 import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
-import br.com.fbsantos.baseapp.util.AnimatedHelper
-import br.com.fbsantos.baseapp.util.SecurityManager
-import br.com.fbsantos.baseapp.util.ToastManager
+import br.com.fbsantos.baseapp.util.helpers.AnimatedManager
+import br.com.fbsantos.baseapp.util.helpers.SecurityManager
+import br.com.fbsantos.baseapp.util.helpers.ToastManager
 import br.com.fbsantos.baseapp.config.navigation.registerPrivateScreens
 import br.com.fbsantos.baseapp.config.navigation.registerPublicScreens
 import br.com.fbsantos.baseapp.ui.AppViewModel
 import androidx.navigation.compose.NavHost
-import br.com.fbsantos.baseapp.util.NavHelper
+import br.com.fbsantos.baseapp.util.helpers.Nav
 import org.koin.compose.koinInject
 
 class MainActivity : FragmentActivity() {
@@ -48,10 +46,10 @@ class MainActivity : FragmentActivity() {
                     NavHost(
                         navController = navController,
                         startDestination = Routes.Splash.route,
-                        enterTransition = { AnimatedHelper.slideNavTransition()(this) },
-                        exitTransition = { AnimatedHelper.slideNavExitTransition()(this) },
-                        popEnterTransition = { AnimatedHelper.slideNavTransition()(this) },
-                        popExitTransition = { AnimatedHelper.slideNavExitTransition()(this) }
+                        enterTransition = { AnimatedManager.slideNavTransition()(this) },
+                        exitTransition = { AnimatedManager.slideNavExitTransition()(this) },
+                        popEnterTransition = { AnimatedManager.slideNavTransition()(this) },
+                        popExitTransition = { AnimatedManager.slideNavExitTransition()(this) }
                     ) {
                         registerAuthScreens(navController)
                         registerPublicScreens(navController)
@@ -59,22 +57,14 @@ class MainActivity : FragmentActivity() {
                     }
                 }
 
-                //Toast default
-                val toastError by ToastManager.toastMessage.collectAsState()
-                LaunchedEffect(toastError) {
-                    toastError?.let {
-                        Toast.makeText(context, it, Toast.LENGTH_LONG).show()
-                        ToastManager.clear()
-                    }
-                }
-                //Toast default
+                ToastManager.listener()
 
                 // Se veio de push notification, navega após inicializar
                 val linkFromNotification = intent.getStringExtra("notification_link")
                 LaunchedEffect(linkFromNotification) {
                     if (!linkFromNotification.isNullOrEmpty() && isValidRoute(linkFromNotification)) {
                         SecurityManager.firstRoute = linkFromNotification       //se a aplicação não estiver aberta, setamos como primeira rota
-                        NavHelper.abrir(navController, linkFromNotification)    //se a aplicação estiver aberta, abrirá a url citada
+                        Nav.abrir(navController, linkFromNotification)    //se a aplicação estiver aberta, abrirá a url citada
                     }
                 }
 
