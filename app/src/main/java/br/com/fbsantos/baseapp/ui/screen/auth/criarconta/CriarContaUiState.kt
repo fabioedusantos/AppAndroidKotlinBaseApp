@@ -36,9 +36,10 @@ data class CriarContaUiState (
 
     val segundosRestantes: Int = AppConfig.TEMPO_ESPERA_REENVIO_EMAIL_SEGUNDOS,
 
-    val etapa: EtapaCriarContaEnum = EtapaCriarContaEnum.INICIAL,
+    val etapa: CriarContaEtapaEnum = CriarContaEtapaEnum.INICIO,
 
     val isGoogleButtonEnabled: Boolean = true,
 
     val error: String? = null,
+    val messageWait: String? = null
 )

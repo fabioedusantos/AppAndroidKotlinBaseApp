@@ -18,7 +18,7 @@ import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
 import br.com.fbsantos.baseapp.util.helpers.Nav
 
 @Composable
-fun RecuperarCodigoSucessoContent(navController: NavController) {
+fun RecuperarContaSucessoContent(navController: NavController) {
     AuthContainer {
         Text("Conta recuperada com sucesso!", textAlign = TextAlign.Center, fontSize = 28.sp)
 
@@ -41,10 +41,10 @@ fun RecuperarCodigoSucessoContent(navController: NavController) {
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
-fun LoginScreenPreview() {
+fun RecuperarContaSucessoPreview() {
     val navController = rememberNavController()
 
     BaseAppTheme (darkTheme = false) {
-        RecuperarCodigoSucessoContent(navController)
+        RecuperarContaSucessoContent(navController)
     }
 }

@@ -25,7 +25,6 @@ class RecuperarContaViewModel(
     }
 
     fun onEnviarCodigo(recaptchaToken: String, recaptchaSiteKey: String) {
-        setFormEnabled(false)
         var isValido = true
 
         if (!ValidHelper.isEmail(_uiState.value.email)) {
@@ -34,7 +33,7 @@ class RecuperarContaViewModel(
         }
 
         if (!isValido) {
-            setFormEnabled(true)
+            onClearWaitMessage()
             return
         }
 
@@ -48,14 +47,13 @@ class RecuperarContaViewModel(
                     )
                 )
 
-                setEtapa(EtapaRecuperarContaEnum.EMAIL_ENVIADO)
-                setError(null)
+                setEtapa(RecuperarContaEtapaEnum.VALIDAR_CODIGO)
                 iniciarContagemReenvioEmail()
                 limparCodigo()
             } catch (e: Exception) {
                 setError(e.message)
             }
-            setFormEnabled(true)
+            onClearWaitMessage()
         }
     }
 
@@ -65,7 +63,6 @@ class RecuperarContaViewModel(
     }
 
     fun onChecarCodigo(recaptchaToken: String, recaptchaSiteKey: String) {
-        setFormEnabled(false)
         viewModelScope.launch {
             try {
                 publicAuthService.checkResetPassword(
@@ -77,17 +74,16 @@ class RecuperarContaViewModel(
                     )
                 )
 
-                setEtapa(EtapaRecuperarContaEnum.CODIGO_VALIDADO)
+                setEtapa(RecuperarContaEtapaEnum.ALTERAR_SENHA)
             } catch (e: Exception) {
                 setError(e.message)
                 limparCodigo()
             }
-            setFormEnabled(true)
+            onClearWaitMessage()
         }
     }
 
     fun onReenviarCodigo(recaptchaToken: String, recaptchaSiteKey: String) {
-        setFormEnabled(false)
         viewModelScope.launch {
             try {
                 publicAuthService.resendConfirmEmail(
@@ -102,7 +98,7 @@ class RecuperarContaViewModel(
             }
             iniciarContagemReenvioEmail()
             limparCodigo()
-            setFormEnabled(true)
+            onClearWaitMessage()
         }
     }
 
@@ -137,8 +133,6 @@ class RecuperarContaViewModel(
     }
 
     fun onResetarSenha(recaptchaToken: String, recaptchaSiteKey: String) {
-        setFormEnabled(false)
-
         var isValido = true
         setSenhaErrorText(null)
         setError(null)
@@ -158,7 +152,7 @@ class RecuperarContaViewModel(
         }
 
         if (!isValido) {
-            setFormEnabled(true)
+            onClearWaitMessage()
             return
         }
 
@@ -174,12 +168,35 @@ class RecuperarContaViewModel(
                     )
                 )
 
-                _uiState.value = _uiState.value.copy(etapa = EtapaRecuperarContaEnum.SUCESSO)
+                _uiState.value = _uiState.value.copy(etapa = RecuperarContaEtapaEnum.SUCESSO)
             } catch (e: Exception) {
                 setError(e.message)
             }
-            setFormEnabled(true)
+            onClearWaitMessage()
         }
+    }
+
+    fun resetAllErrors() {
+        setEmailErrorText(null)
+        setSenhaErrorText(null)
+        setError(null)
+    }
+
+    fun onClearWaitMessage() {
+        setFormEnabled(true)
+        setMessageWait(null)
+    }
+
+    fun onWaitMessage() {
+        resetAllErrors()
+        setFormEnabled(false)
+        setMessageWait("Aguarde...")
+    }
+
+    fun setMessageWait(messageWait: String?) {
+        _uiState.value = _uiState.value.copy(
+            messageWait = messageWait
+        )
     }
 
     fun getEmail(): String {
@@ -258,7 +275,7 @@ class RecuperarContaViewModel(
         _uiState.value = _uiState.value.copy(error = error)
     }
 
-    fun setEtapa(etapa: EtapaRecuperarContaEnum) {
+    fun setEtapa(etapa: RecuperarContaEtapaEnum) {
         _uiState.value = _uiState.value.copy(
             etapa = etapa
         )

@@ -4,9 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavController
 import br.com.fbsantos.baseapp.util.helpers.AnimatedManager
-import br.com.fbsantos.baseapp.ui.screen.auth.criarconta.content.CriarContaConfirmarCodigo
-import br.com.fbsantos.baseapp.ui.screen.auth.criarconta.content.CriarContaInicio
-import br.com.fbsantos.baseapp.ui.screen.auth.criarconta.content.CriarContaSucesso
+import br.com.fbsantos.baseapp.ui.screen.auth.criarconta.content.CriarContaCodigoContent
+import br.com.fbsantos.baseapp.ui.screen.auth.criarconta.content.CriarContaInicioContent
+import br.com.fbsantos.baseapp.ui.screen.auth.criarconta.content.CriarContaSucessoContent
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -20,7 +20,7 @@ fun CriarContaScreen(
         targetState = uiState.etapa
     ) { etapa ->
         when (etapa) {
-            EtapaCriarContaEnum.INICIAL -> CriarContaInicio(
+            CriarContaEtapaEnum.INICIO -> CriarContaInicioContent(
                 navController = navController,
                 state = uiState,
                 onNomeChange = { viewModel.onNomeChange(it) },
@@ -44,11 +44,12 @@ fun CriarContaScreen(
                         userFirebase
                     )
                 },
-                setFormEnabled = { viewModel.setFormEnabled(it) },
                 setError = { viewModel.setError(it) },
+                onWaitMessage = { viewModel.onWaitMessage() },
+                onClearWaitMessage = { viewModel.onClearWaitMessage() }
             )
 
-            EtapaCriarContaEnum.EMAIL_ENVIADO -> CriarContaConfirmarCodigo(
+            CriarContaEtapaEnum.VALIDAR_CODIGO -> CriarContaCodigoContent(
                 state = uiState,
                 onCodigoChange = { viewModel.onCodigoChange(it) },
                 onChecarCodigo = { recaptchaToken, recaptchaSiteKey ->
@@ -64,11 +65,12 @@ fun CriarContaScreen(
                     )
                 },
                 setFocarCodigo = { viewModel.setFocarCodigo(it) },
-                setFormEnabled = { viewModel.setFormEnabled(it) },
                 setError = { viewModel.setError(it) },
+                onWaitMessage = { viewModel.onWaitMessage() },
+                onClearWaitMessage = { viewModel.onClearWaitMessage() }
             )
 
-            EtapaCriarContaEnum.CODIGO_VALIDADO -> CriarContaSucesso(navController)
+            CriarContaEtapaEnum.SUCESSO -> CriarContaSucessoContent(navController)
         }
     }
 }

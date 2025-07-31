@@ -17,8 +17,7 @@ class PerfilViewModel(
     val uiState: StateFlow<PerfilUiState> = _uiState
 
     fun onEditarPerfil(isContaGoogle: Boolean, onSuccess: () -> Unit) {
-        setFormEnabled(false)
-        resetAllErrors()
+        onWaitMessage()
 
         var isValido = true
 
@@ -47,7 +46,7 @@ class PerfilViewModel(
         }
 
         if (!isValido) {
-            setFormEnabled(true)
+            onClearWaitMessage()
             return
         }
 
@@ -64,12 +63,11 @@ class PerfilViewModel(
                     )
                 )
 
-                setError(null)
                 onSuccess()
             } catch (e: Exception) {
                 setError(e.message)
             }
-            setFormEnabled(true)
+            onClearWaitMessage()
         }
     }
 
@@ -162,6 +160,23 @@ class PerfilViewModel(
         setSobrenomeErrorText(null)
         setSenhaErrorText(null)
         setError(null)
+    }
+
+    fun onClearWaitMessage() {
+        setFormEnabled(true)
+        setMessageWait(null)
+    }
+
+    fun onWaitMessage() {
+        resetAllErrors()
+        setFormEnabled(false)
+        setMessageWait("Aguarde...")
+    }
+
+    fun setMessageWait(messageWait: String?) {
+        _uiState.value = _uiState.value.copy(
+            messageWait = messageWait
+        )
     }
 
     fun getNome(): String {

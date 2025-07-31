@@ -38,14 +38,15 @@ import br.com.fbsantos.baseapp.util.helpers.Utils
 import br.com.fbsantos.baseapp.ui.screen.auth.criarconta.CriarContaUiState
 
 @Composable
-fun CriarContaConfirmarCodigo(
+fun CriarContaCodigoContent(
     state: CriarContaUiState,
     onCodigoChange: (MutableList<String>) -> Unit,
     onChecarCodigo: (String, String) -> Unit,
     onReenviarCodigo: (String, String) -> Unit,
     setFocarCodigo: (Boolean) -> Unit,
-    setFormEnabled: (Boolean) -> Unit,
-    setError: (String) -> Unit
+    setError: (String) -> Unit,
+    onWaitMessage: () -> Unit,
+    onClearWaitMessage: () -> Unit
 ) {
     AuthContainer {
         Text("Aguardando confirmação", textAlign = TextAlign.Center, fontSize = 28.sp)
@@ -61,6 +62,15 @@ fun CriarContaConfirmarCodigo(
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
         )
+
+        state.messageWait?.let {
+            Text(
+                it,
+                fontSize = 12.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
 
         val focusRequesters =
             List(AppConfig.TOTAL_DIGITOS_CODIGO_RECUPERACAO) { remember { FocusRequester() } }
@@ -83,15 +93,14 @@ fun CriarContaConfirmarCodigo(
 
                             onCodigoChange(novoCodigo)
                             if (novoCodigo.all { it.isNotEmpty() }) {
+                                onWaitMessage()
                                 Recaptcha.exec(
-                                    before = { setFormEnabled(false) },
-                                    after = { setFormEnabled(true) },
                                     onSuccess = { token, siteKey ->
-                                        onCodigoChange(novoCodigo)
                                         onChecarCodigo(token, siteKey)
                                     },
                                     onError = { erro ->
                                         setError(erro)
+                                        onClearWaitMessage()
                                     }
                                 )
                             }
@@ -145,20 +154,20 @@ fun CriarContaConfirmarCodigo(
                 )
             } else {
                 Text(
-                    text = "Reenviar o e-mail.",
+                    text = state.messageWait ?: "Reenviar o e-mail.",
                     color = MaterialTheme.colorScheme.primary,
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.clickable(
                         enabled = state.isFormEnabled,
                         onClick = {
+                            onWaitMessage()
                             Recaptcha.exec(
-                                before = { setFormEnabled(false) },
-                                after = { setFormEnabled(true) },
                                 onSuccess = { token, siteKey ->
                                     onReenviarCodigo(token, siteKey)
                                 },
                                 onError = { erro ->
                                     setError(erro)
+                                    onClearWaitMessage()
                                 }
                             )
                         }
@@ -178,15 +187,16 @@ fun CriarContaConfirmarCodigoPreview() {
         email = "fabioedusantos@gmail.com"
     )
 
-    BaseAppTheme (darkTheme = false) {
-        CriarContaConfirmarCodigo(
+    BaseAppTheme(darkTheme = false) {
+        CriarContaCodigoContent(
             state = previewState,
             onCodigoChange = {},
             onChecarCodigo = { _, _ -> },
             onReenviarCodigo = { _, _ -> },
             setFocarCodigo = {},
-            setFormEnabled = {},
-            setError = {}
+            setError = {},
+            onWaitMessage = {},
+            onClearWaitMessage = {},
         )
     }
 }

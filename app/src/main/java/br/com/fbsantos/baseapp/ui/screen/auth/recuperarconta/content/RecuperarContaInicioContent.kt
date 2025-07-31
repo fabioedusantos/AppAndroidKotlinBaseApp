@@ -9,18 +9,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import br.com.fbsantos.baseapp.ui.components.ErrorTextWithFocus
 import br.com.fbsantos.baseapp.ui.components.container.AuthContainer
 import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
 import br.com.fbsantos.baseapp.util.helpers.Recaptcha
 import br.com.fbsantos.baseapp.ui.screen.auth.recuperarconta.RecuperarContaUiState
 
 @Composable
-fun RecuperarCodigoInicioContent(
+fun RecuperarContaInicioContent(
     state: RecuperarContaUiState,
     onEmailChange: (String) -> Unit,
     onEnviarCodigo: (String, String) -> Unit,
-    setFormEnabled: (Boolean) -> Unit,
     setError: (String) -> Unit,
+    onWaitMessage: () -> Unit,
+    onClearWaitMessage: () -> Unit
 ) {
     AuthContainer {
         Text("Recuperar conta", fontSize = 28.sp)
@@ -48,40 +50,43 @@ fun RecuperarCodigoInicioContent(
 
         Button(
             onClick = {
+                onWaitMessage()
                 Recaptcha.exec(
-                    before = { setFormEnabled(false) },
-                    after = { setFormEnabled(true) },
                     onSuccess = { token, siteKey ->
                         onEnviarCodigo(token, siteKey)
                     },
                     onError = { erro ->
                         setError(erro)
+                        onClearWaitMessage()
                     }
                 )
             },
             modifier = Modifier.fillMaxWidth(),
             enabled = state.isFormEnabled
         ) {
-            Text("Próximo passo...")
+            Text(state.messageWait?: "Próximo passo...")
         }
+
+        ErrorTextWithFocus(state.error)
     }
 }
 
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
-fun RecuperarCodigoInicioContentPreview() {
+fun RecuperarContaInicioPreview() {
     val previewState = RecuperarContaUiState(
         email = "fabioedusantos@gmail.com"
     )
 
     BaseAppTheme (darkTheme = false) {
-        RecuperarCodigoInicioContent(
+        RecuperarContaInicioContent(
             state = previewState,
             onEmailChange = {},
             onEnviarCodigo = { _, _ -> },
-            setFormEnabled = {},
-            setError = {}
+            setError = {},
+            onWaitMessage = {},
+            onClearWaitMessage = {}
         )
     }
 }

@@ -3,10 +3,10 @@ package br.com.fbsantos.baseapp.ui.screen.auth.recuperarconta
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavController
-import br.com.fbsantos.baseapp.ui.screen.auth.recuperarconta.content.RecuperarCodigoConfirmarCodigoContent
-import br.com.fbsantos.baseapp.ui.screen.auth.recuperarconta.content.RecuperarCodigoInicioContent
-import br.com.fbsantos.baseapp.ui.screen.auth.recuperarconta.content.RecuperarCodigoResetarSenhaContent
-import br.com.fbsantos.baseapp.ui.screen.auth.recuperarconta.content.RecuperarCodigoSucessoContent
+import br.com.fbsantos.baseapp.ui.screen.auth.recuperarconta.content.RecuperarContaCodigoContent
+import br.com.fbsantos.baseapp.ui.screen.auth.recuperarconta.content.RecuperarContaInicioContent
+import br.com.fbsantos.baseapp.ui.screen.auth.recuperarconta.content.RecuperarContaSenhaContent
+import br.com.fbsantos.baseapp.ui.screen.auth.recuperarconta.content.RecuperarContaSucessoContent
 import br.com.fbsantos.baseapp.util.helpers.AnimatedManager
 import org.koin.androidx.compose.koinViewModel
 
@@ -20,7 +20,7 @@ fun RecuperarContaScreen(
         targetState = uiState.etapa
     ) { etapa ->
         when (etapa) {
-            EtapaRecuperarContaEnum.INICIAL -> RecuperarCodigoInicioContent(
+            RecuperarContaEtapaEnum.INICIO -> RecuperarContaInicioContent(
                 state = uiState,
                 onEmailChange = { viewModel.onEmailChange(it) },
                 onEnviarCodigo = { recaptchaToken, recaptchaSiteKey ->
@@ -29,11 +29,12 @@ fun RecuperarContaScreen(
                         recaptchaSiteKey
                     )
                 },
-                setFormEnabled = { viewModel.setFormEnabled(it) },
                 setError = { viewModel.setError(it) },
+                onWaitMessage = { viewModel.onWaitMessage() },
+                onClearWaitMessage = { viewModel.onClearWaitMessage() },
             )
 
-            EtapaRecuperarContaEnum.EMAIL_ENVIADO -> RecuperarCodigoConfirmarCodigoContent(
+            RecuperarContaEtapaEnum.VALIDAR_CODIGO -> RecuperarContaCodigoContent(
                 state = uiState,
                 onCodigoChange = { viewModel.onCodigoChange(it) },
                 onChecarCodigo = { recaptchaToken, recaptchaSiteKey ->
@@ -49,11 +50,12 @@ fun RecuperarContaScreen(
                     )
                 },
                 setIsFocarCodigo = { viewModel.setIsFocarCodigo(it) },
-                setFormEnabled = { viewModel.setFormEnabled(it) },
-                setError = { viewModel.setError(it) }
+                setError = { viewModel.setError(it) },
+                onWaitMessage = { viewModel.onWaitMessage() },
+                onClearWaitMessage = { viewModel.onClearWaitMessage() }
             )
 
-            EtapaRecuperarContaEnum.CODIGO_VALIDADO -> RecuperarCodigoResetarSenhaContent(
+            RecuperarContaEtapaEnum.ALTERAR_SENHA -> RecuperarContaSenhaContent(
                 state = uiState,
                 onSenhaChange = { viewModel.onSenhaChange(it) },
                 onSenhaVisivelToggle = { viewModel.onSenhaVisivelToggle() },
@@ -65,11 +67,12 @@ fun RecuperarContaScreen(
                         recaptchaSiteKey
                     )
                 },
-                setFormEnabled = { viewModel.setFormEnabled(it) },
-                setError = { viewModel.setError(it) }
+                setError = { viewModel.setError(it) },
+                onWaitMessage = { viewModel.onWaitMessage() },
+                onClearWaitMessage = { viewModel.onClearWaitMessage() }
             )
 
-            EtapaRecuperarContaEnum.SUCESSO -> RecuperarCodigoSucessoContent(navController)
+            RecuperarContaEtapaEnum.SUCESSO -> RecuperarContaSucessoContent(navController)
         }
     }
 

@@ -40,8 +40,9 @@ fun LoginEmailSenhaContent(
     onSenhaChange: (String) -> Unit,
     onSenhaVisivelToggle: () -> Unit,
     onLoginClicked: (String, String) -> Unit,
-    setFormEnabled: (Boolean) -> Unit,
-    setError: (String) -> Unit
+    setError: (String) -> Unit,
+    onWaitMessage: () -> Unit,
+    onClearWaitMessage: () -> Unit
 ) {
     AuthContainer {
         Text("Bem-vindo", fontSize = 28.sp, color = MaterialTheme.colorScheme.onSurface)
@@ -98,14 +99,14 @@ fun LoginEmailSenhaContent(
 
         Button(
             onClick = {
+                onWaitMessage()
                 Recaptcha.exec(
-                    before = { setFormEnabled(false) },
-                    after = { setFormEnabled(true) },
                     onSuccess = { token, siteKey ->
                         onLoginClicked(token, siteKey)
                     },
                     onError = { erro ->
                         setError(erro)
+                        onClearWaitMessage()
                     }
                 )
             },
@@ -117,7 +118,7 @@ fun LoginEmailSenhaContent(
             ),
             enabled = state.isFormEnabled
         ) {
-            Text("Entrar")
+            Text(state.messageWait?: "Entrar")
         }
 
         OutlinedButton(
@@ -151,8 +152,9 @@ fun LoginEmailSenhaPreview() {
             onSenhaChange = {},
             onSenhaVisivelToggle = {},
             onLoginClicked = { _, _ -> },
-            setFormEnabled = {},
-            setError = {}
+            setError = {},
+            onWaitMessage = {},
+            onClearWaitMessage = {}
         )
     }
 }

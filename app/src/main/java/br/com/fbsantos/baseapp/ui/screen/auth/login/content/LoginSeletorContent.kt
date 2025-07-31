@@ -35,9 +35,10 @@ fun LoginSeletorContent(
     navController: NavController,
     state: LoginUiState,
     setLoginEmailSenha: (Boolean) -> Unit,
-    setFormEnabled: (Boolean) -> Unit,
-    onLoginByGoogleClicked: (String, String, String) -> Unit,
-    setError: (String) -> Unit
+    onLoginByGoogle: (String, String, String) -> Unit,
+    setError: (String) -> Unit,
+    onWaitMessage: () -> Unit,
+    onClearWaitMessage: () -> Unit
 ) {
     AuthContainer {
         Text("Bem-vindo", fontSize = 28.sp, color = MaterialTheme.colorScheme.onSurface)
@@ -46,23 +47,26 @@ fun LoginSeletorContent(
             context = LocalContext.current,
             onSuccess = { idToken, user ->
                 Recaptcha.exec(
-                    before = { setFormEnabled(false) },
-                    after = { setFormEnabled(true) },
                     onSuccess = { token, siteKey ->
-                        onLoginByGoogleClicked(idToken, token, siteKey)
+                        onLoginByGoogle(idToken, token, siteKey)
                     },
                     onError = { erro ->
                         setError(erro)
+                        onClearWaitMessage()
                     }
                 )
             },
             onError = { erro ->
                 setError(erro)
+                onClearWaitMessage()
             }
         )
 
         OutlinedButton(
-            onClick = loginGoogle,
+            onClick = {
+                onWaitMessage()
+                loginGoogle()
+            },
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(50),
             enabled = state.isFormEnabled
@@ -73,7 +77,7 @@ fun LoginSeletorContent(
                 modifier = Modifier.size(24.dp)
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Text("Entrar com Google")
+            Text(state.messageWait?: "Entrar com Google")
         }
 
         Button(
@@ -124,9 +128,10 @@ fun LoginSeletorPreview() {
             navController = navController,
             state = previewState,
             setLoginEmailSenha = {},
-            setFormEnabled = {},
-            onLoginByGoogleClicked = { _, _, _ -> },
-            setError = {}
+            onLoginByGoogle = { _, _, _ -> },
+            setError = {},
+            onWaitMessage = {},
+            onClearWaitMessage = {}
         )
     }
 }

@@ -18,7 +18,7 @@ import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
 import br.com.fbsantos.baseapp.util.helpers.Nav
 
 @Composable
-fun CriarContaSucesso(navController: NavController) {
+fun CriarContaSucessoContent(navController: NavController) {
     AuthContainer {
         Text("Conta criada com sucesso!", textAlign = TextAlign.Center, fontSize = 28.sp)
 
@@ -46,7 +46,7 @@ fun LoginScreenPreview() {
     val navController = rememberNavController()
 
     BaseAppTheme (darkTheme = false) {
-        CriarContaSucesso(
+        CriarContaSucessoContent(
             navController = navController
         )
     }

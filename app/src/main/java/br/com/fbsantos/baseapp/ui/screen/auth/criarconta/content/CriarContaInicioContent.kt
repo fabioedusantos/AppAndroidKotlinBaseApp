@@ -1,6 +1,5 @@
 package br.com.fbsantos.baseapp.ui.screen.auth.criarconta.content
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -37,16 +36,15 @@ import br.com.fbsantos.baseapp.R
 import br.com.fbsantos.baseapp.config.navigation.Routes
 import br.com.fbsantos.baseapp.ui.components.ErrorTextWithFocus
 import br.com.fbsantos.baseapp.ui.components.container.AuthContainer
+import br.com.fbsantos.baseapp.ui.screen.auth.criarconta.CriarContaUiState
 import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
 import br.com.fbsantos.baseapp.util.helpers.FirebaseAuth
-import br.com.fbsantos.baseapp.util.helpers.Recaptcha
-import br.com.fbsantos.baseapp.ui.screen.auth.criarconta.CriarContaUiState
 import br.com.fbsantos.baseapp.util.helpers.Nav
+import br.com.fbsantos.baseapp.util.helpers.Recaptcha
 import com.google.firebase.auth.FirebaseUser
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun CriarContaInicio(
+fun CriarContaInicioContent(
     navController: NavController,
     state: CriarContaUiState,
     onNomeChange: (String) -> Unit,
@@ -60,28 +58,29 @@ fun CriarContaInicio(
     onPoliticaAceitaChange: (Boolean) -> Unit,
     onCriarConta: (String, String) -> Unit,
     onCriarContaByGoogle: (String, FirebaseUser) -> Unit,
-    setFormEnabled: (Boolean) -> Unit,
-    setError: (String) -> Unit
+    setError: (String) -> Unit,
+    onWaitMessage: () -> Unit,
+    onClearWaitMessage: () -> Unit
 ) {
-    AuthContainer (
+    AuthContainer(
         fixedBottomContent = {
             Button(
                 onClick = {
+                    onWaitMessage()
                     Recaptcha.exec(
-                        before = { setFormEnabled(false) },
-                        after = { setFormEnabled(true) },
                         onSuccess = { token, siteKey ->
                             onCriarConta(token, siteKey)
                         },
                         onError = { erro ->
                             setError(erro)
+                            onClearWaitMessage()
                         }
                     )
                 },
                 modifier = Modifier.fillMaxWidth(),
                 enabled = state.isFormEnabled
             ) {
-                Text("Criar minha conta")
+                Text(state.messageWait ?: "Criar minha conta")
             }
         }
     ) {
@@ -91,23 +90,26 @@ fun CriarContaInicio(
             context = LocalContext.current,
             onSuccess = { idToken, user ->
                 Recaptcha.exec(
-                    before = { setFormEnabled(false) },
-                    after = { setFormEnabled(true) },
                     onSuccess = { token, siteKey ->
                         onCriarContaByGoogle(idToken, user)
                     },
                     onError = { erro ->
                         setError(erro)
+                        onClearWaitMessage()
                     }
                 )
             },
             onError = { erro ->
                 setError(erro)
+                onClearWaitMessage()
             }
         )
 
         OutlinedButton(
-            onClick = loginGoogle,
+            onClick = {
+                onWaitMessage()
+                loginGoogle()
+            },
             modifier = Modifier.fillMaxWidth(),
             enabled = state.isFormEnabled && state.isGoogleButtonEnabled
         ) {
@@ -117,7 +119,7 @@ fun CriarContaInicio(
                 modifier = Modifier.size(24.dp)
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Text("Continuar com Google")
+            Text(state.messageWait?: "Continuar com Google")
         }
 
         Row(
@@ -275,8 +277,8 @@ fun CriarContaInicioPreview() {
         isPoliticaAceita = true
     )
 
-    BaseAppTheme (darkTheme = false) {
-        CriarContaInicio(
+    BaseAppTheme(darkTheme = false) {
+        CriarContaInicioContent(
             navController = navController,
             state = previewState,
             onNomeChange = {},
@@ -290,8 +292,9 @@ fun CriarContaInicioPreview() {
             onPoliticaAceitaChange = {},
             onCriarConta = { _, _ -> },
             onCriarContaByGoogle = { _, _ -> },
-            setFormEnabled = {},
-            setError = {}
+            setError = {},
+            onWaitMessage = {},
+            onClearWaitMessage = {}
         )
     }
 }

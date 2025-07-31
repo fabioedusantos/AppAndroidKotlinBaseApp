@@ -30,15 +30,16 @@ fun LoginScreen(
                 navController = navController,
                 state = uiState,
                 setLoginEmailSenha = { viewModel.setLoginEmailSenha(it) },
-                setFormEnabled = { viewModel.setFormEnabled(it) },
-                onLoginByGoogleClicked = { idToken, recaptchaToken, recaptchaSiteKey ->
+                onLoginByGoogle = { idToken, recaptchaToken, recaptchaSiteKey ->
                     viewModel.onLoginByGoogle(
                         idToken,
                         recaptchaToken,
                         recaptchaSiteKey
                     )
                 },
-                setError = { viewModel.setError(it) }
+                setError = { viewModel.setError(it) },
+                onWaitMessage = { viewModel.onWaitMessage() },
+                onClearWaitMessage = { viewModel.onClearWaitMessage() }
             )
         } else {
             LoginEmailSenhaContent(
@@ -54,13 +55,13 @@ fun LoginScreen(
                         recaptchaSiteKey
                     )
                 },
-                setFormEnabled = { viewModel.setFormEnabled(it) },
-                setError = { viewModel.setError(it) }
+                setError = { viewModel.setError(it) },
+                onWaitMessage = { viewModel.onWaitMessage() },
+                onClearWaitMessage = { viewModel.onClearWaitMessage() }
             )
         }
     }
 }
-
 
 
 @Preview(showSystemUi = true, showBackground = true)
@@ -74,7 +75,7 @@ fun LoginScreenPreview() {
 
     val navController = rememberNavController()
 
-    BaseAppTheme (darkTheme = true) {
+    BaseAppTheme(darkTheme = true) {
         LoginScreen(navController)
     }
 }

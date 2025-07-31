@@ -93,7 +93,7 @@ fun PerfilEditContent(
                 modifier = Modifier.fillMaxWidth(),
                 enabled = state.isFormEnabled
             ) {
-                Text("Salvar")
+                Text(state.messageWait ?: "Salvar")
             }
         },
         isShowFixedBottomContent = state.isEditarPerfil
@@ -317,7 +317,7 @@ fun PerfilEditContentPreview() {
         isFormEnabled = true
     )
 
-    BaseAppTheme (darkTheme = false) {
+    BaseAppTheme(darkTheme = false) {
         PerfilEditContent(
             navController = navController,
             appState = appState,

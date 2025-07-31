@@ -36,7 +36,6 @@ class LoginViewModel(
     }
 
     fun onLogin(recaptchaToken: String, recaptchaSiteKey: String) {
-        setFormEnabled(false)
         var isValido = true
 
         _uiState.value = _uiState.value.copy(error = null)
@@ -52,7 +51,7 @@ class LoginViewModel(
         }
 
         if (!isValido) {
-            setFormEnabled(true)
+            onClearWaitMessage()
             return
         }
 
@@ -70,13 +69,12 @@ class LoginViewModel(
                 appViewModel.initializeSplashScreenLogin()
             } catch (e: Exception) {
                 setError(e.message)
-                setFormEnabled(true)
             }
+            onClearWaitMessage()
         }
     }
 
     fun onLoginByGoogle(idToken: String, recaptchaToken: String, recaptchaSiteKey: String) {
-        setFormEnabled(false)
         viewModelScope.launch {
             try {
                 publicAuthService.loginGoogle(
@@ -90,9 +88,32 @@ class LoginViewModel(
                 appViewModel.initializeSplashScreenLogin()
             } catch (e: Exception) {
                 setError(e.message)
-                setFormEnabled(true)
             }
+            onClearWaitMessage()
         }
+    }
+
+    fun resetAllErrors() {
+        setEmailErrorText(null)
+        setSenhaErrorText(null)
+        setError(null)
+    }
+
+    fun onClearWaitMessage() {
+        setFormEnabled(true)
+        setMessageWait(null)
+    }
+
+    fun onWaitMessage() {
+        resetAllErrors()
+        setFormEnabled(false)
+        setMessageWait("Aguarde...")
+    }
+
+    fun setMessageWait(messageWait: String?) {
+        _uiState.value = _uiState.value.copy(
+            messageWait = messageWait
+        )
     }
 
     fun setLoginEmailSenha(isLoginEmailSenha: Boolean) {
@@ -141,9 +162,9 @@ class LoginViewModel(
         )
     }
 
-    fun setError(erroLogin: String?) {
+    fun setError(error: String?) {
         _uiState.value = _uiState.value.copy(
-            error = erroLogin ?: "Erro desconhecido, tente novamente mais tarde!"
+            error = error
         )
     }
 }

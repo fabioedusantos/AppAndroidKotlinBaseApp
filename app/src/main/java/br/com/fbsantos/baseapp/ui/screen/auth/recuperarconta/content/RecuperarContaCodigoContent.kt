@@ -38,14 +38,15 @@ import br.com.fbsantos.baseapp.util.helpers.Utils
 import br.com.fbsantos.baseapp.ui.screen.auth.recuperarconta.RecuperarContaUiState
 
 @Composable
-fun RecuperarCodigoConfirmarCodigoContent(
+fun RecuperarContaCodigoContent(
     state: RecuperarContaUiState,
     onCodigoChange: (MutableList<String>) -> Unit,
     onChecarCodigo: (String, String) -> Unit,
     onReenviarCodigo: (String, String) -> Unit,
     setIsFocarCodigo: (Boolean) -> Unit,
-    setFormEnabled: (Boolean) -> Unit,
-    setError: (String) -> Unit
+    setError: (String) -> Unit,
+    onWaitMessage: () -> Unit,
+    onClearWaitMessage: () -> Unit
 ) {
     AuthContainer {
         Text("Recuperar conta", fontSize = 28.sp)
@@ -61,6 +62,15 @@ fun RecuperarCodigoConfirmarCodigoContent(
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
         )
+
+        state.messageWait?.let {
+            Text(
+                it,
+                fontSize = 12.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
 
         val focusRequesters =
             List(AppConfig.TOTAL_DIGITOS_CODIGO_RECUPERACAO) { remember { FocusRequester() } }
@@ -83,14 +93,14 @@ fun RecuperarCodigoConfirmarCodigoContent(
 
                             onCodigoChange(novoCodigo)
                             if (novoCodigo.all { it.isNotEmpty() }) {
+                                onWaitMessage()
                                 Recaptcha.exec(
-                                    before = { setFormEnabled(false) },
-                                    after = { setFormEnabled(true) },
                                     onSuccess = { token, siteKey ->
                                         onChecarCodigo(token, siteKey)
                                     },
                                     onError = { erro ->
                                         setError(erro)
+                                        onClearWaitMessage()
                                     }
                                 )
                             }
@@ -144,20 +154,20 @@ fun RecuperarCodigoConfirmarCodigoContent(
                 )
             } else {
                 Text(
-                    text = "Reenviar o e-mail.",
+                    text = state.messageWait ?: "Reenviar o e-mail.",
                     color = MaterialTheme.colorScheme.primary,
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.clickable(
                         enabled = state.isFormEnabled,
                         onClick = {
+                            onWaitMessage()
                             Recaptcha.exec(
-                                before = { setFormEnabled(false) },
-                                after = { setFormEnabled(true) },
                                 onSuccess = { token, siteKey ->
                                     onReenviarCodigo(token, siteKey)
                                 },
                                 onError = { erro ->
                                     setError(erro)
+                                    onClearWaitMessage()
                                 }
                             )
                         }
@@ -172,20 +182,21 @@ fun RecuperarCodigoConfirmarCodigoContent(
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
-fun RecuperarCodigoConfirmarCodigoContentPreview() {
+fun RecuperarContaCodigoPreview() {
     val previewState = RecuperarContaUiState(
         email = "fabioedusantos@gmail.com"
     )
 
-    BaseAppTheme (darkTheme = false) {
-        RecuperarCodigoConfirmarCodigoContent(
+    BaseAppTheme(darkTheme = false) {
+        RecuperarContaCodigoContent(
             state = previewState,
             onCodigoChange = {},
             onChecarCodigo = { _, _ -> },
             onReenviarCodigo = { _, _ -> },
             setIsFocarCodigo = {},
-            setFormEnabled = {},
-            setError = {}
+            setError = {},
+            onWaitMessage = {},
+            onClearWaitMessage = {}
         )
     }
 }

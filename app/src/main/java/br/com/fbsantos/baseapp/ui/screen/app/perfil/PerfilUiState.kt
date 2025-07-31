@@ -24,4 +24,6 @@ data class PerfilUiState(
     val isConfirmeSenhaVisivel: Boolean = false,
     val isConfirmeSenhaError: Boolean = false,
     val senhaErrorText: String = "",
+
+    val messageWait: String? = null
 )

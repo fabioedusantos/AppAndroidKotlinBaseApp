@@ -99,9 +99,6 @@ class CriarContaViewModel(
     }
 
     private fun criarContaDefault(recaptchaToken: String, recaptchaSiteKey: String) {
-        setFormEnabled(false)
-        resetAllErrors()
-
         var isValido = true
 
         if (!isNomeValido()) {
@@ -136,7 +133,7 @@ class CriarContaViewModel(
         }
 
         if (!isValido) {
-            setFormEnabled(true)
+            onClearWaitMessage()
             return
         }
 
@@ -156,20 +153,18 @@ class CriarContaViewModel(
                     )
                 )
 
-                setEtapa(EtapaCriarContaEnum.EMAIL_ENVIADO)
+                setEtapa(CriarContaEtapaEnum.VALIDAR_CODIGO)
                 setError(null)
                 iniciarContagemReenvioEmail()
                 limparCodigo()
             } catch (e: Exception) {
                 setError(e.message)
             }
-            setFormEnabled(true)
+            onClearWaitMessage()
         }
     }
 
     fun onCriarContaByGoogle(idTokenFirebase: String, userFirebase: FirebaseUser) {
-        setFormEnabled(false)
-
         setGoogleButtonEnabled(false)
         setSenhasInputVisible(false)
         setEmailEnabled(false)
@@ -189,11 +184,10 @@ class CriarContaViewModel(
         }
 
         this.idTokenFirebase = idTokenFirebase
-        setFormEnabled(true)
+        onClearWaitMessage()
     }
 
     private fun criarContaGoogle(recaptchaToken: String, recaptchaSiteKey: String) {
-        resetAllErrors()
         var isValido = true
 
         if (!isNomeValido()) {
@@ -228,11 +222,11 @@ class CriarContaViewModel(
                     )
                 )
 
-                setEtapa(EtapaCriarContaEnum.CODIGO_VALIDADO)
+                setEtapa(CriarContaEtapaEnum.SUCESSO)
             } catch (e: Exception) {
                 setError(e.message)
             }
-            setFormEnabled(true)
+            onClearWaitMessage()
         }
     }
 
@@ -263,13 +257,29 @@ class CriarContaViewModel(
         setError(null)
     }
 
+    fun onClearWaitMessage() {
+        setFormEnabled(true)
+        setMessageWait(null)
+    }
+
+    fun onWaitMessage() {
+        resetAllErrors()
+        setFormEnabled(false)
+        setMessageWait("Aguarde...")
+    }
+
+    fun setMessageWait(messageWait: String?) {
+        _uiState.value = _uiState.value.copy(
+            messageWait = messageWait
+        )
+    }
+
     fun onCodigoChange(codigo: MutableList<String>) {
         setError(null)
         setCodigo(codigo)
     }
 
     fun onChecarCodigo(recaptchaToken: String, recaptchaSiteKey: String) {
-        setFormEnabled(false)
         viewModelScope.launch {
             try {
                 publicAuthService.confirmEmail(
@@ -281,12 +291,12 @@ class CriarContaViewModel(
                     )
                 )
 
-                setEtapa(EtapaCriarContaEnum.CODIGO_VALIDADO)
+                setEtapa(CriarContaEtapaEnum.SUCESSO)
             } catch (e: Exception) {
                 setError(e.message)
-                setFormEnabled(true)
                 limparCodigo()
             }
+            onClearWaitMessage()
         }
     }
 
@@ -303,7 +313,6 @@ class CriarContaViewModel(
     }
 
     fun onReenviarCodigo(recaptchaToken: String, recaptchaSiteKey: String) {
-        setFormEnabled(false)
         viewModelScope.launch {
             try {
                 publicAuthService.resendConfirmEmail(
@@ -318,7 +327,7 @@ class CriarContaViewModel(
             }
             iniciarContagemReenvioEmail()
             limparCodigo()
-            setFormEnabled(true)
+            onClearWaitMessage()
         }
     }
 
@@ -452,7 +461,7 @@ class CriarContaViewModel(
         _uiState.value = _uiState.value.copy(error = error)
     }
 
-    fun setEtapa(etapa: EtapaCriarContaEnum) {
+    fun setEtapa(etapa: CriarContaEtapaEnum) {
         _uiState.value = _uiState.value.copy(
             etapa = etapa
         )

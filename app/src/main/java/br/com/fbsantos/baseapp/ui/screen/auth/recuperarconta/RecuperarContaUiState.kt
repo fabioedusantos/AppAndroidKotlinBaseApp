@@ -1,10 +1,9 @@
 package br.com.fbsantos.baseapp.ui.screen.auth.recuperarconta
 
 import br.com.fbsantos.baseapp.config.AppConfig
-import br.com.fbsantos.baseapp.ui.screen.auth.recuperarconta.EtapaRecuperarContaEnum
 
 data class RecuperarContaUiState (
-    val etapa: EtapaRecuperarContaEnum = EtapaRecuperarContaEnum.INICIAL,
+    val etapa: RecuperarContaEtapaEnum = RecuperarContaEtapaEnum.INICIO,
 
     val email: String = "",
     val isEmailError: Boolean = false,
@@ -26,5 +25,6 @@ data class RecuperarContaUiState (
 
     val isFormEnabled: Boolean = true,
 
-    val error: String? = null
+    val error: String? = null,
+    val messageWait: String? = null
 )

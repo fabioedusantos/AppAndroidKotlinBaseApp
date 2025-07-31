@@ -18,21 +18,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import br.com.fbsantos.baseapp.ui.components.ErrorTextWithFocus
 import br.com.fbsantos.baseapp.ui.components.container.AuthContainer
-import br.com.fbsantos.baseapp.ui.screen.auth.recuperarconta.EtapaRecuperarContaEnum
+import br.com.fbsantos.baseapp.ui.screen.auth.recuperarconta.RecuperarContaEtapaEnum
 import br.com.fbsantos.baseapp.ui.theme.BaseAppTheme
 import br.com.fbsantos.baseapp.util.helpers.Recaptcha
 import br.com.fbsantos.baseapp.ui.screen.auth.recuperarconta.RecuperarContaUiState
 
 @Composable
-fun RecuperarCodigoResetarSenhaContent(
+fun RecuperarContaSenhaContent(
     state: RecuperarContaUiState,
     onSenhaChange: (String) -> Unit,
     onSenhaVisivelToggle: () -> Unit,
     onConfirmeSenhaChange: (String) -> Unit,
     onConfirmeSenhaVisivelToggle: () -> Unit,
     onResetarSenha: (String, String) -> Unit,
-    setFormEnabled: (Boolean) -> Unit,
     setError: (String) -> Unit,
+    onWaitMessage: () -> Unit,
+    onClearWaitMessage: () -> Unit
 ) {
     AuthContainer {
         Text("Recuperar conta", fontSize = 28.sp)
@@ -87,21 +88,21 @@ fun RecuperarCodigoResetarSenhaContent(
 
         Button(
             onClick = {
+                onWaitMessage();
                 Recaptcha.exec(
-                    before = { setFormEnabled(false) },
-                    after = { setFormEnabled(true) },
                     onSuccess = { token, siteKey ->
                         onResetarSenha(token, siteKey)
                     },
                     onError = { erro ->
                         setError(erro)
+                        onClearWaitMessage()
                     }
                 )
             },
             modifier = Modifier.fillMaxWidth(),
             enabled = state.isFormEnabled
         ) {
-            Text("Alterar minha senha!")
+            Text(state.messageWait ?: "Alterar minha senha!")
         }
     }
 }
@@ -109,9 +110,9 @@ fun RecuperarCodigoResetarSenhaContent(
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
-fun RecuperarCodigoResetarSenhaContentPreview() {
+fun RecuperarContaSenhaPreview() {
     val previewState = RecuperarContaUiState(
-        etapa = EtapaRecuperarContaEnum.INICIAL,
+        etapa = RecuperarContaEtapaEnum.INICIO,
         email = "fabioedusantos@gmail.com",
         senha = "12345678@A",
         isSenhaVisivel = true,
@@ -119,16 +120,17 @@ fun RecuperarCodigoResetarSenhaContentPreview() {
         isConfirmeSenhaVisivel = true
     )
 
-    BaseAppTheme (darkTheme = false) {
-        RecuperarCodigoResetarSenhaContent(
+    BaseAppTheme(darkTheme = false) {
+        RecuperarContaSenhaContent(
             state = previewState,
             onSenhaChange = {},
             onSenhaVisivelToggle = {},
             onConfirmeSenhaChange = {},
             onConfirmeSenhaVisivelToggle = {},
             onResetarSenha = { _, _ -> },
-            setFormEnabled = {},
-            setError = {}
+            setError = {},
+            onWaitMessage = {},
+            onClearWaitMessage = {}
         )
     }
 }

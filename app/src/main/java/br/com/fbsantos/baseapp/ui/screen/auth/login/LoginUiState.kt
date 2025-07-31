@@ -10,5 +10,6 @@ data class LoginUiState(
     val senhaErrorText: String = "",
     val isSenhaVisivel: Boolean = false,
     val error: String? = null,
-    val isLoginEmailSenha: Boolean = false
+    val isLoginEmailSenha: Boolean = false,
+    val messageWait: String? = null
 )
