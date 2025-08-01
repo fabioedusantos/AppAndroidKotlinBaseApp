@@ -6,12 +6,14 @@ import br.com.fbsantos.baseapp.data.network.dto.privateuser.request.SetMeRequest
 import br.com.fbsantos.baseapp.data.network.dto.privateuser.response.MeResponse
 import br.com.fbsantos.baseapp.domain.exception.ApiException
 import br.com.fbsantos.baseapp.util.helpers.callApi
+import br.com.fbsantos.baseapp.util.helpers.callApiAuth
+import br.com.fbsantos.baseapp.util.helpers.callApiAuthNoResponse
 import br.com.fbsantos.baseapp.util.helpers.callApiNoResponse
 
 class PrivateUserService(
     private val privateUserApiService: PrivateUserApiService
 ) {
-    suspend fun isLoggedIn(): Boolean = callApiNoResponse(
+    suspend fun isLoggedIn(): Boolean = callApiAuthNoResponse(
         request = {
             privateUserApiService.isLoggedIn()
         },
@@ -23,7 +25,7 @@ class PrivateUserService(
         }
     )
 
-    suspend fun getMe(): MeResponse = callApi(
+    suspend fun getMe(): MeResponse = callApiAuth(
         request = {
             privateUserApiService.getMe()
         },
@@ -35,7 +37,7 @@ class PrivateUserService(
         }
     )
 
-    suspend fun setMe(body: SetMeRequest): Unit = callApiNoResponse(
+    suspend fun setMe(body: SetMeRequest): Unit = callApiAuthNoResponse(
         request = {
             privateUserApiService.setMe(body)
         },
@@ -44,7 +46,7 @@ class PrivateUserService(
         }
     )
 
-    suspend fun addNotificacao(body: AddNotificacaoRequest): Unit = callApi(
+    suspend fun addNotificacao(body: AddNotificacaoRequest): Unit = callApiAuth(
         request = {
             privateUserApiService.addNotificacao(body)
         },

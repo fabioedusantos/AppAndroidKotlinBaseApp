@@ -4,7 +4,11 @@ import android.util.Log
 import br.com.fbsantos.baseapp.config.AppConfig
 import br.com.fbsantos.baseapp.data.network.dto.ApiResponseDefault
 import br.com.fbsantos.baseapp.domain.exception.ApiException
+import br.com.fbsantos.baseapp.domain.usecase.configuracoes.TokenManagerUseCase
 import com.google.gson.Gson
+import kotlinx.coroutines.runBlocking
+import org.koin.compose.koinInject
+import org.koin.core.context.GlobalContext
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
@@ -49,7 +53,29 @@ inline fun <T, R> callApi(
 }
 
 /**
- * Executa uma chamada de rede Retrofit sem resposta esperada no corpo (ex: status 204),
+ * Executa uma chamada de rede Retrofit se existir token de autenticação, com tratamento padronizado de sucesso e erro,
+ * utilizando como base a estrutura de resposta [ApiResponse<T>].
+ *
+ * @param request função que executa a requisição e retorna Response<ApiResponse<T>>
+ * @param onSuccess callback executado se a requisição for bem-sucedida (status HTTP 2xx e status == "success")
+ * @param onError callback executado em caso de erro de negócio ou falha de requisição
+ *
+ * @return valor retornado pelo onSuccess ou onError
+ */
+inline fun <T, R> callApiAuth(
+    request: () -> Response<ApiResponseDefault<T>>,
+    onSuccess: (data: T?, message: String) -> R = { _, _ -> Unit as R },
+    onError: (message: String) -> R
+): R = authCheck(onError) {
+    callApi(
+        request = request,
+        onSuccess = onSuccess,
+        onError = onError
+    )
+}
+
+/**
+ * Executa uma chamada de rede Retrofit se existir token de autenticação, sem resposta esperada no corpo (ex: status 204),
  * com tratamento padronizado de erro e logging.
  *
  * @param request função que executa a requisição Retrofit
@@ -74,6 +100,53 @@ inline fun <R> callApiNoResponse(
             onError(apiErrorMessage(response, errorBody))
         }
     }
+}
+
+
+/**
+ * Executa uma chamada de rede Retrofit sem resposta esperada no corpo (ex: status 204),
+ * com tratamento padronizado de erro e logging.
+ *
+ * @param request função que executa a requisição Retrofit
+ * @param onSuccess callback em caso de sucesso (status HTTP 2xx)
+ * @param onError callback em caso de erro
+ *
+ * @return valor retornado pelo onSuccess ou onError
+ */
+inline fun <R> callApiAuthNoResponse(
+    request: () -> Response<*>,
+    onSuccess: (message: String) -> R = { _ -> Unit as R },
+    onError: (message: String) -> R
+): R = authCheck(onError) {
+    callApiNoResponse(
+        request = request,
+        onSuccess = onSuccess,
+        onError = onError
+    )
+}
+
+/**
+ * Executa um bloco de código apenas se houver um token de autenticação válido.
+ *
+ * Caso o token esteja ausente ou vazio, executa o callback [onError] e não prossegue.
+ *
+ * @param onError callback chamado em caso de ausência de token
+ * @param block bloco de código a ser executado se o token estiver presente
+ *
+ * @return resultado do bloco ou do callback onError
+ */
+inline fun <R> authCheck(
+    onError: (String) -> R,
+    block: () -> R
+): R {
+    val tokenManagerUseCase: TokenManagerUseCase = GlobalContext.get().get()
+    val token = runBlocking { tokenManagerUseCase.getAuthToken() }
+
+    if (token.isNullOrBlank()) {
+        return runSafeCall { onError("Não há token para autenticação. Faça login novamente.") }
+    }
+
+    return block()
 }
 
 /**
