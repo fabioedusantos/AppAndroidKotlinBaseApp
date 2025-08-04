@@ -78,6 +78,7 @@ object FirebaseAuth {
                 val signInIntent: Intent = AuthUI.getInstance()
                     .createSignInIntentBuilder()
                     .setAvailableProviders(providers)
+                    .setCredentialManagerEnabled(false)
                     .build()
 
                 launcher.launch(signInIntent)
