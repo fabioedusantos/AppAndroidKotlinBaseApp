@@ -11,7 +11,7 @@ import retrofit2.http.PATCH
 import retrofit2.http.POST
 
 interface PrivateUserApiService {
-    @GET("users/is_logged_in")
+    @GET("auth/is_logged_in")
     suspend fun isLoggedIn(): Response<Unit>
 
     @GET("users/me")
@@ -20,6 +20,6 @@ interface PrivateUserApiService {
     @PATCH("users/me")
     suspend fun setMe(@Body body: SetMeRequest): Response<Unit>
 
-    @POST("notifications")
+    @POST("notifications/send_push_to_all")
     suspend fun addNotificacao(@Body body: AddNotificacaoRequest): Response<ApiResponseDefault<Unit>>
 }

@@ -15,31 +15,31 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface PublicAuthApiService {
-    @POST("users/signup")
+    @POST("auth/signup")
     suspend fun signup(@Body body: SignupRequest): Response<ApiResponseDefault<Unit>>
 
-    @POST("users/google/signup")
+    @POST("auth/google/signup")
     suspend fun signUpGoogle(@Body body: SignupGoogleRequest): Response<ApiResponseDefault<TokenResponse>>
 
-    @POST("users/confirm_email")
+    @POST("auth/confirm_email")
     suspend fun confirmEmail(@Body body: ConfirmEmailRequest): Response<Unit>
 
-    @POST("users/resend_confirm_email")
+    @POST("auth/resend_confirm_email")
     suspend fun resendConfirmEmail(@Body body: ForgotPasswordRequest): Response<ApiResponseDefault<ConfirmEmailResponse>>
 
-    @POST("users/login")
+    @POST("auth/login")
     suspend fun login(@Body body: LoginRequest): Response<ApiResponseDefault<TokenResponse>>
 
-    @POST("users/google/login")
+    @POST("auth/google/login")
     suspend fun loginGoogle(@Body body: LoginGoogleRequest): Response<ApiResponseDefault<TokenResponse>>
 
-    @POST("users/forgot_password")
+    @POST("auth/forgot_password")
     suspend fun forgotPassword(@Body body: ForgotPasswordRequest): Response<ApiResponseDefault<ConfirmEmailResponse>>
 
-    @POST("users/check_reset_password")
-    suspend fun checkResetPassword(@Body body: ConfirmEmailRequest): Response<ApiResponseDefault<Unit>>
+    @POST("auth/check_reset_code")
+    suspend fun checkResetCode(@Body body: ConfirmEmailRequest): Response<ApiResponseDefault<Unit>>
 
-    @POST("users/reset_password")
+    @POST("auth/reset_password")
     suspend fun resetPassword(@Body body: ResetPasswordRequest): Response<Unit>
 
 }

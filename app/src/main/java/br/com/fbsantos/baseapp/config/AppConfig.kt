@@ -8,7 +8,7 @@ object AppConfig {
 
     //webapi
     const val REQUEST_TIMEOUT_SECONDS = 60L
-    const val API_BASE_URL = "https://10.1.0.10/"
+    const val API_BASE_URL = "https://10.0.2.2/"
     const val API_TOKEN_REFRESH_URL = API_BASE_URL + "token/refresh"
 
     //forms

@@ -111,7 +111,7 @@ class PublicAuthService(
 
     suspend fun checkResetPassword(body: ConfirmEmailRequest): Unit = callApi(
         request = {
-            publicAuthApiService.checkResetPassword(body)
+            publicAuthApiService.checkResetCode(body)
         },
         onError = { message ->
             throw ApiException(message)
