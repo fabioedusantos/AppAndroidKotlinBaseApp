@@ -3,7 +3,7 @@
 O **BaseApp** é um aplicativo Android desenvolvido em **Kotlin**, projetado para servir como
 **base sólida e moderna para criação de novos aplicativos**.  
 Ele reúne as melhores práticas, arquitetura atualizada, bibliotecas modernas e integrações comuns
-à maioria dos projetos reais — permitindo iniciar novos apps com estrutura pronta e escalável.
+à maioria dos projetos reais permitindo iniciar novos apps com estrutura pronta e escalável.
 
 A proposta do BaseApp é funcionar como um **template profissional**, incluindo:
 
